@@ -49,7 +49,7 @@ def start():
 
     print("\nPODSUMOWANIE")
     print(f"Udane analizy: {len(results)}")
-    print(fNieudane analizy: {len(failed)}")
+    print(f"Nieudane analizy: {len(failed)}")
 
     if failed:
         print("\nINSTRUMENTY BEZ DANYCH:")
