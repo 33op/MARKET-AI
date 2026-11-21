@@ -4,7 +4,7 @@ from market_data import analyze_market
 from instruments import INSTRUMENTS
 
 PROJECT_NAME = "MARKET AI"
-VERSION = "6.0"
+VERSION = "7.0"
 
 
 def start():
