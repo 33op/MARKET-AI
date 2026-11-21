@@ -29,7 +29,7 @@ def start():
 
     print("\n")
     print("=" * 75)
-    print("RANKING MARKET AI 6.0")
+    print(f"RANKING {PROJECT_NAME} {VERSION}")
     print("=" * 75)
 
     ranking = sorted(
