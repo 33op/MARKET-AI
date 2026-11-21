@@ -19,5 +19,8 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install libraries
+        run: pip install -r requirements.txt
+
       - name: Run MARKET AI
         run: python main.py
