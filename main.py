@@ -1,23 +1,26 @@
 
 from datetime import datetime
+from market_data import analyze_market
 
 PROJECT_NAME = "MARKET AI"
 VERSION = "1.0"
 
 def start():
-    print("=" * 40)
+    print("=" * 45)
     print(f"{PROJECT_NAME} v{VERSION}")
-    print("=" * 40)
+    print(f"Data analizy: {datetime.now()}")
+    print("=" * 45)
 
-    print("System uruchomiony.")
-    print(f"Data: {datetime.now()}")
-    print("Status: ONLINE")
-    print("Moduły analizy: w przygotowaniu")
-    print("Źródła danych: w przygotowaniu")
-    print("Discord: w przygotowaniu")
+    print("\nROZPOCZYNAM ANALIZE RYNKU")
 
-    print("=" * 40)
-    print("MARKET AI is ready!")
+    tickers = ["SPY", "QQQ"]
+
+    for ticker in tickers:
+        analyze_market(ticker)
+
+    print("\nANALIZA ZAKONCZONA")
+    print("=" * 45)
+
 
 if __name__ == "__main__":
     start()
