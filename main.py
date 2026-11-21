@@ -2,7 +2,7 @@ from datetime import datetime
 from market_data import analyze_market
 
 PROJECT_NAME = "MARKET AI"
-VERSION = "2.0"
+VERSION = "3.0"
 
 
 def start():
@@ -38,7 +38,7 @@ def start():
         print(
             f"{position}. {item['ticker']} | "
             f"{item['signal']} | "
-            f"{item['score']}/3 | "
+            f"{item['score']}/10 | "
             f"{item['change']:+.2f}%"
         )
 
