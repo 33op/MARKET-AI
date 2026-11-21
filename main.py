@@ -13,7 +13,7 @@ def start():
 
     print("\nROZPOCZYNAM ANALIZE RYNKU")
 
-    tickers = ["SPY", "QQQ"]
+    tickers = ["PKO.WA", "PZU.WA", "CDR.WA", "KGH.WA", "ALE.WA"]
 
     for ticker in tickers:
         analyze_market(ticker)
