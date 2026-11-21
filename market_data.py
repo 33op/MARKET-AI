@@ -27,7 +27,7 @@ def analyze_market(ticker):
         data["SMA20"] = close.rolling(20).mean()
         data["SMA50"] = close.rolling(50).mean()
 
-        # RSI 14
+        # RSI
         delta = close.diff()
         gain = delta.clip(lower=0)
         loss = -delta.clip(upper=0)
@@ -43,23 +43,41 @@ def analyze_market(ticker):
         rs = avg_gain / avg_loss.replace(0, float("nan"))
         data["RSI"] = 100 - (100 / (1 + rs))
 
+        # MACD
+        ema12 = close.ewm(span=12, adjust=False).mean()
+        ema26 = close.ewm(span=26, adjust=False).mean()
+
+        data["MACD"] = ema12 - ema26
+        data["MACD_SIGNAL"] = data["MACD"].ewm(
+            span=9, adjust=False
+        ).mean()
+
+        # Wolumen
+        data["VOLUME_AVG20"] = data["Volume"].rolling(20).mean()
+
         latest = data.iloc[-1]
         previous = data.iloc[-2]
 
-        price = latest["Close"]
-        sma20 = latest["SMA20"]
-        sma50 = latest["SMA50"]
-        rsi = latest["RSI"]
+        price = float(latest["Close"])
+        sma20 = float(latest["SMA20"])
+        sma50 = float(latest["SMA50"])
+        rsi = float(latest["RSI"])
+        macd = float(latest["MACD"])
+        macd_signal = float(latest["MACD_SIGNAL"])
 
-        change = ((price / previous["Close"]) - 1) * 100
+        change = (
+            price / float(previous["Close"]) - 1
+        ) * 100
 
-        print(f"Cena: {price:.2f} PLN")
-        print(f"Zmiana dzienna: {change:+.2f}%")
-        print(f"SMA20: {sma20:.2f}")
-        print(f"SMA50: {sma50:.2f}")
-        print(f"RSI: {rsi:.2f}")
+        volume_avg = float(latest["VOLUME_AVG20"])
+        volume = float(latest["Volume"])
 
-        # Ocena trendu
+        if volume_avg > 0:
+            volume_ratio = volume / volume_avg
+        else:
+            volume_ratio = None
+
+        # Trend
         if price > sma20 > sma50:
             trend = "WZROSTOWY"
         elif price < sma20 < sma50:
@@ -67,47 +85,100 @@ def analyze_market(ticker):
         else:
             trend = "BOCZNY / NIEJEDNOZNACZNY"
 
-        print(f"\nTrend: {trend}")
-
-        # Ocena RSI
-        if rsi < 30:
-            print("RSI: Instrument moze byc wyprzedany.")
-        elif rsi > 70:
-            print("RSI: Instrument moze byc wykupiony.")
-        else:
-            print("RSI: Neutralny zakres.")
-
-        # Prosta ocena sygnalu
+        # Punktacja: maksymalnie 10 punktow
         score = 0
 
-        if price > sma20:
+        # Trend: 0-2
+        if price > sma20 and sma20 > sma50:
+            score += 2
+        elif price > sma20 or sma20 > sma50:
             score += 1
 
-        if sma20 > sma50:
+        # MACD: 0-2
+        if macd > macd_signal and macd > 0:
+            score += 2
+        elif macd > macd_signal:
             score += 1
 
-        if rsi < 70:
+        # RSI: 0-2
+        if 50 <= rsi <= 65:
+            score += 2
+        elif 40 <= rsi < 50 or 65 < rsi <= 70:
             score += 1
 
-        if score == 3:
+        # Wolumen: 0-2
+        if volume_ratio is not None:
+            if volume_ratio >= 1.5 and change > 0:
+                score += 2
+            elif volume_ratio >= 1.2:
+                score += 1
+
+        # Zmiana dzienna: 0-2
+        if change >= 1:
+            score += 2
+        elif change > 0:
+            score += 1
+
+        # Ocena
+        if score >= 7:
             signal = "POZYTYWNY"
-        elif score == 0:
-            signal = "NEGATYWNY"
-        else:
+        elif score >= 4:
             signal = "NEUTRALNY"
+        else:
+            signal = "NEGATYWNY"
 
-        print(f"\nOcena MARKET AI: {signal}")
-        print(f"Wynik analizy: {score}/3")
+        # Raport
+        print(f"Cena: {price:.2f} PLN")
+        print(f"Zmiana dzienna: {change:+.2f}%")
+        print(f"SMA20: {sma20:.2f}")
+        print(f"SMA50: {sma50:.2f}")
+        print(f"RSI: {rsi:.2f}")
+        print(f"MACD: {macd:.4f}")
+        print(f"MACD Signal: {macd_signal:.4f}")
+
+        if volume_ratio is not None:
+            print(f"Wolumen / srednia 20 sesji: {volume_ratio:.2f}x")
+        else:
+            print("Wolumen: brak danych")
+
+        print(f"\nTrend: {trend}")
+        print(f"Ocena MARKET AI: {signal}")
+        print(f"Wynik: {score}/10")
+
+        # Ostrzezenia
+        warnings = []
+
+        if change <= -4:
+            warnings.append("MOCNY SPADEK DZIENNY")
+
+        if rsi < 30:
+            warnings.append("RSI W OBSZARZE WYPRZEDANIA")
+
+        if volume_ratio is not None and volume_ratio >= 1.5 and change < 0:
+            warnings.append("WYSOKI WOLUMEN PODCZAS SPADKU")
+
+        if warnings:
+            print("\nOSTRZEZENIA:")
+            for warning in warnings:
+                print(f"- {warning}")
+        else:
+            print("\nBrak wykrytych ostrzezen.")
+
         print(f"Liczba sesji: {len(data)}")
 
         return {
             "ticker": ticker,
-            "price": round(float(price), 2),
-            "change": round(float(change), 2),
-            "rsi": round(float(rsi), 2),
+            "price": round(price, 2),
+            "change": round(change, 2),
+            "rsi": round(rsi, 2),
             "trend": trend,
             "signal": signal,
-            "score": score
+            "score": score,
+            "macd": round(macd, 4),
+            "volume_ratio": (
+                round(volume_ratio, 2)
+                if volume_ratio is not None else None
+            )
         }
 
     except Exception as error:
