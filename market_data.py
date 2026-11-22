@@ -4,12 +4,22 @@ import yfinance as yf
 import pandas as pd
 
 
+MAX_DATA_AGE_DAYS = 7
+MIN_SESSIONS = 60
+
+
+def reject_data(ticker, reason):
+    print(f"ODRZUCONO {ticker}: {reason}")
+    return None
+
+
 def analyze_market(ticker):
     print("\n" + "=" * 45)
     print(f"ANALIZA: {ticker}")
     print("=" * 45)
 
     try:
+        # 1. POBIERANIE DANYCH
         stock = yf.Ticker(ticker)
 
         data = stock.history(
@@ -18,23 +28,76 @@ def analyze_market(ticker):
             auto_adjust=True
         )
 
-        if data.empty or len(data) < 60:
-            print("Brak wystarczajacych danych.")
-            return None
+        if data.empty:
+            return reject_data(ticker, "Brak danych z Yahoo Finance.")
+
+        if "Close" not in data.columns:
+            return reject_data(ticker, "Brak kolumny Close.")
+
+        # 2. CZYSZCZENIE DANYCH
+        data = data.copy()
+        data = data.sort_index()
+        data = data[~data.index.duplicated(keep="last")]
+
+        data["Close"] = pd.to_numeric(
+            data["Close"],
+            errors="coerce"
+        )
+
+        data = data.dropna(subset=["Close"])
+
+        # Usuwanie nieprawidlowych cen
+        data = data[
+            data["Close"].map(
+                lambda value: math.isfinite(float(value))
+                and float(value) > 0
+            )
+        ]
 
         if "Volume" not in data.columns:
             data["Volume"] = 0
 
-        data = data.dropna(subset=["Close"])
+        data["Volume"] = pd.to_numeric(
+            data["Volume"],
+            errors="coerce"
+        ).fillna(0)
+
+        if (data["Volume"] < 0).any():
+            return reject_data(ticker, "Ujemny wolumen.")
+
+        if len(data) < MIN_SESSIONS:
+            return reject_data(
+                ticker,
+                f"Za malo poprawnych sesji: {len(data)}."
+            )
+
+        # 3. KONTROLA AKTUALNOSCI
+        latest = data.iloc[-1]
+        latest_date = pd.Timestamp(latest.name).date()
+        today = pd.Timestamp.now(tz="UTC").date()
+
+        age_days = (today - latest_date).days
+
+        if age_days < 0:
+            return reject_data(
+                ticker,
+                "Data notowan znajduje sie w przyszlosci."
+            )
+
+        if age_days > MAX_DATA_AGE_DAYS:
+            return reject_data(
+                ticker,
+                f"Nieaktualne notowania: {age_days} dni."
+            )
 
         close = data["Close"]
         volume = data["Volume"]
 
-        # SREDNIE KROCZACE
+        # 4. SREDNIE KROCZACE
         data["SMA20"] = close.rolling(20).mean()
         data["SMA50"] = close.rolling(50).mean()
 
-        # RSI
+        # 5. RSI
         delta = close.diff()
 
         gain = delta.clip(lower=0)
@@ -66,7 +129,7 @@ def analyze_market(ticker):
             "RSI"
         ] = 50
 
-        # MACD
+        # 6. MACD
         ema12 = close.ewm(span=12, adjust=False).mean()
         ema26 = close.ewm(span=26, adjust=False).mean()
 
@@ -77,29 +140,42 @@ def analyze_market(ticker):
             adjust=False
         ).mean()
 
-        # WOLUMEN
+        # 7. WOLUMEN
         data["AVG_VOLUME"] = volume.shift(1).rolling(20).mean()
 
-        # DANE Z OSTATNIEJ SESJI
+        # 8. OSTATNIA SESJA
         latest = data.iloc[-1]
         previous = data.iloc[-2]
 
         price = float(latest["Close"])
         previous_price = float(previous["Close"])
 
+        if previous_price <= 0:
+            return reject_data(ticker, "Nieprawidlowa cena poprzedniej sesji.")
+
         sma20 = float(latest["SMA20"])
         sma50 = float(latest["SMA50"])
-
         rsi = float(latest["RSI"])
-
         macd = float(latest["MACD"])
         macd_signal = float(latest["SIGNAL"])
 
-        change = (
-            price / previous_price - 1
-        ) * 100
+        required_values = [
+            price, previous_price, sma20,
+            sma50, rsi, macd, macd_signal
+        ]
 
-        # MOMENTUM 5 I 20 DNI
+        if not all(math.isfinite(value) for value in required_values):
+            return reject_data(
+                ticker,
+                "Nie mozna obliczyc wszystkich wskaznikow."
+            )
+
+        if not 0 <= rsi <= 100:
+            return reject_data(ticker, "Nieprawidlowa wartosc RSI.")
+
+        change = (price / previous_price - 1) * 100
+
+        # 9. MOMENTUM
         momentum_5d = (
             price / float(close.iloc[-6]) - 1
         ) * 100
@@ -108,7 +184,7 @@ def analyze_market(ticker):
             price / float(close.iloc[-21]) - 1
         ) * 100
 
-        # ZMIENNOSC ROCZNA
+        # 10. ZMIENNOSC ROCZNA
         daily_returns = close.pct_change()
 
         volatility = (
@@ -117,16 +193,21 @@ def analyze_market(ticker):
             * 100
         )
 
-        # POROWNANIE WOLUMENU
+        volatility = float(volatility)
+
+        if not math.isfinite(volatility):
+            return reject_data(ticker, "Nieprawidlowa zmiennosc.")
+
+        # 11. WOLUMEN
         avg_volume = float(latest["AVG_VOLUME"])
         current_volume = float(latest["Volume"])
 
         volume_ratio = None
 
-        if pd.notna(avg_volume) and avg_volume > 0:
+        if math.isfinite(avg_volume) and avg_volume > 0:
             volume_ratio = current_volume / avg_volume
 
-        # TREND
+        # 12. TREND
         if price > sma20 > sma50:
             trend = "WZROSTOWY"
         elif price < sma20 < sma50:
@@ -134,18 +215,16 @@ def analyze_market(ticker):
         else:
             trend = "BOCZNY"
 
-        # POTWIERDZENIE SYGNALU
+        # 13. POTWIERDZENIE SYGNALU
         confirmation = (
             (data["Close"] > data["SMA20"])
             & (data["SMA20"] > data["SMA50"])
             & (data["MACD"] > data["SIGNAL"])
         )
 
-        confirmed_days = int(
-            confirmation.tail(3).sum()
-        )
+        confirmed_days = int(confirmation.tail(3).sum())
 
-        # SYSTEM PUNKTOWY
+        # 14. SYSTEM PUNKTOWY
         score = 0
 
         if price > sma20:
@@ -180,17 +259,15 @@ def analyze_market(ticker):
         ):
             score += 1
 
-        # SYGNAL Z POTWIERDZENIEM
+        # 15. SYGNAL
         if score >= 7 and confirmed_days >= 2:
             signal = "POZYTYWNY"
-        elif score >= 4 or (
-            score >= 7 and confirmed_days < 2
-        ):
+        elif score >= 4:
             signal = "NEUTRALNY"
         else:
             signal = "NEGATYWNY"
 
-        # OCENA RYZYKA
+        # 16. RYZYKO
         if (
             volatility >= 60
             or change <= -5
@@ -208,7 +285,7 @@ def analyze_market(ticker):
         else:
             risk = "UMIARKOWANE"
 
-        # OSTRZEZENIA
+        # 17. OSTRZEZENIA
         warnings = []
 
         if change <= -4:
@@ -226,17 +303,19 @@ def analyze_market(ticker):
         if volatility >= 60:
             warnings.append("BARDZO WYSOKA ZMIENNOSC")
 
-        if (
-            volume_ratio is not None
-            and volume_ratio >= 1.5
-        ):
+        if volume_ratio is not None and volume_ratio >= 1.5:
             warnings.append("WYSOKI WOLUMEN")
 
         if confirmed_days < 2:
             warnings.append("SYGNAL NIE MA POTWIERDZENIA")
 
-        # WYNIKI
-        print(f"Cena: {price:.2f} PLN")
+        # 18. RAPORT
+        print(f"Status danych: POPRAWNE")
+        print(f"Data notowan: {latest_date}")
+        print(f"Wiek danych: {age_days} dni")
+        print(f"Liczba sesji: {len(data)}")
+
+        print(f"\nCena: {price:.2f} PLN")
         print(f"Zmiana dzienna: {change:+.2f}%")
         print(f"SMA20: {sma20:.2f}")
         print(f"SMA50: {sma50:.2f}")
@@ -268,7 +347,7 @@ def analyze_market(ticker):
 
         return {
             "ticker": ticker,
-            "date": str(pd.Timestamp(latest.name).date()),
+            "date": str(latest_date),
             "price": round(price, 2),
             "change": round(change, 2),
             "rsi": round(rsi, 2),
@@ -284,7 +363,11 @@ def analyze_market(ticker):
             "volatility": round(volatility, 2),
             "confirmed_days": confirmed_days,
             "momentum_5d": round(momentum_5d, 2),
-            "momentum_20d": round(momentum_20d, 2)
+            "momentum_20d": round(momentum_20d, 2),
+            "data_status": "OK",
+            "data_age_days": age_days,
+            "sessions_count": len(data),
+            "warnings": warnings
         }
 
     except Exception as error:
