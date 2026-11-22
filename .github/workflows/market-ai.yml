@@ -23,4 +23,6 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run MARKET AI
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: python main.py
