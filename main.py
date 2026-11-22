@@ -10,7 +10,38 @@ from instruments import INSTRUMENTS
 from performance import update_performance
 
 PROJECT_NAME = "MARKET AI"
-VERSION = "9.0"
+VERSION = "10.0"
+
+
+# Im wyższy priorytet, tym wyżej instrument w rankingu.
+SIGNAL_PRIORITY = {
+    "POZYTYWNY": 3,
+    "NEUTRALNY": 2,
+    "NEGATYWNY": 1
+}
+
+# Niższe ryzyko ma pierwszeństwo.
+RISK_PRIORITY = {
+    "UMIARKOWANE": 1,
+    "PODWYZSZONE": 2,
+    "WYSOKIE": 3
+}
+
+
+def ranking_key(item):
+    signal = item.get("signal", "BRAK")
+    risk = item.get("risk", "NIEZNANE")
+
+    signal_priority = SIGNAL_PRIORITY.get(signal, 0)
+    risk_priority = RISK_PRIORITY.get(risk, 99)
+
+    return (
+        signal_priority,
+        item.get("score", 0),
+        item.get("confirmed_days", 0),
+        -risk_priority,
+        item.get("change", 0)
+    )
 
 
 def format_performance(statistics):
@@ -33,6 +64,26 @@ def format_performance(statistics):
     return "\n".join(lines)
 
 
+def format_signal_summary(results):
+    counts = {
+        "POZYTYWNY": 0,
+        "NEUTRALNY": 0,
+        "NEGATYWNY": 0
+    }
+
+    for item in results:
+        signal = item.get("signal", "BRAK")
+
+        if signal in counts:
+            counts[signal] += 1
+
+    return (
+        f"Pozytywne: {counts['POZYTYWNY']}\n"
+        f"Neutralne: {counts['NEUTRALNY']}\n"
+        f"Negatywne: {counts['NEGATYWNY']}"
+    )
+
+
 def send_discord_report(ranking, results, failed, statistics):
     webhook_url = os.getenv("DISCORD_WEBHOOK")
 
@@ -48,6 +99,7 @@ def send_discord_report(ranking, results, failed, statistics):
             f"{item['score']}/10 | "
             f"{item['signal']} | "
             f"Ryzyko: {item['risk']} | "
+            f"Potwierdzenie: {item.get('confirmed_days', 0)}/3 | "
             f"{item['change']:+.2f}%"
             for i, item in enumerate(top_10, start=1)
         )
@@ -77,13 +129,18 @@ def send_discord_report(ranking, results, failed, statistics):
                 "inline": True
             },
             {
+                "name": "Rozkład sygnałów",
+                "value": format_signal_summary(results),
+                "inline": True
+            },
+            {
                 "name": "Skuteczność wcześniejszych analiz",
                 "value": performance_text[:1024] or "Brak danych",
                 "inline": False
             }
         ],
         "footer": {
-            "text": "MARKET AI 9.0 | Raport automatyczny"
+            "text": "MARKET AI 10.0 | Ranking wedlug priorytetu sygnalu"
         },
         "timestamp": datetime.now().astimezone().isoformat()
     }
@@ -100,7 +157,7 @@ def send_discord_report(ranking, results, failed, statistics):
         data=data,
         headers={
             "Content-Type": "application/json",
-            "User-Agent": "MARKET-AI/9.0"
+            "User-Agent": "MARKET-AI/10.0"
         },
         method="POST"
     )
@@ -150,7 +207,7 @@ def start():
 
     ranking = sorted(
         results,
-        key=lambda item: (item["score"], item["change"]),
+        key=ranking_key,
         reverse=True
     )
 
@@ -160,12 +217,15 @@ def start():
             f"{item['signal']} | "
             f"{item['score']}/10 | "
             f"RYZYKO: {item['risk']} | "
+            f"POTWIERDZENIE: {item.get('confirmed_days', 0)}/3 | "
             f"{item['change']:+.2f}%"
         )
 
     print("\nPODSUMOWANIE")
     print(f"Udane analizy: {len(results)}")
     print(f"Nieudane analizy: {len(failed)}")
+    print("\nROZKLAD SYGNALOW")
+    print(format_signal_summary(results))
 
     if failed:
         print("\nINSTRUMENTY BEZ DANYCH:")
