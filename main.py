@@ -61,6 +61,7 @@ def send_discord_report(ranking, results, failed):
     }
 
     payload = {
+        "username": "MARKET AI",
         "embeds": [embed]
     }
 
@@ -69,22 +70,31 @@ def send_discord_report(ranking, results, failed):
     request = urllib.request.Request(
         webhook_url,
         data=data,
-        headers={"Content-Type": "application/json"},
+        headers={
+            "Content-Type": "application/json",
+            "User-Agent": "MARKET-AI/8.0"
+        },
         method="POST"
     )
 
     try:
-        with urllib.request.urlopen(request, timeout=15) as response:
+        with urllib.request.urlopen(request, timeout=20) as response:
+            print(f"\nDISCORD: Status HTTP {response.status}")
+
             if response.status in (200, 204):
-                print("\nDISCORD: Raport wysłany pomyślnie.")
-            else:
-                print(f"\nDISCORD: Nieoczekiwany status: {response.status}")
+                print("DISCORD: Raport wysłany pomyślnie.")
 
     except urllib.error.HTTPError as error:
+        details = error.read().decode("utf-8", errors="replace")
+
         print(f"\nDISCORD: Błąd HTTP: {error.code}")
+        print(f"DISCORD SZCZEGÓŁY: {details}")
+
+    except urllib.error.URLError as error:
+        print(f"\nDISCORD: Błąd połączenia: {error.reason}")
 
     except Exception as error:
-        print(f"\nDISCORD: Nie udało się wysłać raportu: {error}")
+        print(f"\nDISCORD: Nieoczekiwany błąd: {error}")
 
 
 def start():
