@@ -268,6 +268,7 @@ def analyze_market(ticker):
 
         return {
             "ticker": ticker,
+            "date": str(pd.Timestamp(latest.name).date()),
             "price": round(price, 2),
             "change": round(change, 2),
             "rsi": round(rsi, 2),
