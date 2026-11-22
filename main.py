@@ -7,12 +7,33 @@ from datetime import datetime
 
 from market_data import analyze_market
 from instruments import INSTRUMENTS
+from performance import update_performance
 
 PROJECT_NAME = "MARKET AI"
-VERSION = "8.0"
+VERSION = "9.0"
 
 
-def send_discord_report(ranking, results, failed):
+def format_performance(statistics):
+    lines = []
+
+    for signal, horizons in statistics.items():
+        lines.append(f"**{signal}**")
+
+        for horizon, values in horizons.items():
+            if values["count"] == 0:
+                lines.append(f"{horizon}: za malo danych")
+            else:
+                lines.append(
+                    f"{horizon}: srednio "
+                    f"{values['average']:+.2f}% | "
+                    f"dodatnie wyniki: {values['positive']}% "
+                    f"({values['count']} prob)"
+                )
+
+    return "\n".join(lines)
+
+
+def send_discord_report(ranking, results, failed, statistics):
     webhook_url = os.getenv("DISCORD_WEBHOOK")
 
     if not webhook_url:
@@ -33,6 +54,8 @@ def send_discord_report(ranking, results, failed):
     else:
         description = "Nie udało się przeanalizować żadnych instrumentów."
 
+    performance_text = format_performance(statistics)
+
     embed = {
         "title": f"{PROJECT_NAME} v{VERSION} - RAPORT",
         "description": description,
@@ -52,10 +75,15 @@ def send_discord_report(ranking, results, failed):
                 "name": "Przeanalizowane instrumenty",
                 "value": str(len(INSTRUMENTS)),
                 "inline": True
+            },
+            {
+                "name": "Skuteczność wcześniejszych analiz",
+                "value": performance_text[:1024] or "Brak danych",
+                "inline": False
             }
         ],
         "footer": {
-            "text": "MARKET AI | Raport automatyczny"
+            "text": "MARKET AI 9.0 | Raport automatyczny"
         },
         "timestamp": datetime.now().astimezone().isoformat()
     }
@@ -72,7 +100,7 @@ def send_discord_report(ranking, results, failed):
         data=data,
         headers={
             "Content-Type": "application/json",
-            "User-Agent": "MARKET-AI/8.0"
+            "User-Agent": "MARKET-AI/9.0"
         },
         method="POST"
     )
@@ -86,7 +114,6 @@ def send_discord_report(ranking, results, failed):
 
     except urllib.error.HTTPError as error:
         details = error.read().decode("utf-8", errors="replace")
-
         print(f"\nDISCORD: Błąd HTTP: {error.code}")
         print(f"DISCORD SZCZEGÓŁY: {details}")
 
@@ -117,8 +144,7 @@ def start():
         else:
             failed.append(ticker)
 
-    print("\n")
-    print("=" * 75)
+    print("\n" + "=" * 75)
     print(f"RANKING {PROJECT_NAME} {VERSION}")
     print("=" * 75)
 
@@ -146,7 +172,15 @@ def start():
         for ticker in failed:
             print(f"- {ticker}")
 
-    send_discord_report(ranking, results, failed)
+    print("\nAKTUALIZACJA HISTORII I TESTOWANIE ANALIZ")
+    statistics = update_performance(results)
+
+    send_discord_report(
+        ranking,
+        results,
+        failed,
+        statistics
+    )
 
     print("\nANALIZA ZAKONCZONA")
     print("=" * 75)
