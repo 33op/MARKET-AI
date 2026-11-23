@@ -11,6 +11,7 @@ import pandas as pd
 
 from market_data import analyze_market
 from instruments import INSTRUMENTS
+from backtest import run_backtest
 from performance import update_performance
 from sectors import get_sector
 from portfolio import (
