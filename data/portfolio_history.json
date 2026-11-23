@@ -2,8 +2,24 @@
     {
         "date": "2026-11-23",
         "capital": 20000.0,
-        "cash": 20000.0,
-        "positions": [],
+        "cash": 2079.5,
+        "positions": [
+            {
+                "ticker": "MUR.WA",
+                "price": 38.5,
+                "shares": 155
+            },
+            {
+                "ticker": "PCO.WA",
+                "price": 51.78,
+                "shares": 115
+            },
+            {
+                "ticker": "STX.WA",
+                "price": 2.09,
+                "shares": 2870
+            }
+        ],
         "forward_returns": {}
     }
 ]
