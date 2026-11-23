@@ -1,0 +1,116 @@
+"""
+Wstepna, recznie utrzymywana klasyfikacja sektorowa MARKET AI.
+
+Brak wpisu oznacza NIEZWERYFIKOWANY.
+Nieznane sektory nie sa zgadywane przez algorytm.
+"""
+
+SECTORS = {
+
+    # Nieruchomosci
+    "MUR.WA": "NIERUCHOMOSCI",
+    "ECH.WA": "NIERUCHOMOSCI",
+    "DVL.WA": "NIERUCHOMOSCI",
+    "DOM.WA": "NIERUCHOMOSCI",
+    "ARH.WA": "NIERUCHOMOSCI",
+    "1AT.WA": "NIERUCHOMOSCI",
+    "ROB.WA": "NIERUCHOMOSCI",
+
+    # Handel i konsumpcja
+    "DNP.WA": "HANDEL I KONSUMPCJA",
+    "ZAB.WA": "HANDEL I KONSUMPCJA",
+    "ALE.WA": "HANDEL I KONSUMPCJA",
+    "LPP.WA": "HANDEL I KONSUMPCJA",
+    "PCO.WA": "HANDEL I KONSUMPCJA",
+    "EUR.WA": "HANDEL I KONSUMPCJA",
+    "OPN.WA": "HANDEL I KONSUMPCJA",
+    "WWL.WA": "HANDEL I KONSUMPCJA",
+    "TAR.WA": "HANDEL I KONSUMPCJA",
+    "AMB.WA": "HANDEL I KONSUMPCJA",
+    "AMC.WA": "HANDEL I KONSUMPCJA",
+    "FTE.WA": "HANDEL I KONSUMPCJA",
+    "SVE.WA": "HANDEL I KONSUMPCJA",
+
+    # Banki i finanse
+    "ALR.WA": "BANKI I FINANSE",
+    "BHW.WA": "BANKI I FINANSE",
+    "EBP.WA": "BANKI I FINANSE",
+    "ING.WA": "BANKI I FINANSE",
+    "MBK.WA": "BANKI I FINANSE",
+    "MIL.WA": "BANKI I FINANSE",
+    "PEO.WA": "BANKI I FINANSE",
+    "PKO.WA": "BANKI I FINANSE",
+    "PZU.WA": "BANKI I FINANSE",
+    "XTB.WA": "BANKI I FINANSE",
+    "GPW.WA": "BANKI I FINANSE",
+    "QRS.WA": "BANKI I FINANSE",
+
+    # IT i technologie
+    "11B.WA": "IT I TECHNOLOGIE",
+    "CDR.WA": "IT I TECHNOLOGIE",
+    "CIG.WA": "IT I TECHNOLOGIE",
+    "CRJ.WA": "IT I TECHNOLOGIE",
+    "PLW.WA": "IT I TECHNOLOGIE",
+    "TEN.WA": "IT I TECHNOLOGIE",
+    "BLO.WA": "IT I TECHNOLOGIE",
+    "DAT.WA": "IT I TECHNOLOGIE",
+    "VRC.WA": "IT I TECHNOLOGIE",
+    "TXT.WA": "IT I TECHNOLOGIE",
+    "SGN.WA": "IT I TECHNOLOGIE",
+    "CBF.WA": "IT I TECHNOLOGIE",
+    "CRI.WA": "IT I TECHNOLOGIE",
+    "SCW.WA": "IT I TECHNOLOGIE",
+
+    # Budownictwo, przemysl i infrastruktura
+    "STX.WA": "INFRASTRUKTURA I TRANSPORT",
+    "BDX.WA": "BUDOWNICTWO I PRZEMYSL",
+    "BMC.WA": "BUDOWNICTWO I PRZEMYSL",
+    "PXM.WA": "BUDOWNICTWO I PRZEMYSL",
+    "TOR.WA": "BUDOWNICTWO I PRZEMYSL",
+    "UNI.WA": "BUDOWNICTWO I PRZEMYSL",
+    "NWG.WA": "BUDOWNICTWO I PRZEMYSL",
+    "KTY.WA": "PRZEMYSL",
+    "BRS.WA": "PRZEMYSL",
+    "COG.WA": "PRZEMYSL",
+    "FRO.WA": "PRZEMYSL",
+    "MSZ.WA": "PRZEMYSL",
+    "STP.WA": "PRZEMYSL",
+    "WLT.WA": "PRZEMYSL",
+    "APR.WA": "PRZEMYSL",
+    "APT.WA": "PRZEMYSL",
+    "ATC.WA": "PRZEMYSL",
+    "ARL.WA": "PRZEMYSL",
+
+    # Energia i surowce
+    "ENA.WA": "ENERGIA I SUROWCE",
+    "PGE.WA": "ENERGIA I SUROWCE",
+    "PKN.WA": "ENERGIA I SUROWCE",
+    "TPE.WA": "ENERGIA I SUROWCE",
+    "JSW.WA": "ENERGIA I SUROWCE",
+    "KGH.WA": "ENERGIA I SUROWCE",
+    "LWB.WA": "ENERGIA I SUROWCE",
+    "ATT.WA": "ENERGIA I SUROWCE",
+    "PCR.WA": "ENERGIA I SUROWCE",
+    "ZEP.WA": "ENERGIA I SUROWCE",
+    "OPL.WA": "TELEKOMUNIKACJA",
+
+    # Zdrowie i farmacja
+    "NEU.WA": "ZDROWIE I FARMACJA",
+    "MDG.WA": "ZDROWIE I FARMACJA",
+    "SEL.WA": "ZDROWIE I FARMACJA",
+    "SLV.WA": "ZDROWIE I FARMACJA",
+    "BIO.WA": "ZDROWIE I FARMACJA",
+    "CTX.WA": "ZDROWIE I FARMACJA",
+    "BCX.WA": "ZDROWIE I FARMACJA",
+    "DIA.WA": "ZDROWIE I FARMACJA",
+    "ICE.WA": "ZDROWIE I FARMACJA",
+    "SKA.WA": "ZDROWIE I FARMACJA",
+    "VOX.WA": "ZDROWIE I FARMACJA",
+}
+
+
+def get_sector(ticker):
+    return SECTORS.get(
+        ticker,
+        "NIEZWERYFIKOWANY"
+    )
