@@ -10,6 +10,7 @@ DATA_DIR = "data"
 DATA_FILE = os.path.join(DATA_DIR, "performance.json")
 
 HORIZONS = [1, 5, 10]
+SIGNALS = ["POZYTYWNY", "NEUTRALNY", "NEGATYWNY"]
 
 
 def load_history():
@@ -20,7 +21,14 @@ def load_history():
 
     try:
         with open(DATA_FILE, "r", encoding="utf-8") as file:
-            return json.load(file)
+            history = json.load(file)
+
+        if not isinstance(history, list):
+            print("Historia ma nieprawidlowy format.")
+            return []
+
+        return history
+
     except (json.JSONDecodeError, OSError):
         print("Nie mozna odczytac historii analiz.")
         return []
@@ -29,31 +37,53 @@ def load_history():
 def save_history(history):
     os.makedirs(DATA_DIR, exist_ok=True)
 
-    with open(DATA_FILE, "w", encoding="utf-8") as file:
+    temporary_file = DATA_FILE + ".tmp"
+
+    with open(temporary_file, "w", encoding="utf-8") as file:
         json.dump(history, file, ensure_ascii=False, indent=4)
+
+    os.replace(temporary_file, DATA_FILE)
 
 
 def add_snapshots(history, results):
     existing = {
-        (item["ticker"], item["date"])
+        (item.get("ticker"), item.get("date"))
         for item in history
+        if isinstance(item, dict)
     }
 
     added = 0
 
     for result in results:
-        key = (result["ticker"], result["date"])
+        ticker = result.get("ticker")
+        date = result.get("date")
+        price = result.get("price")
+
+        if not ticker or not date or price is None:
+            continue
+
+        key = (ticker, date)
 
         if key in existing:
             continue
 
+        try:
+            price = float(price)
+
+            if price <= 0:
+                continue
+
+        except (TypeError, ValueError):
+            continue
+
         history.append({
-            "ticker": result["ticker"],
-            "date": result["date"],
-            "price": result["price"],
-            "score": result["score"],
-            "signal": result["signal"],
-            "risk": result["risk"],
+            "ticker": ticker,
+            "date": date,
+            "price": price,
+            "score": result.get("score", 0),
+            "signal": result.get("signal", "NEUTRALNY"),
+            "risk": result.get("risk", "NIEZNANE"),
+            "confirmed_days": result.get("confirmed_days", 0),
             "forward_returns": {}
         })
 
@@ -69,60 +99,95 @@ def evaluate_history(history):
     grouped = defaultdict(list)
 
     for item in history:
+        if not isinstance(item, dict):
+            continue
+
+        if not all(key in item for key in ("ticker", "date", "price")):
+            continue
+
+        if not isinstance(item.get("forward_returns"), dict):
+            item["forward_returns"] = {}
+
         if len(item["forward_returns"]) < len(HORIZONS):
             grouped[item["ticker"]].append(item)
 
     for ticker, records in grouped.items():
         try:
+            print(f"\nUZUPELNIANIE HISTORII: {ticker}")
+
             data = yf.Ticker(ticker).history(
                 period="1y",
                 interval="1d",
                 auto_adjust=True
             )
 
-            if data.empty:
+            if data.empty or "Close" not in data.columns:
+                print(f"Brak danych historycznych: {ticker}")
                 continue
 
+            data = data.sort_index()
+            data = data[~data.index.duplicated(keep="last")]
+
+            data["Close"] = pd.to_numeric(
+                data["Close"],
+                errors="coerce"
+            )
+
             data = data.dropna(subset=["Close"])
+            data = data[data["Close"] > 0]
+
+            if data.empty:
+                continue
 
             dates = pd.to_datetime(data.index).date
 
             for item in records:
-                snapshot_date = pd.Timestamp(item["date"]).date()
-
-                future = data.loc[
-                    [date > snapshot_date for date in dates]
-                ]
-
-                for horizon in HORIZONS:
-                    key = f"{horizon}_sessions"
-
-                    if key in item["forward_returns"]:
-                        continue
-
-                    if len(future) < horizon:
-                        continue
-
-                    future_price = float(
-                        future["Close"].iloc[horizon - 1]
-                    )
+                try:
+                    snapshot_date = pd.Timestamp(
+                        item["date"]
+                    ).date()
 
                     start_price = float(item["price"])
 
                     if start_price <= 0:
                         continue
 
-                    change = (
-                        future_price / start_price - 1
-                    ) * 100
+                    future_mask = [
+                        date > snapshot_date
+                        for date in dates
+                    ]
 
-                    item["forward_returns"][key] = round(
-                        change, 2
-                    )
+                    future = data.loc[future_mask]
 
+                    for horizon in HORIZONS:
+                        key = f"{horizon}_sessions"
+
+                        if key in item["forward_returns"]:
+                            continue
+
+                        if len(future) < horizon:
+                            continue
+
+                        future_price = float(
+                            future["Close"].iloc[horizon - 1]
+                        )
+
+                        change = (
+                            future_price / start_price - 1
+                        ) * 100
+
+                        item["forward_returns"][key] = round(
+                            change, 2
+                        )
+
+                        print(
+                            f"{ticker}: {horizon} sesji = "
+                            f"{change:+.2f}%"
+                        )
+
+                except (ValueError, TypeError, KeyError) as error:
                     print(
-                        f"{ticker}: {horizon} sesji = "
-                        f"{change:+.2f}%"
+                        f"Blad pojedynczego wpisu {ticker}: {error}"
                     )
 
         except Exception as error:
@@ -134,23 +199,38 @@ def evaluate_history(history):
 def get_statistics(history):
     statistics = {}
 
-    for signal in ["POZYTYWNY", "NEUTRALNY", "NEGATYWNY"]:
+    for signal in SIGNALS:
         statistics[signal] = {}
 
         for horizon in HORIZONS:
             key = f"{horizon}_sessions"
 
-            values = [
-                item["forward_returns"][key]
-                for item in history
-                if item["signal"] == signal
-                and key in item["forward_returns"]
-            ]
+            values = []
+
+            for item in history:
+                if not isinstance(item, dict):
+                    continue
+
+                if item.get("signal") != signal:
+                    continue
+
+                returns = item.get("forward_returns", {})
+
+                if key not in returns:
+                    continue
+
+                try:
+                    value = float(returns[key])
+                    values.append(value)
+
+                except (TypeError, ValueError):
+                    continue
 
             if not values:
                 statistics[signal][key] = {
                     "count": 0,
                     "average": None,
+                    "median": None,
                     "positive": None
                 }
                 continue
@@ -160,6 +240,9 @@ def get_statistics(history):
                 "average": round(
                     sum(values) / len(values), 2
                 ),
+                "median": round(
+                    float(pd.Series(values).median()), 2
+                ),
                 "positive": round(
                     sum(value > 0 for value in values)
                     / len(values) * 100,
@@ -168,6 +251,28 @@ def get_statistics(history):
             }
 
     return statistics
+
+
+def print_statistics(statistics):
+    print("\n" + "=" * 60)
+    print("MARKET AI 11.0 - SKUTECZNOSC SYGNALOW")
+    print("=" * 60)
+
+    for signal, horizons in statistics.items():
+        print(f"\nSYGNAL: {signal}")
+
+        for horizon, values in horizons.items():
+            if values["count"] == 0:
+                print(f"{horizon}: za malo danych")
+                continue
+
+            print(
+                f"{horizon}: "
+                f"srednia: {values['average']:+.2f}% | "
+                f"mediana: {values['median']:+.2f}% | "
+                f"dodatnie wyniki: {values['positive']}% | "
+                f"prob: {values['count']}"
+            )
 
 
 def update_performance(results):
@@ -180,22 +285,6 @@ def update_performance(results):
 
     statistics = get_statistics(history)
 
-    print("\n" + "=" * 55)
-    print("MARKET AI 9.0 - SKUTECZNOSC ANALIZ")
-    print("=" * 55)
-
-    for signal, horizons in statistics.items():
-        print(f"\nSYGNAL: {signal}")
-
-        for horizon, values in horizons.items():
-            if values["count"] == 0:
-                print(f"{horizon}: za malo danych")
-            else:
-                print(
-                    f"{horizon}: "
-                    f"srednia zmiana {values['average']:+.2f}% | "
-                    f"dodatni wynik: {values['positive']}% | "
-                    f"prob: {values['count']}"
-                )
+    print_statistics(statistics)
 
     return statistics
