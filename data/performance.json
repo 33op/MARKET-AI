@@ -7,8 +7,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -2.42
-        }
+            "1_sessions": -2.22
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ABE.WA",
@@ -18,8 +19,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 2.96
-        }
+            "1_sessions": 5.76
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "AGO.WA",
@@ -29,8 +31,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 1.23
-        }
+            "1_sessions": 0.0
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ALR.WA",
@@ -40,8 +43,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 2.47
-        }
+            "1_sessions": 5.89
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ALE.WA",
@@ -51,8 +55,9 @@
         "signal": "POZYTYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.36
-        }
+            "1_sessions": 4.8
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "AMB.WA",
@@ -62,8 +67,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.7
-        }
+            "1_sessions": -0.23
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "AMC.WA",
@@ -73,8 +79,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.12
-        }
+            "1_sessions": 0.0
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "EAT.WA",
@@ -84,8 +91,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.9
-        }
+            "1_sessions": 0.11
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ANR.WA",
@@ -95,8 +103,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.22
-        }
+            "1_sessions": 0.67
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "APT.WA",
@@ -106,8 +115,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -3.79
-        }
+            "1_sessions": -2.67
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ARH.WA",
@@ -117,8 +127,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.6
-        }
+            "1_sessions": 2.8
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ATC.WA",
@@ -128,8 +139,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -0.84
-        }
+            "1_sessions": 5.04
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ARL.WA",
@@ -139,8 +151,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 1.79
-        }
+            "1_sessions": 2.23
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ASB.WA",
@@ -150,8 +163,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 3.03
-        }
+            "1_sessions": 8.61
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ABS.WA",
@@ -162,7 +176,8 @@
         "risk": "UMIARKOWANE",
         "forward_returns": {
             "1_sessions": 1.47
-        }
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ACP.WA",
@@ -172,8 +187,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -1.06
-        }
+            "1_sessions": 1.3
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ASE.WA",
@@ -183,8 +199,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -3.03
-        }
+            "1_sessions": -1.38
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "AST.WA",
@@ -194,8 +211,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -2.63
-        }
+            "1_sessions": -2.1
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "1AT.WA",
@@ -205,8 +223,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.33
-        }
+            "1_sessions": 1.5
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ATR.WA",
@@ -216,8 +235,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -1.5
-        }
+            "1_sessions": -2.47
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "APR.WA",
@@ -227,8 +247,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.54
-        }
+            "1_sessions": 0.72
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "BFT.WA",
@@ -238,8 +259,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 2.16
-        }
+            "1_sessions": 3.6
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "BCX.WA",
@@ -249,8 +271,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.32
-        }
+            "1_sessions": 1.74
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "BIO.WA",
@@ -260,8 +283,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 1.05
-        }
+            "1_sessions": 0.45
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "BLO.WA",
@@ -271,8 +295,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -1.64
-        }
+            "1_sessions": -3.59
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "BNP.WA",
@@ -282,8 +307,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.71
-        }
+            "1_sessions": 1.03
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "LWB.WA",
@@ -293,8 +319,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -1.28
-        }
+            "1_sessions": 0.64
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "BRS.WA",
@@ -304,8 +331,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.12
-        }
+            "1_sessions": 2.44
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "BOS.WA",
@@ -316,7 +344,8 @@
         "risk": "UMIARKOWANE",
         "forward_returns": {
             "1_sessions": -0.58
-        }
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "BDX.WA",
@@ -326,8 +355,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 1.51
-        }
+            "1_sessions": 3.1
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "BMC.WA",
@@ -337,8 +367,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -7.79
-        }
+            "1_sessions": -6.49
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "CTX.WA",
@@ -348,8 +379,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -2.88
-        }
+            "1_sessions": 0.96
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "CDR.WA",
@@ -359,8 +391,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 1.4
-        }
+            "1_sessions": 4.59
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "CIG.WA",
@@ -370,8 +403,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.63
-        }
+            "1_sessions": 1.47
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "CLN.WA",
@@ -381,8 +415,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -3.63
-        }
+            "1_sessions": -3.11
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "COG.WA",
@@ -392,8 +427,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -0.65
-        }
+            "1_sessions": -1.1
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "CMP.WA",
@@ -403,8 +439,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -2.32
-        }
+            "1_sessions": -2.42
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "CRJ.WA",
@@ -414,8 +451,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -1.1
-        }
+            "1_sessions": -1.66
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "CRI.WA",
@@ -425,8 +463,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 0.3
-        }
+            "1_sessions": 2.43
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "CRQ.WA",
@@ -436,8 +475,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 1.22
-        }
+            "1_sessions": 4.05
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "CBF.WA",
@@ -447,8 +487,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -1.71
-        }
+            "1_sessions": -1.05
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "CPS.WA",
@@ -458,8 +499,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 2.66
-        }
+            "1_sessions": 3.39
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "DAD.WA",
@@ -469,8 +511,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -4.25
-        }
+            "1_sessions": -4.88
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "DAT.WA",
@@ -480,8 +523,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 0.83
-        }
+            "1_sessions": -1.65
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "DCR.WA",
@@ -491,8 +535,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -3.2
-        }
+            "1_sessions": -2.62
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "DVL.WA",
@@ -502,8 +547,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -4.26
-        }
+            "1_sessions": -3.45
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "DIA.WA",
@@ -513,8 +559,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.79
-        }
+            "1_sessions": 0.6
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "DIG.WA",
@@ -524,8 +571,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.0
-        }
+            "1_sessions": 0.44
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "DNP.WA",
@@ -535,8 +583,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.13
-        }
+            "1_sessions": 2.59
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "DOM.WA",
@@ -546,8 +595,9 @@
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -2.61
-        }
+            "1_sessions": -1.61
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ECH.WA",
@@ -557,8 +607,9 @@
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.55
-        }
+            "1_sessions": 0.92
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ELT.WA",
@@ -568,8 +619,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.09
-        }
+            "1_sessions": 2.49
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ENA.WA",
@@ -579,8 +631,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -1.99
-        }
+            "1_sessions": -0.09
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ENT.WA",
@@ -590,8 +643,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 1.66
-        }
+            "1_sessions": 3.02
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "EBP.WA",
@@ -601,8 +655,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.43
-        }
+            "1_sessions": 4.24
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "EUR.WA",
@@ -612,8 +667,9 @@
         "signal": "NEUTRALNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -0.83
-        }
+            "1_sessions": -1.37
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "FRO.WA",
@@ -623,8 +679,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.71
-        }
+            "1_sessions": -1.07
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "FTE.WA",
@@ -634,8 +691,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -2.5
-        }
+            "1_sessions": -0.83
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "GPW.WA",
@@ -645,8 +703,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.93
-        }
+            "1_sessions": 2.92
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "GRX.WA",
@@ -656,8 +715,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 2.04
-        }
+            "1_sessions": 4.08
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ATT.WA",
@@ -667,8 +727,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -2.59
-        }
+            "1_sessions": -4.46
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "GPP.WA",
@@ -678,8 +739,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.39
-        }
+            "1_sessions": -1.35
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "BHW.WA",
@@ -689,8 +751,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.33
-        }
+            "1_sessions": 0.49
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "HUG.WA",
@@ -700,8 +763,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 2.92
-        }
+            "1_sessions": 1.04
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "IMC.WA",
@@ -711,8 +775,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 2.5
-        }
+            "1_sessions": 3.75
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ING.WA",
@@ -722,8 +787,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.89
-        }
+            "1_sessions": 3.12
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "CAR.WA",
@@ -733,8 +799,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.19
-        }
+            "1_sessions": -0.38
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "JSW.WA",
@@ -744,8 +811,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -2.08
-        }
+            "1_sessions": -3.2
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "KTY.WA",
@@ -755,8 +823,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 1.47
-        }
+            "1_sessions": 2.21
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "KGH.WA",
@@ -766,8 +835,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 1.7
-        }
+            "1_sessions": 6.64
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "KGN.WA",
@@ -777,8 +847,9 @@
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -1.43
-        }
+            "1_sessions": 1.55
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "KRU.WA",
@@ -788,8 +859,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.06
-        }
+            "1_sessions": 1.07
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "LPP.WA",
@@ -799,8 +871,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.16
-        }
+            "1_sessions": 2.6
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "LBW.WA",
@@ -810,8 +883,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 1.53
-        }
+            "1_sessions": 1.86
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "MBK.WA",
@@ -821,8 +895,9 @@
         "signal": "NEUTRALNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 2.49
-        }
+            "1_sessions": 4.78
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "MCI.WA",
@@ -832,8 +907,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 2.21
-        }
+            "1_sessions": 0.74
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "MDG.WA",
@@ -844,7 +920,8 @@
         "risk": "PODWYZSZONE",
         "forward_returns": {
             "1_sessions": -0.8
-        }
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ICE.WA",
@@ -854,8 +931,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -1.12
-        }
+            "1_sessions": 0.56
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "MNC.WA",
@@ -865,8 +943,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.53
-        }
+            "1_sessions": 0.53
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "MRC.WA",
@@ -876,8 +955,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.73
-        }
+            "1_sessions": 4.18
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "MIL.WA",
@@ -887,8 +967,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 3.09
-        }
+            "1_sessions": 3.55
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "MRB.WA",
@@ -898,8 +979,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.18
-        }
+            "1_sessions": 0.44
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "MLG.WA",
@@ -909,8 +991,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.22
-        }
+            "1_sessions": -1.09
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "MBR.WA",
@@ -920,8 +1003,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.97
-        }
+            "1_sessions": 0.61
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "MDV.WA",
@@ -931,8 +1015,9 @@
         "signal": "POZYTYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.47
-        }
+            "1_sessions": 1.06
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "MSZ.WA",
@@ -942,8 +1027,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.81
-        }
+            "1_sessions": 0.49
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "MUR.WA",
@@ -953,8 +1039,9 @@
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.92
-        }
+            "1_sessions": 1.45
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "NEU.WA",
@@ -964,8 +1051,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.69
-        }
+            "1_sessions": 0.55
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "NWG.WA",
@@ -975,8 +1063,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -11.14
-        }
+            "1_sessions": -9.89
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "GNS.WA",
@@ -986,8 +1075,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.45
-        }
+            "1_sessions": 1.81
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "OND.WA",
@@ -998,7 +1088,8 @@
         "risk": "UMIARKOWANE",
         "forward_returns": {
             "1_sessions": 0.13
-        }
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "OPN.WA",
@@ -1008,8 +1099,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -1.18
-        }
+            "1_sessions": -0.98
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "OPL.WA",
@@ -1019,8 +1111,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.58
-        }
+            "1_sessions": -0.49
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "PCR.WA",
@@ -1030,8 +1123,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.49
-        }
+            "1_sessions": 0.0
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "PEO.WA",
@@ -1041,8 +1135,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 2.75
-        }
+            "1_sessions": 5.06
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "PEP.WA",
@@ -1053,7 +1148,8 @@
         "risk": "UMIARKOWANE",
         "forward_returns": {
             "1_sessions": -0.19
-        }
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "PCO.WA",
@@ -1063,8 +1159,9 @@
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.19
-        }
+            "1_sessions": -0.38
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "PGE.WA",
@@ -1074,8 +1171,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.61
-        }
+            "1_sessions": 2.66
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "PKN.WA",
@@ -1085,8 +1183,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.53
-        }
+            "1_sessions": 3.66
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "PKO.WA",
@@ -1096,8 +1195,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 2.7
-        }
+            "1_sessions": 4.2
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "PLW.WA",
@@ -1107,8 +1207,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.0
-        }
+            "1_sessions": 1.05
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "PXM.WA",
@@ -1118,8 +1219,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 2.7
-        }
+            "1_sessions": 1.9
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "PZU.WA",
@@ -1129,8 +1231,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -6.51
-        }
+            "1_sessions": -5.32
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "QRS.WA",
@@ -1140,8 +1243,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 3.05
-        }
+            "1_sessions": 1.43
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "RBW.WA",
@@ -1151,8 +1255,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 2.07
-        }
+            "1_sessions": 3.15
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "REX.WA",
@@ -1162,8 +1267,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.46
-        }
+            "1_sessions": 0.0
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ROB.WA",
@@ -1174,7 +1280,8 @@
         "risk": "PODWYZSZONE",
         "forward_returns": {
             "1_sessions": 3.13
-        }
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "RVU.WA",
@@ -1185,7 +1292,8 @@
         "risk": "PODWYZSZONE",
         "forward_returns": {
             "1_sessions": 1.36
-        }
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "SNK.WA",
@@ -1196,7 +1304,8 @@
         "risk": "WYSOKIE",
         "forward_returns": {
             "1_sessions": -0.54
-        }
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "SCW.WA",
@@ -1206,8 +1315,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.33
-        }
+            "1_sessions": 3.33
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "SCP.WA",
@@ -1217,8 +1327,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -1.76
-        }
+            "1_sessions": -1.03
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "SEL.WA",
@@ -1228,8 +1339,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 0.0
-        }
+            "1_sessions": -0.38
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "SLV.WA",
@@ -1239,8 +1351,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 7.81
-        }
+            "1_sessions": 8.89
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "SKA.WA",
@@ -1251,7 +1364,8 @@
         "risk": "UMIARKOWANE",
         "forward_returns": {
             "1_sessions": 0.48
-        }
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "SVE.WA",
@@ -1261,8 +1375,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -3.46
-        }
+            "1_sessions": -3.85
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "STX.WA",
@@ -1272,8 +1387,9 @@
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.24
-        }
+            "1_sessions": 0.48
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "STP.WA",
@@ -1283,8 +1399,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.44
-        }
+            "1_sessions": 0.0
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "SGN.WA",
@@ -1294,8 +1411,9 @@
         "signal": "NEUTRALNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 0.0
-        }
+            "1_sessions": -0.11
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "S2B.WA",
@@ -1305,8 +1423,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 2.7
-        }
+            "1_sessions": 3.87
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "SNT.WA",
@@ -1316,8 +1435,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.97
-        }
+            "1_sessions": 1.17
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "TAR.WA",
@@ -1327,8 +1447,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.47
-        }
+            "1_sessions": -0.47
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "TPE.WA",
@@ -1338,8 +1459,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -1.56
-        }
+            "1_sessions": 0.78
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "TXT.WA",
@@ -1349,8 +1471,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.72
-        }
+            "1_sessions": -0.44
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "TOR.WA",
@@ -1360,8 +1483,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -0.73
-        }
+            "1_sessions": -2.01
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "TOA.WA",
@@ -1371,8 +1495,9 @@
         "signal": "POZYTYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 2.06
-        }
+            "1_sessions": 2.54
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "TEN.WA",
@@ -1382,8 +1507,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -2.24
-        }
+            "1_sessions": 0.65
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "UNI.WA",
@@ -1393,8 +1519,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 2.09
-        }
+            "1_sessions": 0.0
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "UNT.WA",
@@ -1404,8 +1531,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -1.38
-        }
+            "1_sessions": -2.48
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "VRC.WA",
@@ -1415,8 +1543,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.79
-        }
+            "1_sessions": 3.02
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "VGO.WA",
@@ -1426,8 +1555,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 1.23
-        }
+            "1_sessions": 4.7
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "VOT.WA",
@@ -1437,8 +1567,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 1.32
-        }
+            "1_sessions": 1.76
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "VOX.WA",
@@ -1448,8 +1579,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.28
-        }
+            "1_sessions": 0.69
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "VRG.WA",
@@ -1459,8 +1591,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -3.04
-        }
+            "1_sessions": -1.14
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "WWL.WA",
@@ -1470,8 +1603,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.0
-        }
+            "1_sessions": 0.28
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "WLT.WA",
@@ -1481,8 +1615,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.7
-        }
+            "1_sessions": 0.0
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "WPL.WA",
@@ -1492,8 +1627,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.74
-        }
+            "1_sessions": -0.93
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "XTB.WA",
@@ -1503,8 +1639,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -2.09
-        }
+            "1_sessions": -1.27
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ZAB.WA",
@@ -1514,8 +1651,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.09
-        }
+            "1_sessions": 0.19
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ZEP.WA",
@@ -1526,7 +1664,8 @@
         "risk": "UMIARKOWANE",
         "forward_returns": {
             "1_sessions": 30.68
-        }
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "ZRE.WA",
@@ -1536,8 +1675,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -1.19
-        }
+            "1_sessions": -1.32
+        },
+        "evaluation_version": 2
     },
     {
         "ticker": "11B.WA",
@@ -1546,7 +1686,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ABE.WA",
@@ -1555,7 +1696,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "AGO.WA",
@@ -1564,7 +1706,8 @@
         "score": 4,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ALR.WA",
@@ -1573,7 +1716,8 @@
         "score": 5,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ALE.WA",
@@ -1582,7 +1726,8 @@
         "score": 7,
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "AMB.WA",
@@ -1591,7 +1736,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "AMC.WA",
@@ -1600,7 +1746,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "EAT.WA",
@@ -1609,7 +1756,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ANR.WA",
@@ -1618,7 +1766,8 @@
         "score": 3,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "APT.WA",
@@ -1627,7 +1776,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ARH.WA",
@@ -1636,7 +1786,8 @@
         "score": 5,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ATC.WA",
@@ -1645,7 +1796,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ARL.WA",
@@ -1654,7 +1806,8 @@
         "score": 5,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ASB.WA",
@@ -1663,7 +1816,8 @@
         "score": 3,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ABS.WA",
@@ -1672,7 +1826,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ACP.WA",
@@ -1681,7 +1836,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ASE.WA",
@@ -1690,7 +1846,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "AST.WA",
@@ -1699,7 +1856,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "1AT.WA",
@@ -1708,7 +1866,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ATR.WA",
@@ -1717,7 +1876,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "APR.WA",
@@ -1726,7 +1886,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "BFT.WA",
@@ -1735,7 +1896,8 @@
         "score": 7,
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "BCX.WA",
@@ -1744,7 +1906,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "BIO.WA",
@@ -1753,7 +1916,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "BLO.WA",
@@ -1762,7 +1926,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "BNP.WA",
@@ -1771,7 +1936,8 @@
         "score": 6,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "LWB.WA",
@@ -1780,7 +1946,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "BRS.WA",
@@ -1789,7 +1956,8 @@
         "score": 7,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "BOS.WA",
@@ -1798,7 +1966,8 @@
         "score": 4,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "BDX.WA",
@@ -1807,7 +1976,8 @@
         "score": 5,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "BMC.WA",
@@ -1816,7 +1986,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "CTX.WA",
@@ -1825,7 +1996,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "CDR.WA",
@@ -1834,7 +2006,8 @@
         "score": 3,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "CIG.WA",
@@ -1843,7 +2016,8 @@
         "score": 5,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "CLN.WA",
@@ -1852,7 +2026,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "COG.WA",
@@ -1861,7 +2036,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "CMP.WA",
@@ -1870,7 +2046,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "CRJ.WA",
@@ -1879,7 +2056,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "CRI.WA",
@@ -1888,7 +2066,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "CRQ.WA",
@@ -1897,7 +2076,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "CBF.WA",
@@ -1906,7 +2086,8 @@
         "score": 8,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "CPS.WA",
@@ -1915,7 +2096,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "DAD.WA",
@@ -1924,7 +2106,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "DAT.WA",
@@ -1933,7 +2116,8 @@
         "score": 4,
         "signal": "NEUTRALNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "DCR.WA",
@@ -1942,7 +2126,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "DVL.WA",
@@ -1951,7 +2136,8 @@
         "score": 5,
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "DIA.WA",
@@ -1960,7 +2146,8 @@
         "score": 4,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "DIG.WA",
@@ -1969,7 +2156,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "DNP.WA",
@@ -1978,7 +2166,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "DOM.WA",
@@ -1987,7 +2176,8 @@
         "score": 4,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ECH.WA",
@@ -1996,7 +2186,8 @@
         "score": 3,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ELT.WA",
@@ -2005,7 +2196,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ENA.WA",
@@ -2014,7 +2206,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ENT.WA",
@@ -2023,7 +2216,8 @@
         "score": 6,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "EBP.WA",
@@ -2032,7 +2226,8 @@
         "score": 4,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "EUR.WA",
@@ -2041,7 +2236,8 @@
         "score": 5,
         "signal": "NEUTRALNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "FRO.WA",
@@ -2050,7 +2246,8 @@
         "score": 3,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "FTE.WA",
@@ -2059,7 +2256,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "GPW.WA",
@@ -2068,7 +2266,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "GRX.WA",
@@ -2077,7 +2276,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ATT.WA",
@@ -2086,7 +2286,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "GPP.WA",
@@ -2095,7 +2296,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "BHW.WA",
@@ -2104,7 +2306,8 @@
         "score": 4,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "HUG.WA",
@@ -2113,7 +2316,8 @@
         "score": 6,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "IMC.WA",
@@ -2122,7 +2326,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ING.WA",
@@ -2131,7 +2336,8 @@
         "score": 4,
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "CAR.WA",
@@ -2140,7 +2346,8 @@
         "score": 4,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "JSW.WA",
@@ -2149,7 +2356,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "KTY.WA",
@@ -2158,7 +2366,8 @@
         "score": 4,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "KGH.WA",
@@ -2167,7 +2376,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "KGN.WA",
@@ -2176,7 +2386,8 @@
         "score": 7,
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "KRU.WA",
@@ -2185,7 +2396,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "LPP.WA",
@@ -2194,7 +2406,8 @@
         "score": 6,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "LBW.WA",
@@ -2203,7 +2416,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "MBK.WA",
@@ -2212,7 +2426,8 @@
         "score": 5,
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "MCI.WA",
@@ -2221,7 +2436,8 @@
         "score": 6,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "MDG.WA",
@@ -2230,7 +2446,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ICE.WA",
@@ -2239,7 +2456,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "MNC.WA",
@@ -2248,7 +2466,8 @@
         "score": 3,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "MRC.WA",
@@ -2257,7 +2476,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "MIL.WA",
@@ -2266,7 +2486,8 @@
         "score": 4,
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "MRB.WA",
@@ -2275,7 +2496,8 @@
         "score": 3,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "MLG.WA",
@@ -2284,7 +2506,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "MBR.WA",
@@ -2293,7 +2516,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "MDV.WA",
@@ -2302,7 +2526,8 @@
         "score": 7,
         "signal": "POZYTYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "MSZ.WA",
@@ -2311,7 +2536,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "MUR.WA",
@@ -2320,7 +2546,8 @@
         "score": 6,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "NEU.WA",
@@ -2329,7 +2556,8 @@
         "score": 8,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "NWG.WA",
@@ -2338,7 +2566,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "GNS.WA",
@@ -2347,7 +2576,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "OND.WA",
@@ -2356,7 +2586,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "OPN.WA",
@@ -2365,7 +2596,8 @@
         "score": 3,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "OPL.WA",
@@ -2374,7 +2606,8 @@
         "score": 5,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "PCR.WA",
@@ -2383,7 +2616,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "PEO.WA",
@@ -2392,7 +2626,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "PEP.WA",
@@ -2401,7 +2636,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "PCO.WA",
@@ -2410,7 +2646,8 @@
         "score": 8,
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "PGE.WA",
@@ -2419,7 +2656,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "PKN.WA",
@@ -2428,7 +2666,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "PKO.WA",
@@ -2437,7 +2676,8 @@
         "score": 3,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "PLW.WA",
@@ -2446,7 +2686,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "PXM.WA",
@@ -2455,7 +2696,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "PZU.WA",
@@ -2464,7 +2706,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "QRS.WA",
@@ -2473,7 +2716,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "RBW.WA",
@@ -2482,7 +2726,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "REX.WA",
@@ -2491,7 +2736,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ROB.WA",
@@ -2500,7 +2746,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "RVU.WA",
@@ -2509,7 +2756,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "SNK.WA",
@@ -2518,7 +2766,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "SCW.WA",
@@ -2527,7 +2776,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "SCP.WA",
@@ -2536,7 +2786,8 @@
         "score": 3,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "SEL.WA",
@@ -2545,7 +2796,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "SLV.WA",
@@ -2554,7 +2806,8 @@
         "score": 7,
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "SKA.WA",
@@ -2563,7 +2816,8 @@
         "score": 4,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "SVE.WA",
@@ -2572,7 +2826,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "STX.WA",
@@ -2581,7 +2836,8 @@
         "score": 8,
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "STP.WA",
@@ -2590,7 +2846,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "SGN.WA",
@@ -2599,7 +2856,8 @@
         "score": 6,
         "signal": "NEUTRALNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "S2B.WA",
@@ -2608,7 +2866,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "SNT.WA",
@@ -2617,7 +2876,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "TAR.WA",
@@ -2626,7 +2886,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "TPE.WA",
@@ -2635,7 +2896,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "TXT.WA",
@@ -2644,7 +2906,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "TOR.WA",
@@ -2653,7 +2916,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "TOA.WA",
@@ -2662,7 +2926,8 @@
         "score": 6,
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "TEN.WA",
@@ -2671,7 +2936,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "UNI.WA",
@@ -2680,7 +2946,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "UNT.WA",
@@ -2689,7 +2956,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "VRC.WA",
@@ -2698,7 +2966,8 @@
         "score": 8,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "VGO.WA",
@@ -2707,7 +2976,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "VOT.WA",
@@ -2716,7 +2986,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "VOX.WA",
@@ -2725,7 +2996,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "VRG.WA",
@@ -2734,7 +3006,8 @@
         "score": 1,
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "WWL.WA",
@@ -2743,7 +3016,8 @@
         "score": 2,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "WLT.WA",
@@ -2752,7 +3026,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "WPL.WA",
@@ -2761,7 +3036,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "XTB.WA",
@@ -2770,7 +3046,8 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ZAB.WA",
@@ -2779,7 +3056,8 @@
         "score": 6,
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ZEP.WA",
@@ -2788,7 +3066,8 @@
         "score": 8,
         "signal": "POZYTYWNY",
         "risk": "WYSOKIE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     },
     {
         "ticker": "ZRE.WA",
@@ -2797,6 +3076,7 @@
         "score": 0,
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
-        "forward_returns": {}
+        "forward_returns": {},
+        "evaluation_version": 2
     }
 ]
