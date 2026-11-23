@@ -11,7 +11,7 @@ from instruments import INSTRUMENTS
 from performance import update_performance
 
 PROJECT_NAME = "MARKET AI"
-VERSION = "11.0"
+VERSION = "11.1"
 
 VIRTUAL_CAPITAL = 20000.00
 RESERVE_AMOUNT = 2000.00
