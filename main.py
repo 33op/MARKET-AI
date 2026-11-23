@@ -154,7 +154,9 @@ def format_backtest_results(results):
         for item in valid
     )
 
-    win_rate = total_wins / total_signals * 100
+    win_rate = (
+        total_wins / total_signals * 100
+    )
 
     top = sorted(
         valid,
@@ -162,27 +164,49 @@ def format_backtest_results(results):
         reverse=True
     )[:5]
 
+    costs_included = all(
+        item.get("costs_included") is True
+        for item in valid
+    )
+
     lines = [
-        "**TEST HISTORYCZNY SYGNAŁÓW**",
+        "**TEST HISTORYCZNY SYGNAŁÓW v15.0**",
         f"Instrumenty: {len(results)}",
         f"Pozytywne sygnały: {total_signals}",
-        f"Średni wynik: {weighted_return:+.2f}%",
+        f"Średni wynik ważony: {weighted_return:+.2f}%",
         f"Udział dodatnich wyników: {win_rate:.1f}%",
         "",
         "**TOP 5 BACKTESTU**"
     ]
 
     for item in top:
+        median = item.get("median_return")
+
+        median_text = (
+            f"{median:+.2f}%"
+            if median is not None
+            else "brak"
+        )
+
         lines.append(
             f"{item['ticker']}: "
             f"{item['average_return']:+.2f}% | "
-            f"Skuteczność: {item['win_rate']:.1f}%"
+            f"Mediana: {median_text} | "
+            f"Skuteczność: {item['win_rate']:.1f}% | "
+            f"Próby: {item['positive_count']}"
         )
 
     lines.extend([
         "",
-        "Pomiar jednodniowy, bez kosztów transakcyjnych.",
-        "To nie jest wynik pełnego portfela."
+        (
+            "Koszty prowizji i poślizgu uwzględnione."
+            if costs_included
+            else "UWAGA: Nie wszystkie wyniki potwierdzają uwzględnienie kosztów."
+        ),
+        "Sygnał po zamknięciu sesji, wejście na kolejnej sesji.",
+        "Wyjście na zamknięciu następnej sesji.",
+        "Wyniki dotyczą pojedynczych sygnałów, nie pełnego portfela.",
+        "Sygnały mogą się nakładać i nie są niezależnymi próbami."
     ])
 
     return "\n".join(lines)
