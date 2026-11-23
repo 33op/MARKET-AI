@@ -11,9 +11,9 @@ import pandas as pd
 
 from market_data import analyze_market
 from instruments import INSTRUMENTS
-from backtest import run_backtest
 from performance import update_performance
 from sectors import get_sector
+from backtest import run_backtest
 from portfolio import (
     update_portfolio_history,
     format_statistics as format_portfolio_statistics
@@ -25,7 +25,7 @@ from portfolio import (
 # ============================================================
 
 PROJECT_NAME = "MARKET AI"
-VERSION = "13.0"
+VERSION = "14.0"
 
 VIRTUAL_CAPITAL = 20000.00
 RESERVE_AMOUNT = 2000.00
@@ -54,8 +54,10 @@ def money(value):
 def safe_float(value, default=0.0):
     try:
         number = float(value)
+
         if math.isfinite(number):
             return number
+
     except (TypeError, ValueError):
         pass
 
@@ -117,6 +119,76 @@ def get_signal_summary(results):
 
 
 # ============================================================
+# FORMATOWANIE BACKTESTU
+# ============================================================
+
+def format_backtest_results(results):
+    if not results:
+        return "Brak wyników backtestu."
+
+    valid = [
+        item for item in results
+        if item.get("average_return") is not None
+        and item.get("positive_count", 0) > 0
+        and item.get("win_rate") is not None
+    ]
+
+    if not valid:
+        return "Brak wystarczających danych."
+
+    total_signals = sum(
+        item["positive_count"]
+        for item in valid
+    )
+
+    if total_signals == 0:
+        return "Brak pozytywnych sygnałów."
+
+    weighted_return = sum(
+        item["average_return"] * item["positive_count"]
+        for item in valid
+    ) / total_signals
+
+    total_wins = sum(
+        item["win_rate"] / 100 * item["positive_count"]
+        for item in valid
+    )
+
+    win_rate = total_wins / total_signals * 100
+
+    top = sorted(
+        valid,
+        key=lambda item: item["average_return"],
+        reverse=True
+    )[:5]
+
+    lines = [
+        "**TEST HISTORYCZNY SYGNAŁÓW**",
+        f"Instrumenty: {len(results)}",
+        f"Pozytywne sygnały: {total_signals}",
+        f"Średni wynik: {weighted_return:+.2f}%",
+        f"Udział dodatnich wyników: {win_rate:.1f}%",
+        "",
+        "**TOP 5 BACKTESTU**"
+    ]
+
+    for item in top:
+        lines.append(
+            f"{item['ticker']}: "
+            f"{item['average_return']:+.2f}% | "
+            f"Skuteczność: {item['win_rate']:.1f}%"
+        )
+
+    lines.extend([
+        "",
+        "Pomiar jednodniowy, bez kosztów transakcyjnych.",
+        "To nie jest wynik pełnego portfela."
+    ])
+
+    return "\n".join(lines)
+
+
+# ============================================================
 # KANDYDACI DO PORTFELA
 # ============================================================
 
@@ -172,6 +244,7 @@ def download_correlation_data(tickers):
                 prices = data["Close"]
             else:
                 return pd.DataFrame()
+
         else:
             if "Close" not in data.columns:
                 return pd.DataFrame()
@@ -367,6 +440,7 @@ def print_portfolio(allocations, summary):
 
     if not allocations:
         print("Brak wybranych pozycji.")
+
     else:
         for position in allocations:
             print(
@@ -398,7 +472,8 @@ def send_discord_report(
     performance_statistics,
     selection_details,
     portfolio_statistics,
-    portfolio_status
+    portfolio_status,
+    backtest_report
 ):
     if not DISCORD_WEBHOOK:
         print("Brak DISCORD_WEBHOOK. Pomijam wysyłanie raportu.")
@@ -502,6 +577,11 @@ def send_discord_report(
                     portfolio_statistics
                 )
             )[:1024],
+            "inline": False
+        },
+        {
+            "name": "BACKTEST HISTORYCZNY",
+            "value": backtest_report[:1024],
             "inline": False
         }
     ]
@@ -661,6 +741,7 @@ def start():
                 f"{result.get('score')}/10 | "
                 f"Sektor: {get_sector(result.get('ticker'))}"
             )
+
     else:
         print(selection_details)
 
@@ -674,11 +755,12 @@ def start():
 
     try:
         performance_statistics = update_performance(results)
+
     except Exception as error:
         print(f"Błąd historii skuteczności: {error}")
         performance_statistics = {}
 
-    # Historia wirtualnego portfela i porównanie z WIG
+    # Historia portfela i WIG
     print("\nAKTUALIZACJA HISTORII PORTFELA")
 
     try:
@@ -689,6 +771,7 @@ def start():
                 results
             )
         )
+
     except Exception as error:
         print(f"Błąd historii portfela: {error}")
         portfolio_statistics = {}
@@ -699,6 +782,27 @@ def start():
     print("\nSTATYSTYKI PORTFELA VS WIG")
     print(portfolio_status)
     print(format_portfolio_statistics(portfolio_statistics))
+
+    # Backtest
+    print("\n" + "=" * 65)
+    print("URUCHAMIANIE BACKTESTU HISTORYCZNEGO")
+    print("=" * 65)
+
+    try:
+        backtest_results = run_backtest(INSTRUMENTS)
+
+        backtest_report = format_backtest_results(
+            backtest_results
+        )
+
+        print("\nPODSUMOWANIE BACKTESTU")
+        print(backtest_report)
+
+    except Exception as error:
+        print(f"Błąd backtestu: {error}")
+        backtest_report = (
+            "Nie udało się wykonać backtestu."
+        )
 
     # Discord
     print("\nWYSYŁANIE RAPORTU DISCORD")
@@ -712,7 +816,8 @@ def start():
         performance_statistics,
         selection_details,
         portfolio_statistics,
-        portfolio_status
+        portfolio_status,
+        backtest_report
     )
 
     print("\n" + "=" * 65)
