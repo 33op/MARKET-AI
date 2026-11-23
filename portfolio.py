@@ -2,13 +2,13 @@
 import json
 import os
 import math
-from collections import defaultdict, Counter
+from collections import Counter
 
 import yfinance as yf
 import pandas as pd
 
 
-VERSION = "13.0"
+VERSION = "13.1"
 
 DATA_DIR = "data"
 DATA_FILE = os.path.join(DATA_DIR, "portfolio_history.json")
@@ -128,15 +128,6 @@ def create_snapshot(history, allocations, summary, results):
 
     date_text = snapshot_date.isoformat()
 
-    if any(
-        item.get("date") == date_text
-        for item in history
-        if isinstance(item, dict)
-    ):
-        return history, (
-            f"Portfel z dnia {date_text} juz istnieje."
-        )
-
     positions = []
 
     for allocation in allocations:
@@ -158,6 +149,35 @@ def create_snapshot(history, allocations, summary, results):
         })
 
     cash = float(summary.get("remaining", 20000.0))
+
+    existing = next(
+        (
+            item for item in history
+            if isinstance(item, dict)
+            and item.get("date") == date_text
+        ),
+        None
+    )
+
+    if existing is not None:
+
+        old_positions = existing.get("positions", [])
+
+        # Aktualizujemy tylko pusty portfel.
+        # Nie nadpisujemy poprawnych zapisow.
+        if not old_positions and positions:
+            existing["positions"] = positions
+            existing["cash"] = cash
+            existing["capital"] = 20000.0
+            existing["forward_returns"] = {}
+
+            return history, (
+                f"Zaktualizowano pusty portfel z dnia {date_text}."
+            )
+
+        return history, (
+            f"Portfel z dnia {date_text} juz istnieje."
+        )
 
     snapshot = {
         "date": date_text,
@@ -538,7 +558,7 @@ def update_portfolio_history(allocations, summary, results):
     statistics = get_statistics(history)
 
     print("\n" + "=" * 65)
-    print("MARKET AI 13.0 - PORTFEL VS WIG")
+    print(f"MARKET AI {VERSION} - PORTFEL VS WIG")
     print("=" * 65)
     print(status)
     print(format_statistics(statistics))
