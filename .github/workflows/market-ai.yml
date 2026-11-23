@@ -34,7 +34,7 @@ jobs:
         run: |
           git config user.name "MARKET AI"
           git config user.email "market-ai-bot@users.noreply.github.com"
-          git add data/performance.json
+          git add data/performance.json data/portfolio_history.json
           if ! git diff --cached --quiet; then
             git commit -m "Update MARKET AI performance history"
             git push
