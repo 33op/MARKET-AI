@@ -25,7 +25,7 @@ from portfolio import (
 # ============================================================
 
 PROJECT_NAME = "MARKET AI"
-VERSION = "14.0"
+VERSION = "15.0"
 
 VIRTUAL_CAPITAL = 20000.00
 RESERVE_AMOUNT = 2000.00
