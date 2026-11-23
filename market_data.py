@@ -13,6 +13,19 @@ def reject_data(ticker, reason):
     return None
 
 
+def safe_float(value):
+    try:
+        result = float(value)
+
+        if math.isfinite(result):
+            return result
+
+    except (TypeError, ValueError):
+        pass
+
+    return None
+
+
 def analyze_market(ticker):
     print("\n" + "=" * 45)
     print(f"ANALIZA: {ticker}")
@@ -20,6 +33,7 @@ def analyze_market(ticker):
 
     try:
         # 1. POBIERANIE DANYCH
+
         stock = yf.Ticker(ticker)
 
         data = stock.history(
@@ -35,6 +49,7 @@ def analyze_market(ticker):
             return reject_data(ticker, "Brak kolumny Close.")
 
         # 2. CZYSZCZENIE DANYCH
+
         data = data.copy()
         data = data.sort_index()
         data = data[~data.index.duplicated(keep="last")]
@@ -46,11 +61,12 @@ def analyze_market(ticker):
 
         data = data.dropna(subset=["Close"])
 
-        # Usuwanie nieprawidlowych cen
         data = data[
             data["Close"].map(
-                lambda value: math.isfinite(float(value))
-                and float(value) > 0
+                lambda value: (
+                    math.isfinite(float(value))
+                    and float(value) > 0
+                )
             )
         ]
 
@@ -60,10 +76,17 @@ def analyze_market(ticker):
         data["Volume"] = pd.to_numeric(
             data["Volume"],
             errors="coerce"
-        ).fillna(0)
+        )
 
-        if (data["Volume"] < 0).any():
+        if data["Volume"].dropna().lt(0).any():
             return reject_data(ticker, "Ujemny wolumen.")
+
+        data["Volume"] = data["Volume"].fillna(0)
+
+        if not data["Volume"].map(
+            lambda value: math.isfinite(float(value))
+        ).all():
+            return reject_data(ticker, "Nieprawidlowy wolumen.")
 
         if len(data) < MIN_SESSIONS:
             return reject_data(
@@ -72,7 +95,9 @@ def analyze_market(ticker):
             )
 
         # 3. KONTROLA AKTUALNOSCI
+
         latest = data.iloc[-1]
+
         latest_date = pd.Timestamp(latest.name).date()
         today = pd.Timestamp.now(tz="UTC").date()
 
@@ -93,11 +118,13 @@ def analyze_market(ticker):
         close = data["Close"]
         volume = data["Volume"]
 
-        # 4. SREDNIE KROCZACE
+        # 4. SMA
+
         data["SMA20"] = close.rolling(20).mean()
         data["SMA50"] = close.rolling(50).mean()
 
         # 5. RSI
+
         delta = close.diff()
 
         gain = delta.clip(lower=0)
@@ -130,8 +157,16 @@ def analyze_market(ticker):
         ] = 50
 
         # 6. MACD
-        ema12 = close.ewm(span=12, adjust=False).mean()
-        ema26 = close.ewm(span=26, adjust=False).mean()
+
+        ema12 = close.ewm(
+            span=12,
+            adjust=False
+        ).mean()
+
+        ema26 = close.ewm(
+            span=26,
+            adjust=False
+        ).mean()
 
         data["MACD"] = ema12 - ema26
 
@@ -141,30 +176,40 @@ def analyze_market(ticker):
         ).mean()
 
         # 7. WOLUMEN
-        data["AVG_VOLUME"] = volume.shift(1).rolling(20).mean()
+
+        data["AVG_VOLUME"] = (
+            volume.shift(1).rolling(20).mean()
+        )
 
         # 8. OSTATNIA SESJA
+
         latest = data.iloc[-1]
         previous = data.iloc[-2]
 
-        price = float(latest["Close"])
-        previous_price = float(previous["Close"])
+        price = safe_float(latest["Close"])
+        previous_price = safe_float(previous["Close"])
+
+        if price is None or previous_price is None:
+            return reject_data(ticker, "Nieprawidlowa cena.")
 
         if previous_price <= 0:
             return reject_data(ticker, "Nieprawidlowa cena poprzedniej sesji.")
 
-        sma20 = float(latest["SMA20"])
-        sma50 = float(latest["SMA50"])
-        rsi = float(latest["RSI"])
-        macd = float(latest["MACD"])
-        macd_signal = float(latest["SIGNAL"])
+        sma20 = safe_float(latest["SMA20"])
+        sma50 = safe_float(latest["SMA50"])
+        rsi = safe_float(latest["RSI"])
+        macd = safe_float(latest["MACD"])
+        macd_signal = safe_float(latest["SIGNAL"])
 
         required_values = [
-            price, previous_price, sma20,
-            sma50, rsi, macd, macd_signal
+            sma20,
+            sma50,
+            rsi,
+            macd,
+            macd_signal
         ]
 
-        if not all(math.isfinite(value) for value in required_values):
+        if any(value is None for value in required_values):
             return reject_data(
                 ticker,
                 "Nie mozna obliczyc wszystkich wskaznikow."
@@ -176,122 +221,211 @@ def analyze_market(ticker):
         change = (price / previous_price - 1) * 100
 
         # 9. MOMENTUM
-        momentum_5d = (
-            price / float(close.iloc[-6]) - 1
-        ) * 100
 
-        momentum_20d = (
-            price / float(close.iloc[-21]) - 1
-        ) * 100
+        price_5d = safe_float(close.iloc[-6])
+        price_20d = safe_float(close.iloc[-21])
 
-        # 10. ZMIENNOSC ROCZNA
+        if not price_5d or not price_20d:
+            return reject_data(ticker, "Brak danych momentum.")
+
+        momentum_5d = (price / price_5d - 1) * 100
+        momentum_20d = (price / price_20d - 1) * 100
+
+        # 10. ZMIENNOSC
+
         daily_returns = close.pct_change()
 
-        volatility = (
+        volatility = safe_float(
             daily_returns.tail(20).std()
             * math.sqrt(252)
             * 100
         )
 
-        volatility = float(volatility)
-
-        if not math.isfinite(volatility):
+        if volatility is None:
             return reject_data(ticker, "Nieprawidlowa zmiennosc.")
 
         # 11. WOLUMEN
-        avg_volume = float(latest["AVG_VOLUME"])
-        current_volume = float(latest["Volume"])
+
+        avg_volume = safe_float(latest["AVG_VOLUME"])
+        current_volume = safe_float(latest["Volume"])
 
         volume_ratio = None
 
-        if math.isfinite(avg_volume) and avg_volume > 0:
+        if (
+            avg_volume is not None
+            and avg_volume > 0
+            and current_volume is not None
+        ):
             volume_ratio = current_volume / avg_volume
 
+            if not math.isfinite(volume_ratio):
+                volume_ratio = None
+
         # 12. TREND
+
         if price > sma20 > sma50:
             trend = "WZROSTOWY"
+
         elif price < sma20 < sma50:
             trend = "SPADKOWY"
+
         else:
             trend = "BOCZNY"
 
-        # 13. POTWIERDZENIE SYGNALU
+        # 13. POTWIERDZENIE
+
         confirmation = (
             (data["Close"] > data["SMA20"])
             & (data["SMA20"] > data["SMA50"])
             & (data["MACD"] > data["SIGNAL"])
         )
 
-        confirmed_days = int(confirmation.tail(3).sum())
+        confirmed_days = int(
+            confirmation.tail(3).sum()
+        )
 
-        # 14. SYSTEM PUNKTOWY
-        score = 0
+        # 14. OCENA BAZOWA
+
+        raw_score = 0
+
+        strengths = []
 
         if price > sma20:
-            score += 1
+            raw_score += 1
+            strengths.append("Cena powyzej SMA20")
 
         if sma20 > sma50:
-            score += 1
+            raw_score += 1
+            strengths.append("SMA20 powyzej SMA50")
 
-        if float(data["SMA20"].iloc[-1]) > float(
-            data["SMA20"].iloc[-6]
-        ):
-            score += 1
+        if data["SMA20"].iloc[-1] > data["SMA20"].iloc[-6]:
+            raw_score += 1
+            strengths.append("Rosnaca SMA20")
 
         if macd > macd_signal:
-            score += 2
+            raw_score += 2
+            strengths.append("MACD powyzej linii sygnalowej")
 
         if 50 <= rsi <= 65:
-            score += 2
+            raw_score += 2
+            strengths.append("RSI w korzystnym przedziale")
+
         elif 40 <= rsi < 50 or 65 < rsi <= 70:
-            score += 1
+            raw_score += 1
 
         if momentum_5d > 0:
-            score += 1
+            raw_score += 1
+            strengths.append("Dodatnie momentum 5 dni")
 
         if momentum_20d > 0:
-            score += 1
+            raw_score += 1
+            strengths.append("Dodatnie momentum 20 dni")
 
         if (
             volume_ratio is not None
             and volume_ratio >= 1.2
             and change > 0
         ):
-            score += 1
+            raw_score += 1
+            strengths.append("Wzrost przy podwyzszonym wolumenie")
 
-        # 15. SYGNAL
+        # 15. KARY ZA PODWYZSZONE RYZYKO
+
+        penalties = []
+        risk_factors = []
+
+        penalty = 0
+
+        if rsi > 80:
+            penalty += 2
+            penalties.append("Silne wykupienie RSI: -2")
+            risk_factors.append("RSI powyzej 80")
+
+        elif rsi > 70:
+            penalty += 1
+            penalties.append("Wykupienie RSI: -1")
+            risk_factors.append("RSI powyzej 70")
+
+        if change >= 10:
+            penalty += 2
+            penalties.append("Ekstremalny wzrost dzienny: -2")
+            risk_factors.append("Ekstremalny wzrost dzienny")
+
+        elif change >= 5:
+            penalty += 1
+            penalties.append("Mocny wzrost dzienny: -1")
+            risk_factors.append("Mocny wzrost dzienny")
+
+        if (
+            volume_ratio is not None
+            and volume_ratio >= 4
+        ):
+            penalty += 1
+            penalties.append("Ekstremalny wolumen: -1")
+            risk_factors.append("Wolumen ponad 4x sredniej")
+
+        if volatility >= 60:
+            penalty += 2
+            penalties.append("Bardzo wysoka zmiennosc: -2")
+            risk_factors.append("Zmiennosc powyzej 60%")
+
+        elif volatility >= 40:
+            penalty += 1
+            penalties.append("Wysoka zmiennosc: -1")
+            risk_factors.append("Zmiennosc powyzej 40%")
+
+        score = max(0, min(10, raw_score - penalty))
+
+        # 16. SYGNAL
+
         if score >= 7 and confirmed_days >= 2:
             signal = "POZYTYWNY"
+
         elif score >= 4:
             signal = "NEUTRALNY"
+
         else:
             signal = "NEGATYWNY"
 
-        # 16. RYZYKO
+        # 17. RYZYKO
+
         if (
             volatility >= 60
             or change <= -5
             or rsi < 25
+            or rsi > 85
+            or (
+                volume_ratio is not None
+                and volume_ratio >= 4
+                and abs(change) >= 5
+            )
         ):
             risk = "WYSOKIE"
 
         elif (
             volatility >= 40
             or change <= -3
+            or change >= 5
+            or rsi < 30
             or rsi > 75
+            or (
+                volume_ratio is not None
+                and volume_ratio >= 3
+            )
         ):
             risk = "PODWYZSZONE"
 
         else:
             risk = "UMIARKOWANE"
 
-        # 17. OSTRZEZENIA
+        # 18. OSTRZEZENIA
+
         warnings = []
 
         if change <= -4:
             warnings.append("MOCNY SPADEK DZIENNY")
 
-        if change >= 4:
+        if change >= 5:
             warnings.append("MOCNY WZROST DZIENNY")
 
         if rsi < 30:
@@ -303,14 +437,21 @@ def analyze_market(ticker):
         if volatility >= 60:
             warnings.append("BARDZO WYSOKA ZMIENNOSC")
 
+        elif volatility >= 40:
+            warnings.append("PODWYZSZONA ZMIENNOSC")
+
         if volume_ratio is not None and volume_ratio >= 1.5:
             warnings.append("WYSOKI WOLUMEN")
 
         if confirmed_days < 2:
             warnings.append("SYGNAL NIE MA POTWIERDZENIA")
 
-        # 18. RAPORT
-        print(f"Status danych: POPRAWNE")
+        if penalties:
+            warnings.append("ZASTOSOWANO KARY PUNKTOWE")
+
+        # 19. RAPORT
+
+        print("Status danych: POPRAWNE")
         print(f"Data notowan: {latest_date}")
         print(f"Wiek danych: {age_days} dni")
         print(f"Liczba sesji: {len(data)}")
@@ -335,8 +476,25 @@ def analyze_market(ticker):
 
         print(f"\nTrend: {trend}")
         print(f"Ocena: {signal}")
-        print(f"Wynik: {score}/10")
+        print(f"Wynik bazowy: {raw_score}/10")
+        print(f"Kary: -{penalty}")
+        print(f"Wynik koncowy: {score}/10")
         print(f"Ryzyko: {risk}")
+
+        if strengths:
+            print("\nMOCNE STRONY:")
+            for item in strengths:
+                print(f"- {item}")
+
+        if penalties:
+            print("\nKARY PUNKTOWE:")
+            for item in penalties:
+                print(f"- {item}")
+
+        if risk_factors:
+            print("\nCZYNNIKI RYZYKA:")
+            for item in risk_factors:
+                print(f"- {item}")
 
         if warnings:
             print("\nOSTRZEZENIA:")
@@ -344,6 +502,8 @@ def analyze_market(ticker):
                 print(f"- {warning}")
         else:
             print("\nBrak ostrzezen.")
+
+        # 20. WYNIK DLA POZOSTALYCH MODULOW
 
         return {
             "ticker": ticker,
@@ -354,6 +514,8 @@ def analyze_market(ticker):
             "trend": trend,
             "signal": signal,
             "score": score,
+            "raw_score": raw_score,
+            "score_penalty": penalty,
             "risk": risk,
             "macd": round(macd, 4),
             "volume_ratio": (
@@ -367,7 +529,10 @@ def analyze_market(ticker):
             "data_status": "OK",
             "data_age_days": age_days,
             "sessions_count": len(data),
-            "warnings": warnings
+            "strengths": strengths,
+            "risk_factors": risk_factors,
+            "warnings": warnings,
+            "penalties": penalties
         }
 
     except Exception as error:
