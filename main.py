@@ -1,6 +1,7 @@
 
 import os
 import json
+import math
 import urllib.request
 import urllib.error
 from datetime import datetime
@@ -10,38 +11,43 @@ from instruments import INSTRUMENTS
 from performance import update_performance
 
 PROJECT_NAME = "MARKET AI"
-VERSION = "10.0"
+VERSION = "11.0"
 
+VIRTUAL_CAPITAL = 20000.00
+RESERVE_AMOUNT = 2000.00
+INVESTMENT_BUDGET = VIRTUAL_CAPITAL - RESERVE_AMOUNT
 
-# Im wyższy priorytet, tym wyżej instrument w rankingu.
 SIGNAL_PRIORITY = {
     "POZYTYWNY": 3,
     "NEUTRALNY": 2,
     "NEGATYWNY": 1
 }
 
-# Niższe ryzyko ma pierwszeństwo.
 RISK_PRIORITY = {
     "UMIARKOWANE": 1,
     "PODWYZSZONE": 2,
     "WYSOKIE": 3
 }
 
+RISK_FACTOR = {
+    "UMIARKOWANE": 1.00,
+    "PODWYZSZONE": 0.80,
+    "WYSOKIE": 0.55
+}
+
 
 def ranking_key(item):
-    signal = item.get("signal", "BRAK")
-    risk = item.get("risk", "NIEZNANE")
-
-    signal_priority = SIGNAL_PRIORITY.get(signal, 0)
-    risk_priority = RISK_PRIORITY.get(risk, 99)
-
     return (
-        signal_priority,
+        SIGNAL_PRIORITY.get(item.get("signal"), 0),
         item.get("score", 0),
         item.get("confirmed_days", 0),
-        -risk_priority,
+        -RISK_PRIORITY.get(item.get("risk"), 99),
         item.get("change", 0)
     )
+
+
+def money(value):
+    return f"{value:,.2f} PLN".replace(",", " ").replace(".", ",")
 
 
 def format_performance(statistics):
@@ -53,18 +59,28 @@ def format_performance(statistics):
         for horizon, values in horizons.items():
             if values["count"] == 0:
                 lines.append(f"{horizon}: za malo danych")
-            else:
-                lines.append(
-                    f"{horizon}: srednio "
-                    f"{values['average']:+.2f}% | "
-                    f"dodatnie wyniki: {values['positive']}% "
-                    f"({values['count']} prob)"
-                )
+                continue
+
+            median = values.get("median")
+
+            median_text = (
+                f" | mediana: {median:+.2f}%"
+                if median is not None
+                else ""
+            )
+
+            lines.append(
+                f"{horizon}: srednio "
+                f"{values['average']:+.2f}%"
+                f"{median_text} | "
+                f"dodatnie wyniki: {values['positive']}% "
+                f"({values['count']} prob)"
+            )
 
     return "\n".join(lines)
 
 
-def format_signal_summary(results):
+def get_signal_summary(results):
     counts = {
         "POZYTYWNY": 0,
         "NEUTRALNY": 0,
@@ -72,7 +88,7 @@ def format_signal_summary(results):
     }
 
     for item in results:
-        signal = item.get("signal", "BRAK")
+        signal = item.get("signal")
 
         if signal in counts:
             counts[signal] += 1
@@ -84,63 +100,261 @@ def format_signal_summary(results):
     )
 
 
-def send_discord_report(ranking, results, failed, statistics):
+def select_finalists(ranking):
+    candidates = []
+
+    for item in ranking:
+        if item.get("signal") != "POZYTYWNY":
+            continue
+
+        if item.get("score", 0) < 7:
+            continue
+
+        if item.get("confirmed_days", 0) < 2:
+            continue
+
+        try:
+            price = float(item["price"])
+
+            if not math.isfinite(price) or price <= 0:
+                continue
+
+        except (KeyError, TypeError, ValueError):
+            continue
+
+        candidates.append(item)
+
+    return candidates[:3]
+
+
+def calculate_allocations(finalists):
+    if not finalists:
+        return []
+
+    # Wagi uwzgledniaja punktacje, potwierdzenie i ryzyko.
+    raw_weights = []
+
+    for item in finalists:
+        score_factor = item.get("score", 0) / 10
+
+        confirmation_factor = (
+            0.70 + 0.10 * item.get("confirmed_days", 0)
+        )
+
+        risk_factor = RISK_FACTOR.get(
+            item.get("risk"),
+            0.55
+        )
+
+        weight = (
+            score_factor
+            * confirmation_factor
+            * risk_factor
+        )
+
+        raw_weights.append(max(weight, 0.01))
+
+    total_weight = sum(raw_weights)
+
+    allocations = []
+
+    for item, weight in zip(finalists, raw_weights):
+        share = weight / total_weight
+        amount = INVESTMENT_BUDGET * share
+
+        price = float(item["price"])
+        shares = math.floor(amount / price)
+        cost = shares * price
+
+        allocations.append({
+            "ticker": item["ticker"],
+            "price": price,
+            "score": item.get("score", 0),
+            "signal": item.get("signal"),
+            "risk": item.get("risk"),
+            "confirmed_days": item.get("confirmed_days", 0),
+            "amount": amount,
+            "shares": shares,
+            "cost": cost,
+            "unused": amount - cost
+        })
+
+    return allocations
+
+
+def calculate_portfolio_summary(allocations):
+    total_cost = sum(item["cost"] for item in allocations)
+    remaining = VIRTUAL_CAPITAL - total_cost
+
+    if not allocations:
+        risk = "BRAK POZYCJI"
+    else:
+        risk_levels = [
+            RISK_PRIORITY.get(item["risk"], 3)
+            for item in allocations
+        ]
+
+        average_risk = sum(risk_levels) / len(risk_levels)
+
+        if average_risk <= 1.3:
+            risk = "UMIARKOWANE"
+        elif average_risk <= 2.3:
+            risk = "PODWYZSZONE"
+        else:
+            risk = "WYSOKIE"
+
+    return {
+        "total_cost": total_cost,
+        "remaining": remaining,
+        "risk": risk
+    }
+
+
+def format_top10(ranking):
+    if not ranking:
+        return "Brak poprawnych analiz."
+
+    lines = []
+
+    for position, item in enumerate(ranking[:10], start=1):
+        lines.append(
+            f"**{position}. {item['ticker']}** | "
+            f"{item['score']}/10 | "
+            f"{item['signal']} | "
+            f"Ryzyko: {item['risk']} | "
+            f"Potwierdzenie: "
+            f"{item.get('confirmed_days', 0)}/3 | "
+            f"{item['change']:+.2f}%"
+        )
+
+    return "\n".join(lines)
+
+
+def format_finalists(finalists, allocations):
+    if not allocations:
+        return (
+            "Brak trzech odpowiednich kandydatow. "
+            "Kapital pozostaje wirtualna gotowka."
+        )
+
+    lines = []
+
+    for position, (item, allocation) in enumerate(
+        zip(finalists, allocations),
+        start=1
+    ):
+        lines.append(
+            f"**{position}. {item['ticker']}**\n"
+            f"Ocena: {item['score']}/10 | "
+            f"Ryzyko: {item['risk']}\n"
+            f"Potwierdzenie: "
+            f"{item.get('confirmed_days', 0)}/3\n"
+            f"Cena: {money(allocation['price'])}\n"
+            f"Wirtualny zakup: {allocation['shares']} szt.\n"
+            f"Wartosc: {money(allocation['cost'])}"
+        )
+
+        warnings = item.get("warnings", [])
+
+        if warnings:
+            lines.append(
+                "Uwagi: " + "; ".join(warnings[:3])
+            )
+
+    return "\n\n".join(lines)
+
+
+def format_portfolio(allocations, summary):
+    lines = [
+        f"Kapital poczatkowy: {money(VIRTUAL_CAPITAL)}",
+        f"Przydzielony budzet: {money(INVESTMENT_BUDGET)}",
+        f"Szacowana wartosc zakupow: "
+        f"{money(summary['total_cost'])}",
+        f"Pozostala gotowka: {money(summary['remaining'])}",
+        f"Ocena ryzyka: {summary['risk']}"
+    ]
+
+    if not allocations:
+        lines.append("Nie zaproponowano zadnych pozycji.")
+
+    return "\n".join(lines)
+
+
+def send_discord_report(
+    ranking,
+    finalists,
+    allocations,
+    summary,
+    results,
+    failed,
+    statistics
+):
     webhook_url = os.getenv("DISCORD_WEBHOOK")
 
     if not webhook_url:
         print("\nDISCORD: Brak skonfigurowanego webhooka.")
         return
 
-    top_10 = ranking[:10]
-
-    if top_10:
-        description = "\n".join(
-            f"**{i}. {item['ticker']}** | "
-            f"{item['score']}/10 | "
-            f"{item['signal']} | "
-            f"Ryzyko: {item['risk']} | "
-            f"Potwierdzenie: {item.get('confirmed_days', 0)}/3 | "
-            f"{item['change']:+.2f}%"
-            for i, item in enumerate(top_10, start=1)
-        )
-    else:
-        description = "Nie udało się przeanalizować żadnych instrumentów."
-
-    performance_text = format_performance(statistics)
-
     embed = {
-        "title": f"{PROJECT_NAME} v{VERSION} - RAPORT",
-        "description": description,
+        "title": f"{PROJECT_NAME} v{VERSION} - FINALNA ANALIZA SIGG",
+        "description": (
+            "**TOP 10 RYNKU**\n\n"
+            + format_top10(ranking)
+        )[:4000],
         "color": 5793266,
         "fields": [
             {
-                "name": "Udane analizy",
-                "value": str(len(results)),
+                "name": "FINALNA TOP 3",
+                "value": format_finalists(
+                    finalists,
+                    allocations
+                )[:1024],
+                "inline": False
+            },
+            {
+                "name": "WIRTUALNY PORTFEL",
+                "value": format_portfolio(
+                    allocations,
+                    summary
+                )[:1024],
+                "inline": False
+            },
+            {
+                "name": "ROZKLAD SYGNALOW",
+                "value": get_signal_summary(results),
                 "inline": True
             },
             {
-                "name": "Nieudane analizy",
-                "value": str(len(failed)),
+                "name": "WYNIKI ANALIZ",
+                "value": (
+                    f"Udane: {len(results)}\n"
+                    f"Nieudane: {len(failed)}\n"
+                    f"Instrumenty: {len(INSTRUMENTS)}"
+                ),
                 "inline": True
             },
             {
-                "name": "Przeanalizowane instrumenty",
-                "value": str(len(INSTRUMENTS)),
-                "inline": True
+                "name": "HISTORYCZNA SKUTECZNOSC",
+                "value": format_performance(statistics)[:1024]
+                or "Brak danych",
+                "inline": False
             },
             {
-                "name": "Rozkład sygnałów",
-                "value": format_signal_summary(results),
-                "inline": True
-            },
-            {
-                "name": "Skuteczność wcześniejszych analiz",
-                "value": performance_text[:1024] or "Brak danych",
+                "name": "WAŻNE INFORMACJE",
+                "value": (
+                    "Raport edukacyjny i symulacyjny SIGG. "
+                    "Podzial kapitalu jest propozycja modelu, "
+                    "nie gwarancja wyniku. "
+                    "Bot nie sklada zlecen."
+                ),
                 "inline": False
             }
         ],
         "footer": {
-            "text": "MARKET AI 10.0 | Ranking wedlug priorytetu sygnalu"
+            "text": (
+                "MARKET AI 11.0 | "
+                "Analiza automatyczna | SIGG"
+            )
         },
         "timestamp": datetime.now().astimezone().isoformat()
     }
@@ -157,7 +371,7 @@ def send_discord_report(ranking, results, failed, statistics):
         data=data,
         headers={
             "Content-Type": "application/json",
-            "User-Agent": "MARKET-AI/10.0"
+            "User-Agent": "MARKET-AI/11.0"
         },
         method="POST"
     )
@@ -167,26 +381,30 @@ def send_discord_report(ranking, results, failed, statistics):
             print(f"\nDISCORD: Status HTTP {response.status}")
 
             if response.status in (200, 204):
-                print("DISCORD: Raport wysłany pomyślnie.")
+                print("DISCORD: Raport wyslany pomyslnie.")
 
     except urllib.error.HTTPError as error:
-        details = error.read().decode("utf-8", errors="replace")
-        print(f"\nDISCORD: Błąd HTTP: {error.code}")
-        print(f"DISCORD SZCZEGÓŁY: {details}")
+        details = error.read().decode(
+            "utf-8",
+            errors="replace"
+        )
+
+        print(f"\nDISCORD: Blad HTTP: {error.code}")
+        print(f"DISCORD SZCZEGOLY: {details}")
 
     except urllib.error.URLError as error:
-        print(f"\nDISCORD: Błąd połączenia: {error.reason}")
+        print(f"\nDISCORD: Blad polaczenia: {error.reason}")
 
     except Exception as error:
-        print(f"\nDISCORD: Nieoczekiwany błąd: {error}")
+        print(f"\nDISCORD: Nieoczekiwany blad: {error}")
 
 
 def start():
-    print("=" * 60)
+    print("=" * 65)
     print(f"{PROJECT_NAME} v{VERSION}")
     print(f"Data analizy: {datetime.now()}")
     print(f"Liczba instrumentow: {len(INSTRUMENTS)}")
-    print("=" * 60)
+    print("=" * 65)
 
     results = []
     failed = []
@@ -194,11 +412,16 @@ def start():
     print("\nROZPOCZYNAM ANALIZE RYNKU")
 
     for ticker in INSTRUMENTS:
-        result = analyze_market(ticker)
+        try:
+            result = analyze_market(ticker)
 
-        if result is not None:
-            results.append(result)
-        else:
+            if result is not None:
+                results.append(result)
+            else:
+                failed.append(ticker)
+
+        except Exception as error:
+            print(f"BLAD ANALIZY {ticker}: {error}")
             failed.append(ticker)
 
     print("\n" + "=" * 75)
@@ -217,26 +440,46 @@ def start():
             f"{item['signal']} | "
             f"{item['score']}/10 | "
             f"RYZYKO: {item['risk']} | "
-            f"POTWIERDZENIE: {item.get('confirmed_days', 0)}/3 | "
+            f"POTWIERDZENIE: "
+            f"{item.get('confirmed_days', 0)}/3 | "
             f"{item['change']:+.2f}%"
+        )
+
+    print("\nWYBIERANIE FINALNEJ TOP 3")
+
+    finalists = select_finalists(ranking)
+    allocations = calculate_allocations(finalists)
+    summary = calculate_portfolio_summary(allocations)
+
+    print(f"Wybrani kandydaci: {len(finalists)}")
+
+    for item in allocations:
+        print(
+            f"{item['ticker']}: "
+            f"{item['shares']} szt. | "
+            f"{money(item['cost'])} | "
+            f"Ryzyko: {item['risk']}"
         )
 
     print("\nPODSUMOWANIE")
     print(f"Udane analizy: {len(results)}")
     print(f"Nieudane analizy: {len(failed)}")
-    print("\nROZKLAD SYGNALOW")
-    print(format_signal_summary(results))
+    print(f"Ocena ryzyka portfela: {summary['risk']}")
+    print(f"Pozostala gotowka: {money(summary['remaining'])}")
 
     if failed:
         print("\nINSTRUMENTY BEZ DANYCH:")
         for ticker in failed:
             print(f"- {ticker}")
 
-    print("\nAKTUALIZACJA HISTORII I TESTOWANIE ANALIZ")
+    print("\nAKTUALIZACJA HISTORII")
     statistics = update_performance(results)
 
     send_discord_report(
         ranking,
+        finalists,
+        allocations,
+        summary,
         results,
         failed,
         statistics
