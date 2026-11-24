@@ -44,5 +44,28 @@
             }
         ],
         "forward_returns": {}
+    },
+    {
+        "date": "2026-11-24",
+        "capital": 20000.0,
+        "cash": 2055.0600000000013,
+        "positions": [
+            {
+                "ticker": "STX.WA",
+                "price": 2.05,
+                "shares": 2926
+            },
+            {
+                "ticker": "ARH.WA",
+                "price": 53.0,
+                "shares": 113
+            },
+            {
+                "ticker": "PCO.WA",
+                "price": 50.92,
+                "shares": 117
+            }
+        ],
+        "forward_returns": {}
     }
 ]
