@@ -21,5 +21,28 @@
             }
         ],
         "forward_returns": {}
+    },
+    {
+        "date": "2026-11-20",
+        "capital": 20000.0,
+        "cash": 2063.8199999999997,
+        "positions": [
+            {
+                "ticker": "ALE.WA",
+                "price": 64.58,
+                "shares": 92
+            },
+            {
+                "ticker": "MUR.WA",
+                "price": 37.95,
+                "shares": 158
+            },
+            {
+                "ticker": "STX.WA",
+                "price": 2.08,
+                "shares": 2884
+            }
+        ],
+        "forward_returns": {}
     }
 ]
