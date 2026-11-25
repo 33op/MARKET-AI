@@ -7,7 +7,7 @@ import pandas as pd
 import yfinance as yf
 
 
-VERSION = "16.2"
+VERSION = "16.3"
 
 INITIAL_CAPITAL = 20000.0
 MAX_POSITIONS = 3
