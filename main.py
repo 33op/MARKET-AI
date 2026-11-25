@@ -1,9 +1,9 @@
 
 import os
 import math
+import json
 import urllib.request
 import urllib.error
-import json
 from datetime import datetime
 
 import yfinance as yf
@@ -25,13 +25,14 @@ from portfolio import (
 # ============================================================
 
 PROJECT_NAME = "MARKET AI"
-VERSION = "16.0"
+VERSION = "16.2"
 
 VIRTUAL_CAPITAL = 20000.00
 RESERVE_AMOUNT = 2000.00
 INVESTMENT_BUDGET = VIRTUAL_CAPITAL - RESERVE_AMOUNT
 
 MAX_CANDIDATES_FOR_DIVERSIFICATION = 30
+MAX_POSITIONS = 3
 
 CORRELATION_PERIOD = "6mo"
 HIGH_CORRELATION = 0.85
@@ -46,7 +47,10 @@ DISCORD_WEBHOOK = os.getenv("DISCORD_WEBHOOK")
 
 def money(value):
     try:
-        return f"{float(value):,.2f} PLN".replace(",", " ")
+        return (
+            f"{float(value):,.2f} PLN"
+            .replace(",", " ")
+        )
     except (TypeError, ValueError):
         return "BRAK DANYCH"
 
@@ -54,8 +58,10 @@ def money(value):
 def safe_float(value, default=0.0):
     try:
         number = float(value)
+
         if math.isfinite(number):
             return number
+
     except (TypeError, ValueError):
         pass
 
@@ -108,7 +114,9 @@ def get_signal_summary(results):
     }
 
     for result in results:
-        signal = str(result.get("signal", "")).upper()
+        signal = str(
+            result.get("signal", "")
+        ).upper()
 
         if signal in summary:
             summary[signal] += 1
@@ -117,79 +125,129 @@ def get_signal_summary(results):
 
 
 # ============================================================
-# FORMATOWANIE BACKTESTU v16.0
+# FORMATOWANIE BACKTESTU v16.2
 # ============================================================
 
-def format_simulation_period(title, data):
-    if not data:
-        return f"**{title}**\nBrak wyników."
-
-    lines = [
-        f"**{title}**",
-        f"Kapitał początkowy: {money(data.get('initial_capital'))}",
-        f"Kapitał końcowy: {money(data.get('final_equity'))}",
-        f"Wynik: {safe_float(data.get('return')):+.2f}%",
-        f"Maksymalne obsunięcie: {safe_float(data.get('max_drawdown')):.2f}%",
-        f"Liczba transakcji: {int(safe_float(data.get('trades')))}"
-    ]
-
-    win_rate = data.get("win_rate")
-    average_trade = data.get("average_trade")
-
-    if win_rate is not None:
-        lines.append(
-            f"Skuteczność transakcji: {safe_float(win_rate):.1f}%"
-        )
-
-    if average_trade is not None:
-        lines.append(
-            f"Średni wynik transakcji: {safe_float(average_trade):+.2f}%"
-        )
-
-    return "\n".join(lines)
-
-
 def format_backtest_results(results):
+    if not results:
+        return "Brak wyników backtestu."
+
     if not isinstance(results, dict):
-        return "Nieprawidłowy format wyników backtestu."
-
-    if results.get("error"):
-        return f"Błąd backtestu: {results['error']}"
-
-    train = results.get("train")
-    test = results.get("out_of_sample")
-    benchmark = results.get("benchmark")
+        return (
+            "Nieprawidłowy format wyników backtestu. "
+            "Oczekiwano raportu portfelowego."
+        )
 
     lines = [
-        f"**PORTFOLIO BACKTEST v{results.get('version', '16.0')}**",
+        f"**BACKTEST PORTFELOWY v{results.get('version', VERSION)}**",
         f"Instrumenty: {results.get('instruments', 0)}",
-        f"Okres testowy: {results.get('test_start', '?')} - {results.get('test_end', '?')}",
-        "",
-        format_simulation_period("OKRES PROJEKTOWY", train),
-        "",
-        format_simulation_period("TEST POZA PRÓBĄ", test),
-        "",
-        "**PORÓWNANIE Z WIG**"
+        f"Liczba sesji: {results.get('calendar_sessions', 0)}",
+        ""
     ]
 
-    if test and benchmark is not None:
-        strategy_return = safe_float(test.get("return"))
-        difference = strategy_return - safe_float(benchmark)
+    test_start = results.get("test_start")
+    test_end = results.get("test_end")
+
+    if test_start is not None and test_end is not None:
+        lines.append(
+            f"Okres testowy: {test_start.date()} - "
+            f"{test_end.date()}"
+        )
+
+    comparison = results.get("holding_comparison", {})
+
+    if not comparison:
+        lines.append("Brak danych porównawczych.")
+        return "\n".join(lines)
+
+    lines.append("")
+    lines.append("**PORÓWNANIE CZASU TRZYMANIA POZYCJI**")
+
+    for holding in [1, 3, 5]:
+        item = comparison.get(holding)
+
+        if item is None:
+            item = comparison.get(str(holding))
+
+        if not item:
+            continue
+
+        train = item.get("train", {})
+        test = item.get("out_of_sample", {})
 
         lines.extend([
-            f"MARKET AI: {strategy_return:+.2f}%",
-            f"WIG: {safe_float(benchmark):+.2f}%",
-            f"Różnica: {difference:+.2f} pp"
+            "",
+            f"**TRZYMANIE: {holding} SESJI**",
+            (
+                f"Trening: "
+                f"{safe_float(train.get('return')):+.2f}% | "
+                f"Kapitał: "
+                f"{money(train.get('ending_capital', 0))}"
+            ),
+            (
+                f"Test OOS: "
+                f"{safe_float(test.get('return')):+.2f}% | "
+                f"Kapitał: "
+                f"{money(test.get('ending_capital', 0))}"
+            ),
+            (
+                f"Wynik brutto OOS: "
+                f"{safe_float(test.get('gross_return')):+.2f}%"
+            ),
+            (
+                f"Obsunięcie OOS: "
+                f"{safe_float(test.get('drawdown')):.2f}%"
+            ),
+            (
+                f"Transakcje: {test.get('trades', 0)} | "
+                f"Skuteczność: "
+                f"{safe_float(test.get('win_rate')):.1f}%"
+            ),
+            (
+                f"Średnia transakcja: "
+                f"{safe_float(test.get('average_trade')):+.2f} PLN"
+            )
         ])
-    else:
-        lines.append("Brak danych do porównania z WIG.")
+
+        profit_factor = safe_float(
+            test.get("profit_factor")
+        )
+
+        lines.append(
+            f"Profit factor: {profit_factor:.2f}"
+        )
+
+    benchmark = results.get("benchmark")
 
     lines.extend([
         "",
-        "Prowizje i poślizg uwzględnione według założeń symulacji.",
-        "Sygnał z poprzedniej sesji jest wykonywany na kolejnym zamknięciu.",
-        "Wyniki poza próbą są ważniejsze przy ocenie modelu.",
-        "Symulacja nie odwzorowuje dokładnie mechaniki SIGG."
+        "**PORÓWNANIE Z WIG**",
+        (
+            f"WIG: {benchmark:+.2f}%"
+            if benchmark is not None
+            else "WIG: brak danych"
+        )
+    ])
+
+    selected_holding = results.get(
+        "holding_sessions",
+        3
+    )
+
+    lines.extend([
+        "",
+        f"Domyślny wariant raportu: {selected_holding} sesje.",
+        (
+            f"Prowizja: "
+            f"{safe_float(results.get('commission_rate')) * 100:.2f}%"
+        ),
+        (
+            f"Poślizg: "
+            f"{safe_float(results.get('slippage_rate')) * 100:.2f}%"
+        ),
+        "",
+        "Wyniki historyczne nie gwarantują przyszłych wyników.",
+        "Symulacja edukacyjna SIGG, bez składania rzeczywistych zleceń."
     ])
 
     return "\n".join(lines)
@@ -203,8 +261,14 @@ def get_candidates(results):
     candidates = []
 
     for result in results:
-        signal = str(result.get("signal", "")).upper()
-        score = safe_float(result.get("score"))
+        signal = str(
+            result.get("signal", "")
+        ).upper()
+
+        score = safe_float(
+            result.get("score")
+        )
+
         confirmation = safe_float(
             result.get("confirmation_days")
         )
@@ -216,9 +280,14 @@ def get_candidates(results):
         ):
             candidates.append(result)
 
-    candidates.sort(key=ranking_key, reverse=True)
+    candidates.sort(
+        key=ranking_key,
+        reverse=True
+    )
 
-    return candidates[:MAX_CANDIDATES_FOR_DIVERSIFICATION]
+    return candidates[
+        :MAX_CANDIDATES_FOR_DIVERSIFICATION
+    ]
 
 
 # ============================================================
@@ -239,30 +308,76 @@ def download_correlation_data(tickers):
             threads=True
         )
 
-        if data.empty:
+        if data is None or data.empty:
             return pd.DataFrame()
 
         if isinstance(data.columns, pd.MultiIndex):
-            if "Close" not in data.columns.get_level_values(0):
+
+            level0 = data.columns.get_level_values(0)
+            level1 = data.columns.get_level_values(1)
+
+            if "Close" in level0:
+                prices = data.xs(
+                    "Close",
+                    axis=1,
+                    level=0
+                )
+
+            elif "Close" in level1:
+                prices = data.xs(
+                    "Close",
+                    axis=1,
+                    level=1
+                )
+
+            else:
                 return pd.DataFrame()
 
-            prices = data["Close"]
         else:
             if "Close" not in data.columns:
                 return pd.DataFrame()
 
-            prices = data["Close"]
+            prices = data[["Close"]].copy()
+
+            if len(tickers) == 1:
+                prices.columns = tickers
 
         if isinstance(prices, pd.Series):
             prices = prices.to_frame()
 
-        prices = prices.dropna(axis=1, how="all")
-        prices = prices.dropna()
+        prices.index = pd.to_datetime(prices.index)
 
+        if getattr(prices.index, "tz", None) is not None:
+            prices.index = prices.index.tz_localize(None)
+
+        prices.index = prices.index.normalize()
+
+        prices = prices[
+            ~prices.index.duplicated(keep="last")
+        ]
+
+        prices = prices.sort_index()
+
+        for column in prices.columns:
+            prices[column] = pd.to_numeric(
+                prices[column],
+                errors="coerce"
+            )
+
+        prices = prices.dropna(
+            axis=1,
+            how="all"
+        )
+
+        # Nie usuwamy całych sesji tylko dlatego,
+        # że jedna spółka nie miała notowań.
         return prices
 
     except Exception as error:
-        print(f"Błąd pobierania korelacji: {error}")
+        print(
+            f"Błąd pobierania korelacji: {error}"
+        )
+
         return pd.DataFrame()
 
 
@@ -275,17 +390,27 @@ def calculate_correlation_matrix(tickers):
     if prices.empty:
         return pd.DataFrame()
 
-    returns = prices.pct_change().dropna()
+    returns = prices.pct_change(fill_method=None)
 
-    if returns.empty:
-        return pd.DataFrame()
+    # Korelacja liczona parami.
+    # Brak notowań jednej spółki nie usuwa danych
+    # pozostałych instrumentów.
+    matrix = returns.corr(
+        min_periods=30
+    )
 
-    return returns.corr()
+    return matrix
 
 
 def get_correlation(matrix, ticker_a, ticker_b):
     try:
-        value = matrix.loc[ticker_a, ticker_b]
+        if matrix is None or matrix.empty:
+            return None
+
+        value = matrix.loc[
+            ticker_a,
+            ticker_b
+        ]
 
         if pd.isna(value):
             return None
@@ -302,7 +427,7 @@ def get_correlation(matrix, ticker_a, ticker_b):
 
 def select_diversified_candidates(candidates):
     if not candidates:
-        return [], "Brak odpowiednich kandydatów."
+        return [], [], ["Brak odpowiednich kandydatów."]
 
     tickers = [
         result.get("ticker")
@@ -314,27 +439,43 @@ def select_diversified_candidates(candidates):
 
     selected = []
     selected_sectors = set()
+
     details = []
+    rejection_reasons = []
 
     for candidate in candidates:
-        if len(selected) >= 3:
+
+        if len(selected) >= MAX_POSITIONS:
             break
 
         ticker = candidate.get("ticker")
 
         if not ticker:
+            rejection_reasons.append(
+                "Kandydat bez symbolu."
+            )
             continue
 
         sector = get_sector(ticker)
 
-        if not sector or sector == "NIEZWERYFIKOWANY":
-            continue
+        if not sector:
+            sector = "NIEZWERYFIKOWANY"
 
-        if sector in selected_sectors:
+        # Znany sektor może być użyty tylko raz.
+        # Nieznany sektor nie blokuje wyboru.
+        if (
+            sector != "NIEZWERYFIKOWANY"
+            and sector in selected_sectors
+        ):
+            rejection_reasons.append(
+                f"{ticker}: sektor {sector} "
+                f"jest już reprezentowany."
+            )
             continue
 
         acceptable = True
         correlations = []
+        warnings = []
 
         for chosen in selected:
             chosen_ticker = chosen.get("ticker")
@@ -346,35 +487,68 @@ def select_diversified_candidates(candidates):
             )
 
             if correlation is None:
-                acceptable = False
-                break
+                warnings.append(
+                    f"Brak danych korelacji z {chosen_ticker}."
+                )
+                continue
 
-            correlations.append((chosen_ticker, correlation))
+            correlations.append(
+                (chosen_ticker, correlation)
+            )
 
             if abs(correlation) >= HIGH_CORRELATION:
                 acceptable = False
+
+                rejection_reasons.append(
+                    f"{ticker}: zbyt wysoka korelacja "
+                    f"z {chosen_ticker} "
+                    f"({correlation:+.2f})."
+                )
+
                 break
+
+            if abs(correlation) >= MEDIUM_CORRELATION:
+                warnings.append(
+                    f"Podwyższona korelacja z "
+                    f"{chosen_ticker}: {correlation:+.2f}."
+                )
 
         if not acceptable:
             continue
 
         selected.append(candidate)
-        selected_sectors.add(sector)
+
+        if sector != "NIEZWERYFIKOWANY":
+            selected_sectors.add(sector)
 
         details.append({
             "ticker": ticker,
             "sector": sector,
-            "correlations": correlations
+            "correlations": correlations,
+            "warnings": warnings,
+            "correlation_data_available": bool(correlations)
         })
+
+        if sector == "NIEZWERYFIKOWANY":
+            rejection_reasons.append(
+                f"{ticker}: wybrano mimo nieznanego sektora."
+            )
+
+        for warning in warnings:
+            rejection_reasons.append(
+                f"{ticker}: {warning}"
+            )
 
     if not selected:
         return (
             [],
-            "Nie znaleziono kandydatów spełniających "
-            "warunki dywersyfikacji."
+            [],
+            rejection_reasons or [
+                "Nie znaleziono odpowiednich kandydatów."
+            ]
         )
 
-    return selected, details
+    return selected, details, rejection_reasons
 
 
 # ============================================================
@@ -389,19 +563,25 @@ def allocate_portfolio(selected):
             "reserve": RESERVE_AMOUNT
         }
 
-    budget_per_position = INVESTMENT_BUDGET / len(selected)
+    budget_per_position = (
+        INVESTMENT_BUDGET / len(selected)
+    )
 
     allocations = []
     invested = 0.0
 
     for result in selected:
         ticker = result.get("ticker")
-        price = safe_float(result.get("price"))
+        price = safe_float(
+            result.get("price")
+        )
 
         if not ticker or price <= 0:
             continue
 
-        shares = math.floor(budget_per_position / price)
+        shares = math.floor(
+            budget_per_position / price
+        )
 
         if shares <= 0:
             continue
@@ -420,11 +600,13 @@ def allocate_portfolio(selected):
 
     remaining = VIRTUAL_CAPITAL - invested
 
-    return allocations, {
+    summary = {
         "invested": invested,
         "remaining": remaining,
         "reserve": RESERVE_AMOUNT
     }
+
+    return allocations, summary
 
 
 # ============================================================
@@ -438,6 +620,7 @@ def print_portfolio(allocations, summary):
 
     if not allocations:
         print("Brak wybranych pozycji.")
+
     else:
         for position in allocations:
             print(
@@ -449,11 +632,71 @@ def print_portfolio(allocations, summary):
             )
 
     print("-" * 65)
-    print(f"Kapitał początkowy: {money(VIRTUAL_CAPITAL)}")
-    print(f"Zainwestowano:      {money(summary['invested'])}")
-    print(f"Pozostała gotówka:  {money(summary['remaining'])}")
-    print(f"Rezerwa planowana:  {money(summary['reserve'])}")
+
+    print(
+        f"Kapitał początkowy: "
+        f"{money(VIRTUAL_CAPITAL)}"
+    )
+
+    print(
+        f"Zainwestowano:      "
+        f"{money(summary['invested'])}"
+    )
+
+    print(
+        f"Pozostała gotówka:  "
+        f"{money(summary['remaining'])}"
+    )
+
+    print(
+        f"Rezerwa planowana:  "
+        f"{money(summary['reserve'])}"
+    )
+
     print("=" * 65)
+
+
+# ============================================================
+# FORMATOWANIE DYWERSYFIKACJI
+# ============================================================
+
+def format_selection_details(details, rejection_reasons):
+    lines = []
+
+    if details:
+        lines.append("WYBRANI KANDYDACI:")
+
+        for item in details:
+            lines.append(
+                f"{item['ticker']} | "
+                f"Sektor: {item['sector']}"
+            )
+
+            if item["correlations"]:
+                for other, correlation in item["correlations"]:
+                    lines.append(
+                        f"  Korelacja z {other}: "
+                        f"{correlation:+.2f}"
+                    )
+
+            else:
+                lines.append(
+                    "  Brak wystarczających danych korelacji."
+                )
+
+            for warning in item.get("warnings", []):
+                lines.append(
+                    f"  UWAGA: {warning}"
+                )
+
+    if rejection_reasons:
+        lines.append("")
+        lines.append("UWAGI DOTYCZĄCE DOBORU:")
+
+        for reason in rejection_reasons[:15]:
+            lines.append(f"- {reason}")
+
+    return "\n".join(lines) if lines else "Brak szczegółów."
 
 
 # ============================================================
@@ -462,17 +705,22 @@ def print_portfolio(allocations, summary):
 
 def send_discord_report(
     results,
+    selected,
     allocations,
     summary,
     signal_summary,
     performance_statistics,
     selection_details,
+    rejection_reasons,
     portfolio_statistics,
     portfolio_status,
     backtest_report
 ):
     if not DISCORD_WEBHOOK:
-        print("Brak DISCORD_WEBHOOK. Pomijam wysyłanie raportu.")
+        print(
+            "Brak DISCORD_WEBHOOK. "
+            "Pomijam wysyłanie raportu."
+        )
         return
 
     top10 = sorted(
@@ -484,14 +732,25 @@ def send_discord_report(
     top10_text = []
 
     for index, result in enumerate(top10, start=1):
+        ticker = result.get("ticker", "BRAK")
+        signal = result.get("signal", "BRAK")
+        score = safe_float(result.get("score"))
+        risk = result.get("risk", "BRAK")
+
+        confirmation = safe_float(
+            result.get("confirmation_days")
+        )
+
+        change = safe_float(
+            result.get("change")
+        )
+
         top10_text.append(
-            f"**{index}. {result.get('ticker', 'BRAK')}**\n"
-            f"{safe_float(result.get('score')):.0f}/10 | "
-            f"{result.get('signal', 'BRAK')} | "
-            f"Ryzyko: {result.get('risk', 'BRAK')} | "
-            f"Potwierdzenie: "
-            f"{result.get('confirmation_days', 0)}/3 | "
-            f"{safe_float(result.get('daily_change')):+.2f}%"
+            f"**{index}. {ticker}**\n"
+            f"{score:.0f}/10 | {signal} | "
+            f"Ryzyko: {risk} | "
+            f"Potwierdzenie: {confirmation:.0f}/3 | "
+            f"{change:+.2f}%"
         )
 
     selected_text = []
@@ -504,30 +763,33 @@ def send_discord_report(
             f"{position['sector']}"
         )
 
-    correlation_text = []
-
-    if isinstance(selection_details, list):
-        for item in selection_details:
-            for other_ticker, correlation in item["correlations"]:
-                correlation_text.append(
-                    f"{item['ticker']} / {other_ticker}: "
-                    f"{correlation:+.2f}"
-                )
+    correlation_text = format_selection_details(
+        selection_details,
+        rejection_reasons
+    )
 
     fields = [
         {
             "name": "TOP 10 RYNKU",
-            "value": "\n\n".join(top10_text)[:1024] or "Brak danych.",
+            "value": (
+                "\n\n".join(top10_text)[:1024]
+                if top10_text
+                else "Brak danych."
+            ),
             "inline": False
         },
         {
             "name": "WYBRANY PORTFEL TOP 3",
-            "value": "\n\n".join(selected_text)[:1024] or "Brak pozycji.",
+            "value": (
+                "\n\n".join(selected_text)[:1024]
+                if selected_text
+                else "Brak wybranych pozycji."
+            ),
             "inline": False
         },
         {
-            "name": "KORELACJE",
-            "value": "\n".join(correlation_text)[:1024] or "Brak danych korelacji.",
+            "name": "DYWERSYFIKACJA I KORELACJE",
+            "value": correlation_text[:1024],
             "inline": False
         },
         {
@@ -550,33 +812,46 @@ def send_discord_report(
             "inline": True
         },
         {
-            "name": "HISTORYCZNA SKUTECZNOŚĆ",
-            "value": format_performance(performance_statistics)[:1024],
+            "name": "HISTORYCZNA SKUTECZNOŚĆ SYGNAŁÓW",
+            "value": format_performance(
+                performance_statistics
+            )[:1024],
             "inline": False
         },
         {
             "name": "PORTFEL VS WIG",
             "value": (
-                portfolio_status
+                str(portfolio_status)
                 + "\n\n"
-                + format_portfolio_statistics(portfolio_statistics)
+                + format_portfolio_statistics(
+                    portfolio_statistics
+                )
             )[:1024],
             "inline": False
         },
         {
-            "name": "BACKTEST PORTFELOWY v16.0",
-            "value": backtest_report[:1024],
+            "name": "BACKTEST PORTFELOWY v16.2",
+            "value": (
+                backtest_report[:1024]
+                if backtest_report
+                else "Brak danych backtestu."
+            ),
             "inline": False
         }
     ]
 
     payload = {
+        "username": "MARKET AI",
         "embeds": [
             {
-                "title": f"{PROJECT_NAME} v{VERSION} | RAPORT",
+                "title": (
+                    f"{PROJECT_NAME} v{VERSION} | RAPORT"
+                ),
                 "description": (
-                    f"Data analizy: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
-                    f"Przeanalizowane instrumenty: {len(results)}"
+                    f"Data analizy: "
+                    f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+                    f"Przeanalizowane instrumenty: "
+                    f"{len(results)}"
                 ),
                 "color": 3447003,
                 "fields": fields,
@@ -585,7 +860,8 @@ def send_discord_report(
                         "MARKET AI | Wirtualna symulacja SIGG | "
                         "Wyniki historyczne nie gwarantują przyszłych"
                     )
-                }
+                },
+                "timestamp": datetime.now().astimezone().isoformat()
             }
         ]
     }
@@ -596,20 +872,41 @@ def send_discord_report(
             data=json.dumps(payload).encode("utf-8"),
             headers={
                 "Content-Type": "application/json",
-                "User-Agent": "MARKET-AI"
+                "User-Agent": f"MARKET-AI/{VERSION}"
             },
             method="POST"
         )
 
-        with urllib.request.urlopen(request, timeout=20) as response:
-            print(f"Discord: raport wysłany. HTTP {response.status}")
+        with urllib.request.urlopen(
+            request,
+            timeout=20
+        ) as response:
+            print(
+                f"Discord: raport wysłany. "
+                f"HTTP {response.status}"
+            )
 
     except urllib.error.HTTPError as error:
-        print(f"Discord HTTP error: {error.code}")
-        print(error.read().decode("utf-8", errors="replace"))
+        print(
+            f"Discord HTTP error: {error.code}"
+        )
+
+        print(
+            error.read().decode(
+                "utf-8",
+                errors="replace"
+            )
+        )
+
+    except urllib.error.URLError as error:
+        print(
+            f"Discord connection error: {error.reason}"
+        )
 
     except Exception as error:
-        print(f"Discord error: {error}")
+        print(
+            f"Discord error: {error}"
+        )
 
 
 # ============================================================
@@ -620,27 +917,36 @@ def start():
     print("=" * 65)
     print(f"{PROJECT_NAME} v{VERSION}")
     print(f"Data analizy: {datetime.now()}")
+    print(f"Liczba instrumentów: {len(INSTRUMENTS)}")
     print("=" * 65)
 
     results = []
+    failed = []
 
-    print("\nROZPOCZYNAM ANALIZĘ RYNKU\n")
+    print("\nROZPOCZYNAM ANALIZĘ RYNKU")
 
-    for ticker in INSTRUMENTS:
-        print("-" * 45)
-        print(f"ANALIZA: {ticker}")
+    for index, ticker in enumerate(
+        INSTRUMENTS,
+        start=1
+    ):
+        print(
+            f"\n[{index}/{len(INSTRUMENTS)}] "
+            f"ANALIZA: {ticker}"
+        )
 
         try:
             result = analyze_market(ticker)
 
             if not result:
-                print(f"Odrzucono {ticker}: brak wyniku.")
+                failed.append(ticker)
+                print("Brak poprawnego wyniku.")
                 continue
 
             result["ticker"] = ticker
 
             if "score" not in result:
-                print(f"Odrzucono {ticker}: brak oceny.")
+                failed.append(ticker)
+                print("Brak punktacji.")
                 continue
 
             results.append(result)
@@ -648,123 +954,263 @@ def start():
             print(
                 f"Wynik: {result.get('score')}/10 | "
                 f"Sygnał: {result.get('signal')} | "
-                f"Ryzyko: {result.get('risk')}"
+                f"Ryzyko: {result.get('risk')} | "
+                f"Potwierdzenie: "
+                f"{result.get('confirmation_days', 0)}/3"
             )
 
         except Exception as error:
-            print(f"Błąd analizy {ticker}: {error}")
+            failed.append(ticker)
+
+            print(
+                f"Błąd analizy {ticker}: {error}"
+            )
 
     print("\n" + "=" * 65)
     print("KONIEC ANALIZY RYNKU")
     print("=" * 65)
 
     print(
-        f"Poprawnie przeanalizowane instrumenty: "
+        f"Poprawnie przeanalizowane: "
         f"{len(results)}/{len(INSTRUMENTS)}"
     )
 
+    print(
+        f"Nieudane analizy: {len(failed)}"
+    )
+
     if not results:
-        print("Brak wyników. Zatrzymuję analizę.")
+        print(
+            "Brak wyników. Zatrzymuję analizę."
+        )
         return
 
-    ranked_results = sorted(results, key=ranking_key, reverse=True)
+    # --------------------------------------------------------
+    # RANKING
+    # --------------------------------------------------------
+
+    ranked_results = sorted(
+        results,
+        key=ranking_key,
+        reverse=True
+    )
 
     print("\nTOP 10 RYNKU")
 
-    for index, result in enumerate(ranked_results[:10], start=1):
+    for index, result in enumerate(
+        ranked_results[:10],
+        start=1
+    ):
         print(
             f"{index}. {result.get('ticker')} | "
             f"{result.get('signal')} | "
             f"{result.get('score')}/10 | "
             f"RYZYKO: {result.get('risk')} | "
-            f"Potwierdzenie: {result.get('confirmation_days')}/3"
+            f"Potwierdzenie: "
+            f"{result.get('confirmation_days', 0)}/3"
         )
+
+    # --------------------------------------------------------
+    # PODSUMOWANIE SYGNAŁÓW
+    # --------------------------------------------------------
 
     signal_summary = get_signal_summary(results)
 
     print("\nPODSUMOWANIE SYGNAŁÓW")
-    print(f"Pozytywne: {signal_summary['POZYTYWNY']}")
-    print(f"Neutralne: {signal_summary['NEUTRALNY']}")
-    print(f"Negatywne: {signal_summary['NEGATYWNY']}")
+
+    print(
+        f"Pozytywne: "
+        f"{signal_summary['POZYTYWNY']}"
+    )
+
+    print(
+        f"Neutralne: "
+        f"{signal_summary['NEUTRALNY']}"
+    )
+
+    print(
+        f"Negatywne: "
+        f"{signal_summary['NEGATYWNY']}"
+    )
+
+    # --------------------------------------------------------
+    # KANDYDACI
+    # --------------------------------------------------------
 
     candidates = get_candidates(results)
 
-    print(f"\nKandydaci do portfela: {len(candidates)}")
+    print(
+        f"\nKandydaci do portfela: "
+        f"{len(candidates)}"
+    )
 
-    selected, selection_details = select_diversified_candidates(candidates)
+    for candidate in candidates:
+        print(
+            f"- {candidate['ticker']} | "
+            f"{candidate['score']}/10 | "
+            f"{candidate['signal']}"
+        )
+
+    # --------------------------------------------------------
+    # DYWERSYFIKACJA
+    # --------------------------------------------------------
 
     print("\nWYBÓR TOP 3")
+
+    (
+        selected,
+        selection_details,
+        rejection_reasons
+    ) = select_diversified_candidates(candidates)
 
     if selected:
         for result in selected:
             print(
                 f"{result.get('ticker')} | "
                 f"{result.get('score')}/10 | "
-                f"Sektor: {get_sector(result.get('ticker'))}"
+                f"Sektor: "
+                f"{get_sector(result.get('ticker'))}"
             )
+
     else:
-        print(selection_details)
+        print(
+            "Nie znaleziono kandydatów."
+        )
 
-    allocations, summary = allocate_portfolio(selected)
+    print("\nSZCZEGÓŁY DYWERSYFIKACJI")
 
-    print_portfolio(allocations, summary)
+    print(
+        format_selection_details(
+            selection_details,
+            rejection_reasons
+        )
+    )
 
-    print("\nAKTUALIZACJA HISTORII SYGNAŁÓW")
+    # --------------------------------------------------------
+    # ALOKACJA WIRTUALNEGO KAPITAŁU
+    # --------------------------------------------------------
+
+    allocations, summary = allocate_portfolio(
+        selected
+    )
+
+    print_portfolio(
+        allocations,
+        summary
+    )
+
+    # --------------------------------------------------------
+    # HISTORIA SKUTECZNOŚCI SYGNAŁÓW
+    # --------------------------------------------------------
+
+    print(
+        "\nAKTUALIZACJA HISTORII SYGNAŁÓW"
+    )
 
     try:
-        performance_statistics = update_performance(results)
+        performance_statistics = update_performance(
+            results
+        )
+
     except Exception as error:
-        print(f"Błąd historii skuteczności: {error}")
+        print(
+            f"Błąd historii skuteczności: {error}"
+        )
+
         performance_statistics = {}
 
-    print("\nAKTUALIZACJA HISTORII PORTFELA")
+    # --------------------------------------------------------
+    # HISTORIA PORTFELA I WIG
+    # --------------------------------------------------------
+
+    print(
+        "\nAKTUALIZACJA HISTORII PORTFELA"
+    )
 
     try:
-        portfolio_statistics, portfolio_status = update_portfolio_history(
+        (
+            portfolio_statistics,
+            portfolio_status
+        ) = update_portfolio_history(
             allocations,
             summary,
             results
         )
+
     except Exception as error:
-        print(f"Błąd historii portfela: {error}")
+        print(
+            f"Błąd historii portfela: {error}"
+        )
+
         portfolio_statistics = {}
-        portfolio_status = "Nie udało się zaktualizować historii portfela."
+
+        portfolio_status = (
+            "Nie udało się zaktualizować historii portfela."
+        )
 
     print("\nSTATYSTYKI PORTFELA VS WIG")
+
     print(portfolio_status)
-    print(format_portfolio_statistics(portfolio_statistics))
+
+    print(
+        format_portfolio_statistics(
+            portfolio_statistics
+        )
+    )
+
+    # --------------------------------------------------------
+    # BACKTEST PORTFELOWY
+    # --------------------------------------------------------
 
     print("\n" + "=" * 65)
-    print("URUCHAMIANIE BACKTESTU PORTFELOWEGO")
+    print("URUCHAMIANIE BACKTESTU HISTORYCZNEGO")
     print("=" * 65)
 
     try:
-        backtest_results = run_backtest(INSTRUMENTS)
-        backtest_report = format_backtest_results(backtest_results)
+        backtest_results = run_backtest(
+            INSTRUMENTS
+        )
+
+        backtest_report = format_backtest_results(
+            backtest_results
+        )
 
         print("\nPODSUMOWANIE BACKTESTU")
         print(backtest_report)
 
     except Exception as error:
-        print(f"Błąd backtestu: {error}")
-        backtest_report = "Nie udało się wykonać backtestu."
+        print(
+            f"Błąd backtestu: {error}"
+        )
+
+        backtest_report = (
+            "Nie udało się wykonać backtestu."
+        )
+
+    # --------------------------------------------------------
+    # RAPORT DISCORD
+    # --------------------------------------------------------
 
     print("\nWYSYŁANIE RAPORTU DISCORD")
 
     send_discord_report(
         results,
+        selected,
         allocations,
         summary,
         signal_summary,
         performance_statistics,
         selection_details,
+        rejection_reasons,
         portfolio_statistics,
         portfolio_status,
         backtest_report
     )
 
     print("\n" + "=" * 65)
-    print(f"{PROJECT_NAME} v{VERSION} | ZAKOŃCZONO")
+    print(
+        f"{PROJECT_NAME} v{VERSION} | ZAKOŃCZONO"
+    )
     print("=" * 65)
 
 
