@@ -67,5 +67,18 @@
             }
         ],
         "forward_returns": {}
+    },
+    {
+        "date": "2026-11-25",
+        "capital": 20000.0,
+        "cash": 2025.4000000000015,
+        "positions": [
+            {
+                "ticker": "ARH.WA",
+                "price": 51.8,
+                "shares": 347
+            }
+        ],
+        "forward_returns": {}
     }
 ]
