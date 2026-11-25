@@ -830,7 +830,7 @@ def send_discord_report(
             "inline": False
         },
         {
-            "name": "BACKTEST PORTFELOWY v16.2",
+            "name": "BACKTEST PORTFELOWY v16.3",
             "value": (
                 backtest_report[:1024]
                 if backtest_report
