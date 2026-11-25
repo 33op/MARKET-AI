@@ -25,7 +25,7 @@ from portfolio import (
 # ============================================================
 
 PROJECT_NAME = "MARKET AI"
-VERSION = "15.0"
+VERSION = "16.0"
 
 VIRTUAL_CAPITAL = 20000.00
 RESERVE_AMOUNT = 2000.00
@@ -54,10 +54,8 @@ def money(value):
 def safe_float(value, default=0.0):
     try:
         number = float(value)
-
         if math.isfinite(number):
             return number
-
     except (TypeError, ValueError):
         pass
 
@@ -119,94 +117,79 @@ def get_signal_summary(results):
 
 
 # ============================================================
-# FORMATOWANIE BACKTESTU
+# FORMATOWANIE BACKTESTU v16.0
 # ============================================================
 
-def format_backtest_results(results):
-    if not results:
-        return "Brak wyników backtestu."
-
-    valid = [
-        item for item in results
-        if item.get("average_return") is not None
-        and item.get("positive_count", 0) > 0
-        and item.get("win_rate") is not None
-    ]
-
-    if not valid:
-        return "Brak wystarczających danych."
-
-    total_signals = sum(
-        item["positive_count"]
-        for item in valid
-    )
-
-    if total_signals == 0:
-        return "Brak pozytywnych sygnałów."
-
-    weighted_return = sum(
-        item["average_return"] * item["positive_count"]
-        for item in valid
-    ) / total_signals
-
-    total_wins = sum(
-        item["win_rate"] / 100 * item["positive_count"]
-        for item in valid
-    )
-
-    win_rate = (
-        total_wins / total_signals * 100
-    )
-
-    top = sorted(
-        valid,
-        key=lambda item: item["average_return"],
-        reverse=True
-    )[:5]
-
-    costs_included = all(
-        item.get("costs_included") is True
-        for item in valid
-    )
+def format_simulation_period(title, data):
+    if not data:
+        return f"**{title}**\nBrak wyników."
 
     lines = [
-        "**TEST HISTORYCZNY SYGNAŁÓW v15.0**",
-        f"Instrumenty: {len(results)}",
-        f"Pozytywne sygnały: {total_signals}",
-        f"Średni wynik ważony: {weighted_return:+.2f}%",
-        f"Udział dodatnich wyników: {win_rate:.1f}%",
-        "",
-        "**TOP 5 BACKTESTU**"
+        f"**{title}**",
+        f"Kapitał początkowy: {money(data.get('initial_capital'))}",
+        f"Kapitał końcowy: {money(data.get('final_equity'))}",
+        f"Wynik: {safe_float(data.get('return')):+.2f}%",
+        f"Maksymalne obsunięcie: {safe_float(data.get('max_drawdown')):.2f}%",
+        f"Liczba transakcji: {int(safe_float(data.get('trades')))}"
     ]
 
-    for item in top:
-        median = item.get("median_return")
+    win_rate = data.get("win_rate")
+    average_trade = data.get("average_trade")
 
-        median_text = (
-            f"{median:+.2f}%"
-            if median is not None
-            else "brak"
-        )
-
+    if win_rate is not None:
         lines.append(
-            f"{item['ticker']}: "
-            f"{item['average_return']:+.2f}% | "
-            f"Mediana: {median_text} | "
-            f"Skuteczność: {item['win_rate']:.1f}% | "
-            f"Próby: {item['positive_count']}"
+            f"Skuteczność transakcji: {safe_float(win_rate):.1f}%"
         )
+
+    if average_trade is not None:
+        lines.append(
+            f"Średni wynik transakcji: {safe_float(average_trade):+.2f}%"
+        )
+
+    return "\n".join(lines)
+
+
+def format_backtest_results(results):
+    if not isinstance(results, dict):
+        return "Nieprawidłowy format wyników backtestu."
+
+    if results.get("error"):
+        return f"Błąd backtestu: {results['error']}"
+
+    train = results.get("train")
+    test = results.get("out_of_sample")
+    benchmark = results.get("benchmark")
+
+    lines = [
+        f"**PORTFOLIO BACKTEST v{results.get('version', '16.0')}**",
+        f"Instrumenty: {results.get('instruments', 0)}",
+        f"Okres testowy: {results.get('test_start', '?')} - {results.get('test_end', '?')}",
+        "",
+        format_simulation_period("OKRES PROJEKTOWY", train),
+        "",
+        format_simulation_period("TEST POZA PRÓBĄ", test),
+        "",
+        "**PORÓWNANIE Z WIG**"
+    ]
+
+    if test and benchmark is not None:
+        strategy_return = safe_float(test.get("return"))
+        difference = strategy_return - safe_float(benchmark)
+
+        lines.extend([
+            f"MARKET AI: {strategy_return:+.2f}%",
+            f"WIG: {safe_float(benchmark):+.2f}%",
+            f"Różnica: {difference:+.2f} pp"
+        ])
+    else:
+        lines.append("Brak danych do porównania z WIG.")
 
     lines.extend([
         "",
-        (
-            "Koszty prowizji i poślizgu uwzględnione."
-            if costs_included
-            else "UWAGA: Nie wszystkie wyniki potwierdzają uwzględnienie kosztów."
-        ),
-        "Sygnał po zamknięciu sesji, wejście na kolejnej sesji.",
-        "Wyjście na zamknięciu następnej sesji.",
-        "Wyniki dotyczą pojedynczych sygnałów, nie pełnego portfela.",
-        "Sygnały mogą się nakładać i nie są niezależnymi próbami."
+        "Prowizje i poślizg uwzględnione według założeń symulacji.",
+        "Sygnał z poprzedniej sesji jest wykonywany na kolejnym zamknięciu.",
+        "Wyniki poza próbą są ważniejsze przy ocenie modelu.",
+        "Symulacja nie odwzorowuje dokładnie mechaniki SIGG."
     ])
 
     return "\n".join(lines)
@@ -221,7 +204,6 @@ def get_candidates(results):
 
     for result in results:
         signal = str(result.get("signal", "")).upper()
-
         score = safe_float(result.get("score"))
         confirmation = safe_float(
             result.get("confirmation_days")
@@ -234,10 +216,7 @@ def get_candidates(results):
         ):
             candidates.append(result)
 
-    candidates.sort(
-        key=ranking_key,
-        reverse=True
-    )
+    candidates.sort(key=ranking_key, reverse=True)
 
     return candidates[:MAX_CANDIDATES_FOR_DIVERSIFICATION]
 
@@ -264,11 +243,10 @@ def download_correlation_data(tickers):
             return pd.DataFrame()
 
         if isinstance(data.columns, pd.MultiIndex):
-            if "Close" in data.columns.get_level_values(0):
-                prices = data["Close"]
-            else:
+            if "Close" not in data.columns.get_level_values(0):
                 return pd.DataFrame()
 
+            prices = data["Close"]
         else:
             if "Close" not in data.columns:
                 return pd.DataFrame()
@@ -371,9 +349,7 @@ def select_diversified_candidates(candidates):
                 acceptable = False
                 break
 
-            correlations.append(
-                (chosen_ticker, correlation)
-            )
+            correlations.append((chosen_ticker, correlation))
 
             if abs(correlation) >= HIGH_CORRELATION:
                 acceptable = False
@@ -444,13 +420,11 @@ def allocate_portfolio(selected):
 
     remaining = VIRTUAL_CAPITAL - invested
 
-    summary = {
+    return allocations, {
         "invested": invested,
         "remaining": remaining,
         "reserve": RESERVE_AMOUNT
     }
-
-    return allocations, summary
 
 
 # ============================================================
@@ -464,7 +438,6 @@ def print_portfolio(allocations, summary):
 
     if not allocations:
         print("Brak wybranych pozycji.")
-
     else:
         for position in allocations:
             print(
@@ -489,7 +462,6 @@ def print_portfolio(allocations, summary):
 
 def send_discord_report(
     results,
-    selected,
     allocations,
     summary,
     signal_summary,
@@ -512,19 +484,14 @@ def send_discord_report(
     top10_text = []
 
     for index, result in enumerate(top10, start=1):
-        ticker = result.get("ticker", "BRAK")
-        signal = result.get("signal", "BRAK")
-        score = safe_float(result.get("score"))
-        risk = result.get("risk", "BRAK")
-        confirmation = result.get("confirmation_days", 0)
-        change = safe_float(result.get("daily_change"))
-
         top10_text.append(
-            f"**{index}. {ticker}**\n"
-            f"{score:.0f}/10 | {signal} | "
-            f"Ryzyko: {risk} | "
-            f"Potwierdzenie: {confirmation}/3 | "
-            f"{change:+.2f}%"
+            f"**{index}. {result.get('ticker', 'BRAK')}**\n"
+            f"{safe_float(result.get('score')):.0f}/10 | "
+            f"{result.get('signal', 'BRAK')} | "
+            f"Ryzyko: {result.get('risk', 'BRAK')} | "
+            f"Potwierdzenie: "
+            f"{result.get('confirmation_days', 0)}/3 | "
+            f"{safe_float(result.get('daily_change')):+.2f}%"
         )
 
     selected_text = []
@@ -550,20 +517,17 @@ def send_discord_report(
     fields = [
         {
             "name": "TOP 10 RYNKU",
-            "value": "\n\n".join(top10_text)[:1024]
-            if top10_text else "Brak danych.",
+            "value": "\n\n".join(top10_text)[:1024] or "Brak danych.",
             "inline": False
         },
         {
             "name": "WYBRANY PORTFEL TOP 3",
-            "value": "\n\n".join(selected_text)[:1024]
-            if selected_text else "Brak wybranych pozycji.",
+            "value": "\n\n".join(selected_text)[:1024] or "Brak pozycji.",
             "inline": False
         },
         {
             "name": "KORELACJE",
-            "value": "\n".join(correlation_text)[:1024]
-            if correlation_text else "Brak danych korelacji.",
+            "value": "\n".join(correlation_text)[:1024] or "Brak danych korelacji.",
             "inline": False
         },
         {
@@ -587,9 +551,7 @@ def send_discord_report(
         },
         {
             "name": "HISTORYCZNA SKUTECZNOŚĆ",
-            "value": format_performance(
-                performance_statistics
-            )[:1024],
+            "value": format_performance(performance_statistics)[:1024],
             "inline": False
         },
         {
@@ -597,14 +559,12 @@ def send_discord_report(
             "value": (
                 portfolio_status
                 + "\n\n"
-                + format_portfolio_statistics(
-                    portfolio_statistics
-                )
+                + format_portfolio_statistics(portfolio_statistics)
             )[:1024],
             "inline": False
         },
         {
-            "name": "BACKTEST HISTORYCZNY",
+            "name": "BACKTEST PORTFELOWY v16.0",
             "value": backtest_report[:1024],
             "inline": False
         }
@@ -615,8 +575,7 @@ def send_discord_report(
             {
                 "title": f"{PROJECT_NAME} v{VERSION} | RAPORT",
                 "description": (
-                    f"Data analizy: "
-                    f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+                    f"Data analizy: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
                     f"Przeanalizowane instrumenty: {len(results)}"
                 ),
                 "color": 3447003,
@@ -642,14 +601,8 @@ def send_discord_report(
             method="POST"
         )
 
-        with urllib.request.urlopen(
-            request,
-            timeout=20
-        ) as response:
-            print(
-                f"Discord: raport wysłany. "
-                f"HTTP {response.status}"
-            )
+        with urllib.request.urlopen(request, timeout=20) as response:
+            print(f"Discord: raport wysłany. HTTP {response.status}")
 
     except urllib.error.HTTPError as error:
         print(f"Discord HTTP error: {error.code}")
@@ -714,29 +667,19 @@ def start():
         print("Brak wyników. Zatrzymuję analizę.")
         return
 
-    # Ranking
-    ranked_results = sorted(
-        results,
-        key=ranking_key,
-        reverse=True
-    )
+    ranked_results = sorted(results, key=ranking_key, reverse=True)
 
     print("\nTOP 10 RYNKU")
 
-    for index, result in enumerate(
-        ranked_results[:10],
-        start=1
-    ):
+    for index, result in enumerate(ranked_results[:10], start=1):
         print(
             f"{index}. {result.get('ticker')} | "
             f"{result.get('signal')} | "
             f"{result.get('score')}/10 | "
             f"RYZYKO: {result.get('risk')} | "
-            f"Potwierdzenie: "
-            f"{result.get('confirmation_days')}/3"
+            f"Potwierdzenie: {result.get('confirmation_days')}/3"
         )
 
-    # Sygnały
     signal_summary = get_signal_summary(results)
 
     print("\nPODSUMOWANIE SYGNAŁÓW")
@@ -744,17 +687,11 @@ def start():
     print(f"Neutralne: {signal_summary['NEUTRALNY']}")
     print(f"Negatywne: {signal_summary['NEGATYWNY']}")
 
-    # Kandydaci
     candidates = get_candidates(results)
 
-    print(
-        f"\nKandydaci do portfela: {len(candidates)}"
-    )
+    print(f"\nKandydaci do portfela: {len(candidates)}")
 
-    # Dywersyfikacja
-    selected, selection_details = (
-        select_diversified_candidates(candidates)
-    )
+    selected, selection_details = select_diversified_candidates(candidates)
 
     print("\nWYBÓR TOP 3")
 
@@ -765,75 +702,57 @@ def start():
                 f"{result.get('score')}/10 | "
                 f"Sektor: {get_sector(result.get('ticker'))}"
             )
-
     else:
         print(selection_details)
 
-    # Alokacja
     allocations, summary = allocate_portfolio(selected)
 
     print_portfolio(allocations, summary)
 
-    # Historia skuteczności sygnałów
     print("\nAKTUALIZACJA HISTORII SYGNAŁÓW")
 
     try:
         performance_statistics = update_performance(results)
-
     except Exception as error:
         print(f"Błąd historii skuteczności: {error}")
         performance_statistics = {}
 
-    # Historia portfela i WIG
     print("\nAKTUALIZACJA HISTORII PORTFELA")
 
     try:
-        portfolio_statistics, portfolio_status = (
-            update_portfolio_history(
-                allocations,
-                summary,
-                results
-            )
+        portfolio_statistics, portfolio_status = update_portfolio_history(
+            allocations,
+            summary,
+            results
         )
-
     except Exception as error:
         print(f"Błąd historii portfela: {error}")
         portfolio_statistics = {}
-        portfolio_status = (
-            "Nie udało się zaktualizować historii portfela."
-        )
+        portfolio_status = "Nie udało się zaktualizować historii portfela."
 
     print("\nSTATYSTYKI PORTFELA VS WIG")
     print(portfolio_status)
     print(format_portfolio_statistics(portfolio_statistics))
 
-    # Backtest
     print("\n" + "=" * 65)
-    print("URUCHAMIANIE BACKTESTU HISTORYCZNEGO")
+    print("URUCHAMIANIE BACKTESTU PORTFELOWEGO")
     print("=" * 65)
 
     try:
         backtest_results = run_backtest(INSTRUMENTS)
-
-        backtest_report = format_backtest_results(
-            backtest_results
-        )
+        backtest_report = format_backtest_results(backtest_results)
 
         print("\nPODSUMOWANIE BACKTESTU")
         print(backtest_report)
 
     except Exception as error:
         print(f"Błąd backtestu: {error}")
-        backtest_report = (
-            "Nie udało się wykonać backtestu."
-        )
+        backtest_report = "Nie udało się wykonać backtestu."
 
-    # Discord
     print("\nWYSYŁANIE RAPORTU DISCORD")
 
     send_discord_report(
         results,
-        selected,
         allocations,
         summary,
         signal_summary,
