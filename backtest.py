@@ -1,12 +1,13 @@
 
 import math
 import warnings
+from collections import Counter
 
 import pandas as pd
 import yfinance as yf
 
 
-VERSION = "16.1"
+VERSION = "16.2"
 
 INITIAL_CAPITAL = 20000.0
 MAX_POSITIONS = 3
@@ -20,57 +21,69 @@ MIN_CALENDAR_SESSIONS = 150
 COMMISSION_RATE = 0.003
 SLIPPAGE_RATE = 0.001
 
-HOLDING_SESSIONS = 1
+HOLDING_PERIODS = [1, 3, 5]
+DEFAULT_HOLDING_SESSIONS = 3
 
 BENCHMARK = "^WIG"
 
 
 # ============================================================
-# PODSTAWOWE FUNKCJE
+# FUNKCJE POMOCNICZE
 # ============================================================
 
-def safe_float(value):
+def safe_float(value, default=0.0):
     try:
-        number = float(value)
-
-        if math.isfinite(number):
-            return number
-
+        result = float(value)
+        if math.isnan(result) or math.isinf(result):
+            return default
+        return result
     except (TypeError, ValueError):
-        pass
-
-    return None
+        return default
 
 
-def download_history(ticker):
+def normalize_index(index):
+    index = pd.to_datetime(index)
+
+    if getattr(index, "tz", None) is not None:
+        index = index.tz_localize(None)
+
+    return index.normalize()
+
+
+def download_history(ticker, period=HISTORY_PERIOD):
     try:
-        data = yf.Ticker(ticker).history(
-            period=HISTORY_PERIOD,
+        data = yf.download(
+            ticker,
+            period=period,
             interval="1d",
-            auto_adjust=True
+            auto_adjust=True,
+            progress=False,
+            threads=False
         )
 
-        if data is None or data.empty or "Close" not in data:
+        if data is None or data.empty:
             return None
 
-        data = data.copy().sort_index()
-        data = data[~data.index.duplicated(keep="last")]
+        if isinstance(data.columns, pd.MultiIndex):
+            data.columns = data.columns.get_level_values(0)
 
-        data["Close"] = pd.to_numeric(
-            data["Close"],
-            errors="coerce"
-        )
+        required = ["Close", "High", "Low", "Volume"]
+
+        if not all(column in data.columns for column in required):
+            return None
+
+        data = data[required].copy()
+        data.index = normalize_index(data.index)
+        data = data[~data.index.duplicated(keep="last")]
+        data = data.sort_index()
+
+        for column in required:
+            data[column] = pd.to_numeric(
+                data[column],
+                errors="coerce"
+            )
 
         data = data.dropna(subset=["Close"])
-        data = data[data["Close"] > 0]
-
-        if "Volume" not in data:
-            data["Volume"] = 0
-
-        data["Volume"] = pd.to_numeric(
-            data["Volume"],
-            errors="coerce"
-        ).fillna(0)
 
         if len(data) < MIN_SESSIONS:
             return None
@@ -78,7 +91,7 @@ def download_history(ticker):
         return data
 
     except Exception as error:
-        print(f"BACKTEST {ticker}: {error}")
+        print(f"BACKTEST {ticker}: błąd pobierania danych: {error}")
         return None
 
 
@@ -122,127 +135,93 @@ def calculate_indicators(data):
     ] = 100
 
     data.loc[
-        (avg_loss == 0) & (avg_gain == 0),
+        (avg_gain == 0) & (avg_loss > 0),
         "RSI"
-    ] = 50
+    ] = 0
 
-    ema12 = close.ewm(
+    data["EMA12"] = close.ewm(
         span=12,
         adjust=False
     ).mean()
 
-    ema26 = close.ewm(
+    data["EMA26"] = close.ewm(
         span=26,
         adjust=False
     ).mean()
 
-    data["MACD"] = ema12 - ema26
+    data["MACD"] = data["EMA12"] - data["EMA26"]
 
-    data["SIGNAL"] = data["MACD"].ewm(
+    data["MACD_SIGNAL"] = data["MACD"].ewm(
         span=9,
         adjust=False
     ).mean()
 
-    data["AVG_VOLUME"] = (
-        volume.shift(1).rolling(20).mean()
+    data["AVG_VOLUME"] = volume.shift(1).rolling(20).mean()
+
+    data["VOLUME_RATIO"] = (
+        volume / data["AVG_VOLUME"].replace(0, float("nan"))
     )
 
-    data["MOMENTUM_5"] = close.pct_change(5) * 100
-    data["MOMENTUM_20"] = close.pct_change(20) * 100
+    data["MOMENTUM_5"] = (
+        close / close.shift(5) - 1
+    ) * 100
+
+    data["MOMENTUM_20"] = (
+        close / close.shift(20) - 1
+    ) * 100
+
     data["DAILY_CHANGE"] = close.pct_change() * 100
 
     data["VOLATILITY"] = (
-        close.pct_change().rolling(20).std()
-        * math.sqrt(252) * 100
+        close.pct_change()
+        .rolling(20)
+        .std()
+        * math.sqrt(252)
+        * 100
     )
 
     data["SMA20_RISING"] = (
         data["SMA20"] > data["SMA20"].shift(5)
     )
 
-    confirmation = (
+    condition = (
         (close > data["SMA20"])
         & (data["SMA20"] > data["SMA50"])
-        & (data["MACD"] > data["SIGNAL"])
+        & (data["MACD"] > data["MACD_SIGNAL"])
     )
 
     data["CONFIRMED_DAYS"] = (
-        confirmation.rolling(3).sum()
+        condition.astype(int).rolling(3).sum()
     )
 
     return data
 
 
 # ============================================================
-# GENEROWANIE SYGNAŁÓW
+# SYGNAŁ MARKET AI
 # ============================================================
 
 def calculate_signal(row):
-    required = [
-        "Close",
-        "SMA20",
-        "SMA50",
-        "RSI",
-        "MACD",
-        "SIGNAL",
-        "MOMENTUM_5",
-        "MOMENTUM_20",
-        "DAILY_CHANGE",
-        "VOLATILITY",
-        "CONFIRMED_DAYS"
-    ]
-
-    if any(pd.isna(row.get(key)) for key in required):
-        return None
-
-    price = safe_float(row["Close"])
-    sma20 = safe_float(row["SMA20"])
-    sma50 = safe_float(row["SMA50"])
-    rsi = safe_float(row["RSI"])
-    macd = safe_float(row["MACD"])
-    macd_signal = safe_float(row["SIGNAL"])
-    momentum5 = safe_float(row["MOMENTUM_5"])
-    momentum20 = safe_float(row["MOMENTUM_20"])
-    change = safe_float(row["DAILY_CHANGE"])
-    volatility = safe_float(row["VOLATILITY"])
-    confirmed = safe_float(row["CONFIRMED_DAYS"])
-
-    values = [
-        price,
-        sma20,
-        sma50,
-        rsi,
-        macd,
-        macd_signal,
-        momentum5,
-        momentum20,
-        change,
-        volatility,
-        confirmed
-    ]
-
-    if any(value is None for value in values):
-        return None
-
-    if price <= 0 or sma20 <= 0 or sma50 <= 0:
-        return None
-
-    if not 0 <= rsi <= 100:
-        return None
-
-    volume = safe_float(row["Volume"])
-    average_volume = safe_float(row["AVG_VOLUME"])
-
-    volume_ratio = None
-
-    if (
-        volume is not None
-        and average_volume is not None
-        and average_volume > 0
-    ):
-        volume_ratio = volume / average_volume
-
     score = 0
+
+    price = safe_float(row.get("Close"))
+    sma20 = safe_float(row.get("SMA20"))
+    sma50 = safe_float(row.get("SMA50"))
+
+    rsi = safe_float(row.get("RSI"), 50)
+    macd = safe_float(row.get("MACD"))
+    macd_signal = safe_float(row.get("MACD_SIGNAL"))
+
+    momentum5 = safe_float(row.get("MOMENTUM_5"))
+    momentum20 = safe_float(row.get("MOMENTUM_20"))
+
+    volume_ratio = safe_float(row.get("VOLUME_RATIO"))
+    daily_change = safe_float(row.get("DAILY_CHANGE"))
+    volatility = safe_float(row.get("VOLATILITY"))
+
+    confirmed = int(
+        safe_float(row.get("CONFIRMED_DAYS"))
+    )
 
     if price > sma20:
         score += 1
@@ -250,7 +229,7 @@ def calculate_signal(row):
     if sma20 > sma50:
         score += 1
 
-    if bool(row["SMA20_RISING"]):
+    if bool(row.get("SMA20_RISING", False)):
         score += 1
 
     if macd > macd_signal:
@@ -258,7 +237,6 @@ def calculate_signal(row):
 
     if 50 <= rsi <= 65:
         score += 2
-
     elif 40 <= rsi < 50 or 65 < rsi <= 70:
         score += 1
 
@@ -268,46 +246,33 @@ def calculate_signal(row):
     if momentum20 > 0:
         score += 1
 
-    if (
-        volume_ratio is not None
-        and volume_ratio >= 1.2
-        and change > 0
-    ):
+    if volume_ratio >= 1.2 and daily_change > 0:
         score += 1
 
-    penalty = 0
-
     if rsi > 80:
-        penalty += 2
-
+        score -= 2
     elif rsi > 70:
-        penalty += 1
+        score -= 1
 
-    if change >= 10:
-        penalty += 2
+    if daily_change >= 10:
+        score -= 2
+    elif daily_change >= 5:
+        score -= 1
 
-    elif change >= 5:
-        penalty += 1
-
-    if volume_ratio is not None and volume_ratio >= 4:
-        penalty += 1
+    if volume_ratio >= 4:
+        score -= 1
 
     if volatility >= 60:
-        penalty += 2
-
+        score -= 2
     elif volatility >= 40:
-        penalty += 1
+        score -= 1
 
-    score = max(0, min(10, score - penalty))
-
-    confirmed = int(confirmed)
+    score = max(0, min(10, score))
 
     if score >= 7 and confirmed >= 2:
         signal = "POZYTYWNY"
-
     elif score >= 4:
         signal = "NEUTRALNY"
-
     else:
         signal = "NEGATYWNY"
 
@@ -322,12 +287,28 @@ def calculate_signal(row):
 # KOSZTY TRANSAKCJI
 # ============================================================
 
-def apply_buy_cost(price):
-    return price * (1 + SLIPPAGE_RATE) * (1 + COMMISSION_RATE)
+def apply_buy_cost(price, shares):
+    gross = price * shares
+    slippage = gross * SLIPPAGE_RATE
+    commission = gross * COMMISSION_RATE
+
+    return gross + slippage + commission
 
 
-def apply_sell_cost(price):
-    return price * (1 - SLIPPAGE_RATE) * (1 - COMMISSION_RATE)
+def apply_sell_cost(price, shares):
+    gross = price * shares
+    slippage = gross * SLIPPAGE_RATE
+    commission = gross * COMMISSION_RATE
+
+    return gross - slippage - commission
+
+
+def calculate_buy_gross(price, shares):
+    return price * shares
+
+
+def calculate_sell_gross(price, shares):
+    return price * shares
 
 
 # ============================================================
@@ -338,194 +319,283 @@ def max_drawdown(equity_curve):
     if not equity_curve:
         return 0.0
 
-    series = pd.Series(
-        equity_curve,
-        dtype=float
-    )
+    peak = equity_curve[0]
+    worst = 0.0
 
-    peaks = series.cummax()
+    for value in equity_curve:
+        peak = max(peak, value)
 
-    drawdowns = (
-        series / peaks - 1
-    ) * 100
+        if peak > 0:
+            drawdown = (value / peak - 1) * 100
+            worst = min(worst, drawdown)
 
-    return float(drawdowns.min())
+    return worst
 
 
-def calculate_profit_factor(trade_returns):
+def calculate_profit_factor(trades):
     profits = sum(
-        value for value in trade_returns
-        if value > 0
+        trade["net_profit"]
+        for trade in trades
+        if trade["net_profit"] > 0
     )
 
     losses = abs(sum(
-        value for value in trade_returns
-        if value < 0
+        trade["net_profit"]
+        for trade in trades
+        if trade["net_profit"] < 0
     ))
 
     if losses == 0:
-        return float("inf") if profits > 0 else None
+        return float("inf") if profits > 0 else 0.0
 
     return profits / losses
 
 
+def summarize_period(
+    starting_capital,
+    ending_capital,
+    equity_curve,
+    trades
+):
+    net_return = (
+        (ending_capital / starting_capital) - 1
+    ) * 100 if starting_capital else 0.0
+
+    gross_profits = [
+        trade["gross_profit"]
+        for trade in trades
+    ]
+
+    net_profits = [
+        trade["net_profit"]
+        for trade in trades
+    ]
+
+    winners = [
+        trade for trade in trades
+        if trade["net_profit"] > 0
+    ]
+
+    gross_return = (
+        sum(gross_profits) / starting_capital
+    ) * 100 if starting_capital else 0.0
+
+    average_trade = (
+        sum(net_profits) / len(net_profits)
+        if net_profits else 0.0
+    )
+
+    win_rate = (
+        len(winners) / len(trades) * 100
+        if trades else 0.0
+    )
+
+    return {
+        "starting_capital": starting_capital,
+        "ending_capital": ending_capital,
+        "capital": ending_capital,
+        "return": net_return,
+        "gross_return": gross_return,
+        "drawdown": max_drawdown(equity_curve),
+        "trades": len(trades),
+        "win_rate": win_rate,
+        "average_trade": average_trade,
+        "profit_factor": calculate_profit_factor(trades),
+        "equity_curve": equity_curve,
+        "gross_profit": sum(gross_profits),
+        "net_profit": sum(net_profits),
+        "trades_by_ticker": dict(
+            Counter(trade["ticker"] for trade in trades)
+        )
+    }
+
+
 # ============================================================
-# POBIERANIE RYNKU
+# PRZYGOTOWANIE RYNKU
 # ============================================================
 
 def prepare_market(instruments):
     market = {}
 
-    rejected = 0
+    print("\nBACKTEST: pobieranie danych historycznych...")
 
-    for ticker in instruments:
-        print(f"Pobieranie danych: {ticker}")
+    for index, ticker in enumerate(instruments, start=1):
+        print(
+            f"[{index}/{len(instruments)}] "
+            f"Pobieranie {ticker}..."
+        )
 
-        data = download_history(ticker)
+        history = download_history(ticker)
 
-        if data is None:
-            rejected += 1
-            print(f"Odrzucono {ticker}: niewystarczające dane.")
+        if history is None:
             continue
 
-        market[ticker] = calculate_indicators(data)
-
-    print("\nPODSUMOWANIE POBIERANIA")
-    print(f"Poprawne instrumenty: {len(market)}")
-    print(f"Odrzucone instrumenty: {rejected}")
+        try:
+            history = calculate_indicators(history)
+            market[ticker] = history
+        except Exception as error:
+            print(f"BACKTEST {ticker}: błąd wskaźników: {error}")
 
     return market
 
 
 def build_market_calendar(market):
-    """
-    Tworzy kalendarz będący sumą dat wszystkich instrumentów.
-
-    Nie wymaga, aby każda spółka miała notowania w każdej sesji.
-    """
-
-    all_dates = set()
+    dates = set()
 
     for data in market.values():
-        all_dates.update(data.index)
+        dates.update(data.index)
 
-    return sorted(all_dates)
+    return sorted(dates)
 
 
 # ============================================================
-# WYCENA PORTFELA
+# WARTOŚĆ PORTFELA
 # ============================================================
 
-def get_position_value(positions, market, date):
-    value = 0.0
+def get_position_value(position):
+    price = safe_float(position.get("last_price"))
 
-    for ticker, position in positions.items():
-        data = market[ticker]
+    if price <= 0:
+        return 0.0
 
-        if date in data.index:
-            price = safe_float(
-                data.loc[date, "Close"]
-            )
+    return apply_sell_cost(
+        price,
+        position["shares"]
+    )
 
-            if price is not None and price > 0:
-                position["last_price"] = price
 
-        price = position["last_price"]
-
-        # Wartość likwidacyjna uwzględnia koszt sprzedaży.
-        value += (
-            position["shares"]
-            * apply_sell_cost(price)
-        )
-
-    return value
+def calculate_portfolio_value(cash, positions):
+    return cash + sum(
+        get_position_value(position)
+        for position in positions.values()
+    )
 
 
 # ============================================================
 # SYMULACJA PORTFELA
 # ============================================================
 
-def run_portfolio_simulation(market, dates):
+def run_portfolio_simulation(
+    market,
+    calendar,
+    start_date,
+    end_date,
+    holding_sessions
+):
     cash = INITIAL_CAPITAL
-
     positions = {}
+    trades = []
+    equity_curve = []
 
-    equity_curve = [INITIAL_CAPITAL]
+    last_prices = {}
+    last_dates = {}
 
-    trade_returns = []
+    simulation_dates = [
+        date for date in calendar
+        if start_date <= date <= end_date
+    ]
 
-    completed_trades = 0
-
-    if len(dates) < 3:
-        return None
-
-    simulation_end = dates[-1]
-
-    for date in dates:
-
-        # ----------------------------------------------------
-        # 1. AKTUALIZACJA CEN
-        # ----------------------------------------------------
-
-        current_prices = {}
-
-        for ticker, position in positions.items():
-            data = market[ticker]
-
-            if date in data.index:
-                price = safe_float(
-                    data.loc[date, "Close"]
-                )
-
-                if price is not None and price > 0:
-                    current_prices[ticker] = price
-                    position["last_price"] = price
+    for date in simulation_dates:
 
         # ----------------------------------------------------
-        # 2. SPRZEDAŻ PO TERMINIE WYJŚCIA
+        # Aktualizacja ostatnich dostępnych cen
+        # ----------------------------------------------------
+
+        for ticker, data in market.items():
+            available = data.loc[data.index <= date]
+
+            if available.empty:
+                continue
+
+            latest = available.iloc[-1]
+
+            last_prices[ticker] = safe_float(
+                latest["Close"]
+            )
+
+            last_dates[ticker] = available.index[-1]
+
+        # ----------------------------------------------------
+        # Aktualizacja cen posiadanych pozycji
+        # ----------------------------------------------------
+
+        for ticker, position in list(positions.items()):
+            if ticker in last_prices:
+                position["last_price"] = last_prices[ticker]
+
+        # ----------------------------------------------------
+        # Sprzedaż pozycji po określonym czasie
         # ----------------------------------------------------
 
         for ticker, position in list(positions.items()):
 
-            if date < position["exit_date"]:
+            data = market[ticker]
+
+            ticker_dates = data.index[
+                data.index > position["entry_date"]
+            ]
+
+            if len(ticker_dates) < holding_sessions:
                 continue
 
-            price = current_prices.get(ticker)
+            exit_date = ticker_dates[
+                holding_sessions - 1
+            ]
 
-            if price is None:
+            if date < exit_date:
                 continue
 
-            proceeds = (
-                position["shares"]
-                * apply_sell_cost(price)
+            exit_price = safe_float(
+                data.loc[exit_date, "Close"]
             )
 
-            cash += proceeds
+            shares = position["shares"]
 
-            trade_return = (
-                proceeds / position["entry_value"] - 1
-            ) * 100
+            gross_buy = calculate_buy_gross(
+                position["entry_price"],
+                shares
+            )
 
-            trade_returns.append(trade_return)
+            gross_sell = calculate_sell_gross(
+                exit_price,
+                shares
+            )
 
-            completed_trades += 1
+            buy_cost = apply_buy_cost(
+                position["entry_price"],
+                shares
+            ) - gross_buy
+
+            sell_cost = gross_sell - apply_sell_cost(
+                exit_price,
+                shares
+            )
+
+            net_buy = gross_buy + buy_cost
+            net_sell = gross_sell - sell_cost
+
+            gross_profit = gross_sell - gross_buy
+            net_profit = net_sell - net_buy
+
+            cash += net_sell
+
+            trades.append({
+                "ticker": ticker,
+                "entry_date": position["entry_date"],
+                "exit_date": exit_date,
+                "entry_price": position["entry_price"],
+                "exit_price": exit_price,
+                "shares": shares,
+                "gross_profit": gross_profit,
+                "net_profit": net_profit,
+                "buy_cost": buy_cost,
+                "sell_cost": sell_cost
+            })
 
             del positions[ticker]
 
         # ----------------------------------------------------
-        # 3. WARTOŚĆ PORTFELA
-        # ----------------------------------------------------
-
-        position_value = get_position_value(
-            positions,
-            market,
-            date
-        )
-
-        equity = cash + position_value
-
-        # ----------------------------------------------------
-        # 4. SYGNAŁY Z POPRZEDNIEJ SESJI
+        # Szukanie nowych sygnałów
         # ----------------------------------------------------
 
         candidates = []
@@ -535,224 +605,206 @@ def run_portfolio_simulation(market, dates):
             if ticker in positions:
                 continue
 
-            # Szukamy wyłącznie danych sprzed aktualnej sesji.
-            previous_rows = data.loc[
-                data.index < date
-            ]
-
-            if previous_rows.empty:
+            if ticker not in last_dates:
                 continue
 
-            row = previous_rows.iloc[-1]
+            available = data.loc[data.index < date]
 
-            signal = calculate_signal(row)
+            # Potrzebujemy dwóch wcześniejszych sesji:
+            # aktualnej oceny i poprzedniej oceny.
+            if len(available) < 2:
+                continue
 
-            if (
-                signal is not None
-                and signal["signal"] == "POZYTYWNY"
-            ):
-                candidates.append((
-                    ticker,
-                    signal["score"],
-                    signal["confirmed"]
-                ))
+            current_row = available.iloc[-1]
+            previous_row = available.iloc[-2]
+
+            current_signal = calculate_signal(current_row)
+            previous_signal = calculate_signal(previous_row)
+
+            # Nowy sygnał: wcześniej nie był pozytywny,
+            # a teraz jest pozytywny i potwierdzony.
+            is_new_signal = (
+                current_signal["signal"] == "POZYTYWNY"
+                and previous_signal["signal"] != "POZYTYWNY"
+            )
+
+            if not is_new_signal:
+                continue
+
+            entry_price = safe_float(
+                market[ticker].loc[date, "Close"]
+                if date in market[ticker].index
+                else 0
+            )
+
+            if entry_price <= 0:
+                continue
+
+            candidates.append({
+                "ticker": ticker,
+                "score": current_signal["score"],
+                "confirmed": current_signal["confirmed"],
+                "entry_price": entry_price
+            })
 
         candidates.sort(
             key=lambda item: (
-                item[1],
-                item[2]
+                item["score"],
+                item["confirmed"]
             ),
             reverse=True
         )
 
         # ----------------------------------------------------
-        # 5. OTWIERANIE POZYCJI
+        # Otwieranie nowych pozycji
         # ----------------------------------------------------
 
-        for ticker, score, confirmed in candidates:
+        for candidate in candidates:
 
             if len(positions) >= MAX_POSITIONS:
                 break
 
+            ticker = candidate["ticker"]
+            price = candidate["entry_price"]
+
             if ticker in positions:
                 continue
 
-            data = market[ticker]
-
-            if date not in data.index:
-                continue
-
-            price = safe_float(
-                data.loc[date, "Close"]
+            portfolio_value = calculate_portfolio_value(
+                cash,
+                positions
             )
 
-            if price is None or price <= 0:
-                continue
-
-            # Nie otwieramy pozycji, jeśli nie będzie
-            # możliwe jej zamknięcie przed końcem testu.
-            future_dates = [
-                future_date
-                for future_date in data.index
-                if date < future_date <= simulation_end
-            ]
-
-            if len(future_dates) < HOLDING_SESSIONS:
-                continue
-
-            exit_date = future_dates[
-                HOLDING_SESSIONS - 1
-            ]
-
-            current_position_value = get_position_value(
-                positions,
-                market,
-                date
+            max_position_value = (
+                portfolio_value * MAX_POSITION_WEIGHT
             )
 
-            equity = cash + current_position_value
-
-            max_allocation = (
-                equity * MAX_POSITION_WEIGHT
+            minimum_cash = (
+                portfolio_value * MIN_CASH_WEIGHT
             )
 
-            cash_floor = (
-                equity * MIN_CASH_WEIGHT
-            )
+            available_cash = cash - minimum_cash
 
-            available_cash = max(
-                0.0,
-                cash - cash_floor
-            )
-
-            allocation = min(
-                max_allocation,
+            budget = min(
+                max_position_value,
                 available_cash
             )
 
-            if allocation <= 0:
-                break
+            if budget <= 0:
+                continue
 
-            buy_price = apply_buy_cost(price)
+            # Uwzględniamy prowizję i poślizg już przy zakupie.
+            estimated_unit_cost = (
+                price
+                * (1 + COMMISSION_RATE + SLIPPAGE_RATE)
+            )
 
-            # Symulacja całkowitej liczby jednostek.
             shares = math.floor(
-                allocation / buy_price
+                budget / estimated_unit_cost
             )
 
             if shares <= 0:
                 continue
 
-            actual_cost = shares * buy_price
+            total_cost = apply_buy_cost(
+                price,
+                shares
+            )
 
-            if actual_cost > available_cash:
+            if total_cost > available_cash:
                 continue
 
-            cash -= actual_cost
+            cash -= total_cost
 
             positions[ticker] = {
-                "shares": shares,
-                "entry_value": actual_cost,
+                "ticker": ticker,
                 "entry_date": date,
-                "exit_date": exit_date,
+                "entry_price": price,
+                "shares": shares,
                 "last_price": price,
-                "entry_price": buy_price,
-                "signal_score": score,
-                "confirmed": confirmed
+                "holding_sessions": holding_sessions
             }
 
         # ----------------------------------------------------
-        # 6. DZIENNA WYCENA
+        # Wycena portfela na koniec sesji
         # ----------------------------------------------------
 
-        position_value = get_position_value(
-            positions,
-            market,
-            date
+        equity = calculate_portfolio_value(
+            cash,
+            positions
         )
 
-        equity_curve.append(
-            cash + position_value
-        )
+        equity_curve.append(equity)
 
     # ========================================================
-    # 7. ZAMKNIĘCIE POZYCJI NA KOŃCU OKRESU
+    # ZAMKNIĘCIE POZOSTAŁYCH POZYCJI NA KONIEC OKRESU
     # ========================================================
 
     for ticker, position in list(positions.items()):
 
         data = market[ticker]
 
-        available_prices = data.loc[
-            data.index <= simulation_end,
-            "Close"
-        ].dropna()
+        available = data.loc[data.index <= end_date]
 
-        if available_prices.empty:
+        if available.empty:
             continue
 
-        last_price = safe_float(
-            available_prices.iloc[-1]
+        exit_date = available.index[-1]
+        exit_price = safe_float(
+            available.iloc[-1]["Close"]
         )
 
-        if last_price is None or last_price <= 0:
-            last_price = position["last_price"]
+        shares = position["shares"]
 
-        proceeds = (
-            position["shares"]
-            * apply_sell_cost(last_price)
+        gross_buy = calculate_buy_gross(
+            position["entry_price"],
+            shares
         )
 
-        cash += proceeds
+        gross_sell = calculate_sell_gross(
+            exit_price,
+            shares
+        )
 
-        trade_return = (
-            proceeds / position["entry_value"] - 1
-        ) * 100
+        buy_cost = apply_buy_cost(
+            position["entry_price"],
+            shares
+        ) - gross_buy
 
-        trade_returns.append(trade_return)
+        sell_cost = gross_sell - apply_sell_cost(
+            exit_price,
+            shares
+        )
 
-        completed_trades += 1
+        net_buy = gross_buy + buy_cost
+        net_sell = gross_sell - sell_cost
 
-    positions.clear()
+        gross_profit = gross_sell - gross_buy
+        net_profit = net_sell - net_buy
 
-    final_equity = cash
+        cash += net_sell
 
-    if equity_curve:
-        equity_curve[-1] = final_equity
+        trades.append({
+            "ticker": ticker,
+            "entry_date": position["entry_date"],
+            "exit_date": exit_date,
+            "entry_price": position["entry_price"],
+            "exit_price": exit_price,
+            "shares": shares,
+            "gross_profit": gross_profit,
+            "net_profit": net_profit,
+            "buy_cost": buy_cost,
+            "sell_cost": sell_cost
+        })
 
-    total_return = (
-        final_equity / INITIAL_CAPITAL - 1
-    ) * 100
+    ending_capital = cash
 
-    winning_trades = sum(
-        value > 0 for value in trade_returns
+    return summarize_period(
+        INITIAL_CAPITAL,
+        ending_capital,
+        equity_curve,
+        trades
     )
-
-    losing_trades = sum(
-        value < 0 for value in trade_returns
-    )
-
-    return {
-        "initial_capital": INITIAL_CAPITAL,
-        "final_equity": final_equity,
-        "return": total_return,
-        "max_drawdown": max_drawdown(equity_curve),
-        "trades": completed_trades,
-        "winning_trades": winning_trades,
-        "losing_trades": losing_trades,
-        "win_rate": (
-            winning_trades / len(trade_returns) * 100
-            if trade_returns else None
-        ),
-        "average_trade": (
-            sum(trade_returns) / len(trade_returns)
-            if trade_returns else None
-        ),
-        "profit_factor": calculate_profit_factor(
-            trade_returns
-        ),
-        "equity_curve": equity_curve
-    }
 
 
 # ============================================================
@@ -761,18 +813,30 @@ def run_portfolio_simulation(market, dates):
 
 def benchmark_return(start_date, end_date):
     try:
-        data = yf.Ticker(BENCHMARK).history(
-            start=start_date,
-            end=end_date,
+        start = pd.Timestamp(start_date).strftime("%Y-%m-%d")
+
+        # Yahoo Finance traktuje end jako datę wyłączną.
+        end = (
+            pd.Timestamp(end_date) + pd.Timedelta(days=2)
+        ).strftime("%Y-%m-%d")
+
+        data = yf.download(
+            BENCHMARK,
+            start=start,
+            end=end,
             interval="1d",
-            auto_adjust=True
+            auto_adjust=True,
+            progress=False,
+            threads=False
         )
 
-        if (
-            data is None
-            or data.empty
-            or "Close" not in data
-        ):
+        if data is None or data.empty:
+            return None
+
+        if isinstance(data.columns, pd.MultiIndex):
+            data.columns = data.columns.get_level_values(0)
+
+        if "Close" not in data.columns:
             return None
 
         close = data["Close"].dropna()
@@ -780,22 +844,13 @@ def benchmark_return(start_date, end_date):
         if len(close) < 2:
             return None
 
-        first_price = safe_float(close.iloc[0])
-        last_price = safe_float(close.iloc[-1])
-
-        if (
-            first_price is None
-            or last_price is None
-            or first_price <= 0
-        ):
-            return None
-
         return (
-            last_price / first_price - 1
+            (safe_float(close.iloc[-1]) /
+             safe_float(close.iloc[0])) - 1
         ) * 100
 
     except Exception as error:
-        print(f"BENCHMARK: {error}")
+        print(f"BACKTEST: błąd benchmarku WIG: {error}")
         return None
 
 
@@ -804,167 +859,213 @@ def benchmark_return(start_date, end_date):
 # ============================================================
 
 def run_backtest(instruments):
-    warnings.filterwarnings("ignore")
-
+    print("\n" + "=" * 65)
+    print(f"MARKET AI v{VERSION} | BACKTEST PORTFELOWY")
     print("=" * 65)
-    print(f"MARKET AI v{VERSION} - PORTFOLIO BACKTEST")
-    print("=" * 65)
-
-    print(f"Kapitał: {INITIAL_CAPITAL:.2f} PLN")
-    print(f"Maksymalna liczba pozycji: {MAX_POSITIONS}")
-    print(f"Limit jednej pozycji: {MAX_POSITION_WEIGHT * 100:.0f}%")
-    print(f"Minimalna gotówka: {MIN_CASH_WEIGHT * 100:.0f}%")
-    print(f"Prowizja na stronę: {COMMISSION_RATE * 100:.2f}%")
-    print(f"Poślizg na stronę: {SLIPPAGE_RATE * 100:.2f}%")
-    print(f"Historia: {HISTORY_PERIOD}")
 
     market = prepare_market(instruments)
 
     if not market:
-        print("Brak danych do backtestu.")
+        print("BACKTEST: brak danych do symulacji.")
 
         return {
             "version": VERSION,
-            "error": "Brak danych"
+            "instruments": 0,
+            "calendar_sessions": 0,
+            "train": {},
+            "out_of_sample": {},
+            "benchmark": None,
+            "benchmark_name": "WIG",
+            "test_start": None,
+            "test_end": None,
+            "costs_included": True,
+            "holding_comparison": {}
         }
 
-    # Kalendarz to suma dat, a nie przecięcie.
     calendar = build_market_calendar(market)
 
-    print(f"\nLiczba sesji w kalendarzu: {len(calendar)}")
-
     if len(calendar) < MIN_CALENDAR_SESSIONS:
-        print("Za mało sesji w kalendarzu.")
+        print(
+            "BACKTEST: za mało wspólnych sesji "
+            "do wiarygodnego podziału."
+        )
 
         return {
             "version": VERSION,
-            "error": "Za mało danych"
+            "instruments": len(market),
+            "calendar_sessions": len(calendar),
+            "train": {},
+            "out_of_sample": {},
+            "benchmark": None,
+            "benchmark_name": "WIG",
+            "test_start": None,
+            "test_end": None,
+            "costs_included": True,
+            "holding_comparison": {}
         }
 
-    # Chronologiczny podział 70/30.
-    split = int(len(calendar) * 0.70)
+    # Pierwsze 60% kalendarza pomijamy jako okres
+    # rozgrzewkowy wskaźników i treningowy.
+    # Pozostałe 40% to test poza próbą.
 
-    if split <= 60 or len(calendar) - split < 30:
-        print("Nie można poprawnie podzielić danych.")
+    split_index = int(len(calendar) * 0.70)
 
-        return {
-            "version": VERSION,
-            "error": "Nieprawidłowy podział danych"
-        }
+    train_start = calendar[60]
+    train_end = calendar[split_index - 1]
 
-    train_dates = calendar[60:split]
-    test_dates = calendar[split:]
+    test_start = calendar[split_index]
+    test_end = calendar[-1]
 
-    if len(train_dates) < 30 or len(test_dates) < 30:
-        print("Za krótkie okresy symulacji.")
-
-        return {
-            "version": VERSION,
-            "error": "Za krótkie okresy symulacji"
-        }
-
-    print("\nOKRES PROJEKTOWY")
-    print(f"Sesje: {len(train_dates)}")
-    print(f"Od: {train_dates[0]}")
-    print(f"Do: {train_dates[-1]}")
-
-    print("\nOKRES POZA PRÓBĄ")
-    print(f"Sesje: {len(test_dates)}")
-    print(f"Od: {test_dates[0]}")
-    print(f"Do: {test_dates[-1]}")
-
-    # Każdy okres rozpoczyna z kapitałem początkowym.
-    train = run_portfolio_simulation(
-        market,
-        train_dates
+    print(f"\nInstrumenty: {len(market)}")
+    print(f"Liczba sesji: {len(calendar)}")
+    print(
+        f"Okres treningowy: {train_start.date()} - "
+        f"{train_end.date()}"
+    )
+    print(
+        f"Okres testowy: {test_start.date()} - "
+        f"{test_end.date()}"
     )
 
-    test = run_portfolio_simulation(
-        market,
-        test_dates
-    )
+    holding_comparison = {}
+
+    for holding in HOLDING_PERIODS:
+
+        print(
+            f"\nBACKTEST: testowanie trzymania "
+            f"pozycji przez {holding} sesji..."
+        )
+
+        train_result = run_portfolio_simulation(
+            market,
+            calendar,
+            train_start,
+            train_end,
+            holding
+        )
+
+        test_result = run_portfolio_simulation(
+            market,
+            calendar,
+            test_start,
+            test_end,
+            holding
+        )
+
+        holding_comparison[holding] = {
+            "train": train_result,
+            "out_of_sample": test_result
+        }
+
+    # Domyślny wariant raportu to 3 sesje.
+    # Pozostałe warianty są pokazane osobno,
+    # aby można było je porównać.
+
+    selected = holding_comparison[
+        DEFAULT_HOLDING_SESSIONS
+    ]
 
     benchmark = benchmark_return(
-        test_dates[0],
-        test_dates[-1]
+        test_start,
+        test_end
     )
 
-    result = {
+    report = {
         "version": VERSION,
         "instruments": len(market),
         "calendar_sessions": len(calendar),
-        "train": train,
-        "out_of_sample": test,
+        "train": selected["train"],
+        "out_of_sample": selected["out_of_sample"],
         "benchmark": benchmark,
-        "benchmark_name": BENCHMARK,
-        "test_start": str(test_dates[0].date()),
-        "test_end": str(test_dates[-1].date()),
-        "costs_included": True
+        "benchmark_name": "WIG",
+        "test_start": test_start,
+        "test_end": test_end,
+        "costs_included": True,
+        "commission_rate": COMMISSION_RATE,
+        "slippage_rate": SLIPPAGE_RATE,
+        "holding_sessions": DEFAULT_HOLDING_SESSIONS,
+        "holding_comparison": holding_comparison
     }
 
     # ========================================================
-    # RAPORT
+    # RAPORT KONSOLI
     # ========================================================
 
     print("\n" + "=" * 65)
-    print("WYNIKI OKRESU PROJEKTOWEGO")
+    print(f"WYNIKI BACKTESTU MARKET AI v{VERSION}")
     print("=" * 65)
 
-    if train:
-        print(f"Wynik: {train['return']:+.2f}%")
-        print(f"Kapitał końcowy: {train['final_equity']:.2f} PLN")
-        print(f"Obsunięcie: {train['max_drawdown']:.2f}%")
-        print(f"Transakcje: {train['trades']}")
+    for holding in HOLDING_PERIODS:
 
-    print("\n" + "=" * 65)
-    print("WYNIKI POZA PRÓBĄ")
-    print("=" * 65)
+        result = holding_comparison[holding]["out_of_sample"]
 
-    if test:
-        print(f"Kapitał końcowy: {test['final_equity']:.2f} PLN")
-        print(f"Wynik: {test['return']:+.2f}%")
-        print(f"Maksymalne obsunięcie: {test['max_drawdown']:.2f}%")
-        print(f"Transakcje: {test['trades']}")
+        print(
+            f"\nTRZYMANIE: {holding} SESJI"
+        )
 
-        if test["win_rate"] is not None:
-            print(f"Skuteczność: {test['win_rate']:.1f}%")
+        print(
+            f"Kapitał końcowy: "
+            f"{result['ending_capital']:,.2f} PLN"
+        )
 
-        if test["average_trade"] is not None:
-            print(f"Średni wynik transakcji: {test['average_trade']:+.2f}%")
+        print(
+            f"Wynik netto: "
+            f"{result['return']:+.2f}%"
+        )
 
-        if test["profit_factor"] is not None:
-            print(f"Profit factor: {test['profit_factor']:.2f}")
+        print(
+            f"Wynik brutto: "
+            f"{result['gross_return']:+.2f}%"
+        )
+
+        print(
+            f"Maksymalne obsunięcie: "
+            f"{result['drawdown']:.2f}%"
+        )
+
+        print(
+            f"Liczba transakcji: "
+            f"{result['trades']}"
+        )
+
+        print(
+            f"Skuteczność: "
+            f"{result['win_rate']:.2f}%"
+        )
+
+        print(
+            f"Średni wynik transakcji: "
+            f"{result['average_trade']:+.2f} PLN"
+        )
+
+        pf = result["profit_factor"]
+
+        if math.isinf(pf):
+            pf_text = "brak stratnych transakcji"
+        else:
+            pf_text = f"{pf:.2f}"
+
+        print(f"Profit factor: {pf_text}")
 
     print("\n" + "=" * 65)
     print("PORÓWNANIE Z WIG")
     print("=" * 65)
 
-    if benchmark is not None and test:
-        print(f"MARKET AI: {test['return']:+.2f}%")
-        print(f"WIG: {benchmark:+.2f}%")
-        print(
-            f"Różnica: "
-            f"{test['return'] - benchmark:+.2f} pp"
-        )
+    if benchmark is None:
+        print("Brak danych benchmarku WIG.")
     else:
-        print("Brak danych benchmarku.")
+        print(f"WIG: {benchmark:+.2f}%")
 
-    print("\nUWAGI:")
-    print("- Kalendarz obejmuje sesje dostępne dla analizowanych instrumentów.")
-    print("- Sygnał jest obliczany na podstawie poprzedniej sesji.")
-    print("- Wejście następuje na zamknięciu aktualnej sesji.")
-    print("- Pozycje są zamykane po określonej liczbie sesji.")
-    print("- Otwarte pozycje są zamykane na końcu badanego okresu.")
-    print("- Prowizja i poślizg są założeniami symulacji.")
-    print("- Wyniki nie odwzorowują dokładnie mechaniki SIGG.")
-    print("- Wyniki historyczne nie gwarantują przyszłych rezultatów.")
+    print(
+        f"MARKET AI ({DEFAULT_HOLDING_SESSIONS} sesje): "
+        f"{selected['out_of_sample']['return']:+.2f}%"
+    )
 
+    print("\nKoszty uwzględnione:")
+    print(f"Prowizja: {COMMISSION_RATE * 100:.2f}%")
+    print(f"Poślizg: {SLIPPAGE_RATE * 100:.2f}%")
+
+    print("\nBACKTEST ZAKOŃCZONY.")
     print("=" * 65)
 
-    return result
-
-
-if __name__ == "__main__":
-    from instruments import INSTRUMENTS
-
-    run_backtest(INSTRUMENTS)
+    return report
