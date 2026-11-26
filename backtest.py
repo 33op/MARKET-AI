@@ -1,18 +1,17 @@
-
-import math
-import warnings
-from collections import Counter
-
-import pandas as pd
-import yfinance as yf
-
-
-VERSION = "16.3"
-
-INITIAL_CAPITAL = 20000.0
-MAX_POSITIONS = 3
-MAX_POSITION_WEIGHT = 0.30
-MIN_CASH_WEIGHT = 0.10
+    import math
+    import warnings
+    from collections import Counter
+    
+    import pandas as pd
+    import yfinance as yf
+    
+    
+    VERSION = "16.3"
+    
+    INITIAL_CAPITAL = 20000.0
+    MAX_POSITIONS = 3
+    MAX_POSITION_WEIGHT = 0.30
+    MIN_CASH_WEIGHT = 0.10
 
 HISTORY_PERIOD = "5y"
 MIN_SESSIONS = 100
