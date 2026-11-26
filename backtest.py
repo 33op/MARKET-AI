@@ -83,7 +83,17 @@ def download_history(ticker, period=HISTORY_PERIOD):
                 errors="coerce"
             )
 
-        data = data.dropna(subset=["Open", "Close"])
+        data = data.dropna(
+        subset=["Open", "Close", "High", "Low", "Volume"]
+)
+
+        data = data[
+       (data["Open"] > 0)
+       & (data["Close"] > 0)
+       & (data["High"] > 0)
+       & (data["Low"] > 0)
+       & (data["Volume"] >= 0)
+]
 
         data = data[
             (data["Open"] > 0)
