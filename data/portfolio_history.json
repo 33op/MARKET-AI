@@ -98,5 +98,23 @@
             }
         ],
         "forward_returns": {}
+    },
+    {
+        "date": "2026-11-27",
+        "capital": 20000.0,
+        "cash": 8037.959999999999,
+        "positions": [
+            {
+                "ticker": "ARH.WA",
+                "price": 52.8,
+                "shares": 113
+            },
+            {
+                "ticker": "TOA.WA",
+                "price": 13.72,
+                "shares": 437
+            }
+        ],
+        "forward_returns": {}
     }
 ]

@@ -7,7 +7,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -2.22
+            "1_sessions": -2.22,
+            "5_sessions": -2.61
         },
         "evaluation_version": 2
     },
@@ -19,7 +20,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 5.76
+            "1_sessions": 5.76,
+            "5_sessions": 5.26
         },
         "evaluation_version": 2
     },
@@ -31,7 +33,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.0
+            "1_sessions": 0.0,
+            "5_sessions": -1.65
         },
         "evaluation_version": 2
     },
@@ -43,7 +46,8 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 5.89
+            "1_sessions": 5.89,
+            "5_sessions": 2.5
         },
         "evaluation_version": 2
     },
@@ -55,7 +59,8 @@
         "signal": "POZYTYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 4.8
+            "1_sessions": 4.8,
+            "5_sessions": 3.52
         },
         "evaluation_version": 2
     },
@@ -67,7 +72,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.23
+            "1_sessions": -0.23,
+            "5_sessions": 0.7
         },
         "evaluation_version": 2
     },
@@ -79,7 +85,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.0
+            "1_sessions": 0.0,
+            "5_sessions": 0.23
         },
         "evaluation_version": 2
     },
@@ -91,7 +98,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.11
+            "1_sessions": 0.11,
+            "5_sessions": -7.19
         },
         "evaluation_version": 2
     },
@@ -103,7 +111,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.67
+            "1_sessions": 0.67,
+            "5_sessions": 2.9
         },
         "evaluation_version": 2
     },
@@ -115,7 +124,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -2.67
+            "1_sessions": -2.67,
+            "5_sessions": 0.0
         },
         "evaluation_version": 2
     },
@@ -127,7 +137,8 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 2.8
+            "1_sessions": 2.8,
+            "5_sessions": 5.6
         },
         "evaluation_version": 2
     },
@@ -139,7 +150,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 5.04
+            "1_sessions": 5.04,
+            "5_sessions": 6.3
         },
         "evaluation_version": 2
     },
@@ -151,7 +163,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 2.23
+            "1_sessions": 2.23,
+            "5_sessions": 2.01
         },
         "evaluation_version": 2
     },
@@ -163,7 +176,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 8.61
+            "1_sessions": 8.61,
+            "5_sessions": 1.14
         },
         "evaluation_version": 2
     },
@@ -175,7 +189,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 1.47
+            "1_sessions": 1.47,
+            "5_sessions": 3.19
         },
         "evaluation_version": 2
     },
@@ -187,7 +202,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 1.3
+            "1_sessions": 1.3,
+            "5_sessions": 13.0
         },
         "evaluation_version": 2
     },
@@ -199,7 +215,8 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -1.38
+            "1_sessions": -1.38,
+            "5_sessions": -3.03
         },
         "evaluation_version": 2
     },
@@ -211,7 +228,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -2.1
+            "1_sessions": -2.1,
+            "5_sessions": -6.3
         },
         "evaluation_version": 2
     },
@@ -223,7 +241,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 1.5
+            "1_sessions": 1.5,
+            "5_sessions": 2.17
         },
         "evaluation_version": 2
     },
@@ -235,7 +254,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -2.47
+            "1_sessions": -2.47,
+            "5_sessions": 2.47
         },
         "evaluation_version": 2
     },
@@ -247,7 +267,8 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.72
+            "1_sessions": 0.72,
+            "5_sessions": -0.54
         },
         "evaluation_version": 2
     },
@@ -259,7 +280,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 3.6
+            "1_sessions": 3.6,
+            "5_sessions": 6.32
         },
         "evaluation_version": 2
     },
@@ -271,7 +293,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.74
+            "1_sessions": 1.74,
+            "5_sessions": 4.1
         },
         "evaluation_version": 2
     },
@@ -283,7 +306,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.45
+            "1_sessions": 0.45,
+            "5_sessions": 2.84
         },
         "evaluation_version": 2
     },
@@ -295,7 +319,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -3.59
+            "1_sessions": -3.59,
+            "5_sessions": 2.67
         },
         "evaluation_version": 2
     },
@@ -307,7 +332,8 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.03
+            "1_sessions": 1.03,
+            "5_sessions": -1.14
         },
         "evaluation_version": 2
     },
@@ -319,7 +345,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.64
+            "1_sessions": 0.64,
+            "5_sessions": 10.49
         },
         "evaluation_version": 2
     },
@@ -331,7 +358,8 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 2.44
+            "1_sessions": 2.44,
+            "5_sessions": -2.24
         },
         "evaluation_version": 2
     },
@@ -343,7 +371,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.58
+            "1_sessions": -0.58,
+            "5_sessions": 0.0
         },
         "evaluation_version": 2
     },
@@ -355,7 +384,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 3.1
+            "1_sessions": 3.1,
+            "5_sessions": 5.45
         },
         "evaluation_version": 2
     },
@@ -367,7 +397,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -6.49
+            "1_sessions": -6.49,
+            "5_sessions": -5.19
         },
         "evaluation_version": 2
     },
@@ -379,7 +410,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.96
+            "1_sessions": 0.96,
+            "5_sessions": -15.19
         },
         "evaluation_version": 2
     },
@@ -391,7 +423,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 4.59
+            "1_sessions": 4.59,
+            "5_sessions": 7.5
         },
         "evaluation_version": 2
     },
@@ -403,7 +436,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 1.47
+            "1_sessions": 1.47,
+            "5_sessions": 3.36
         },
         "evaluation_version": 2
     },
@@ -415,7 +449,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -3.11
+            "1_sessions": -3.11,
+            "5_sessions": 0.39
         },
         "evaluation_version": 2
     },
@@ -427,7 +462,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -1.1
+            "1_sessions": -1.1,
+            "5_sessions": 4.65
         },
         "evaluation_version": 2
     },
@@ -439,7 +475,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -2.42
+            "1_sessions": -2.42,
+            "5_sessions": -1.72
         },
         "evaluation_version": 2
     },
@@ -451,7 +488,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -1.66
+            "1_sessions": -1.66,
+            "5_sessions": -2.76
         },
         "evaluation_version": 2
     },
@@ -463,7 +501,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 2.43
+            "1_sessions": 2.43,
+            "5_sessions": 4.1
         },
         "evaluation_version": 2
     },
@@ -475,7 +514,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 4.05
+            "1_sessions": 4.05,
+            "5_sessions": 12.03
         },
         "evaluation_version": 2
     },
@@ -487,7 +527,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -1.05
+            "1_sessions": -1.05,
+            "5_sessions": 2.1
         },
         "evaluation_version": 2
     },
@@ -499,7 +540,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 3.39
+            "1_sessions": 3.39,
+            "5_sessions": 7.02
         },
         "evaluation_version": 2
     },
@@ -511,7 +553,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -4.88
+            "1_sessions": -4.88,
+            "5_sessions": -5.63
         },
         "evaluation_version": 2
     },
@@ -523,7 +566,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -1.65
+            "1_sessions": -1.65,
+            "5_sessions": -7.65
         },
         "evaluation_version": 2
     },
@@ -535,7 +579,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -2.62
+            "1_sessions": -2.62,
+            "5_sessions": -4.36
         },
         "evaluation_version": 2
     },
@@ -547,7 +592,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -3.45
+            "1_sessions": -3.45,
+            "5_sessions": -2.3
         },
         "evaluation_version": 2
     },
@@ -559,7 +605,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.6
+            "1_sessions": 0.6,
+            "5_sessions": -3.71
         },
         "evaluation_version": 2
     },
@@ -571,7 +618,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.44
+            "1_sessions": 0.44,
+            "5_sessions": 5.98
         },
         "evaluation_version": 2
     },
@@ -583,7 +631,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 2.59
+            "1_sessions": 2.59,
+            "5_sessions": 3.01
         },
         "evaluation_version": 2
     },
@@ -595,7 +644,8 @@
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -1.61
+            "1_sessions": -1.61,
+            "5_sessions": -2.41
         },
         "evaluation_version": 2
     },
@@ -607,7 +657,8 @@
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.92
+            "1_sessions": 0.92,
+            "5_sessions": 2.03
         },
         "evaluation_version": 2
     },
@@ -619,7 +670,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 2.49
+            "1_sessions": 2.49,
+            "5_sessions": -1.63
         },
         "evaluation_version": 2
     },
@@ -631,7 +683,8 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.09
+            "1_sessions": -0.09,
+            "5_sessions": -1.8
         },
         "evaluation_version": 2
     },
@@ -643,7 +696,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 3.02
+            "1_sessions": 3.02,
+            "5_sessions": 1.35
         },
         "evaluation_version": 2
     },
@@ -655,7 +709,8 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 4.24
+            "1_sessions": 4.24,
+            "5_sessions": -1.3
         },
         "evaluation_version": 2
     },
@@ -667,7 +722,8 @@
         "signal": "NEUTRALNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -1.37
+            "1_sessions": -1.37,
+            "5_sessions": -0.04
         },
         "evaluation_version": 2
     },
@@ -679,7 +735,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -1.07
+            "1_sessions": -1.07,
+            "5_sessions": 0.0
         },
         "evaluation_version": 2
     },
@@ -691,7 +748,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -0.83
+            "1_sessions": -0.83,
+            "5_sessions": -3.75
         },
         "evaluation_version": 2
     },
@@ -703,7 +761,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 2.92
+            "1_sessions": 2.92,
+            "5_sessions": 4.06
         },
         "evaluation_version": 2
     },
@@ -715,7 +774,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 4.08
+            "1_sessions": 4.08,
+            "5_sessions": 9.33
         },
         "evaluation_version": 2
     },
@@ -727,7 +787,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -4.46
+            "1_sessions": -4.46,
+            "5_sessions": 3.81
         },
         "evaluation_version": 2
     },
@@ -739,7 +800,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -1.35
+            "1_sessions": -1.35,
+            "5_sessions": 0.97
         },
         "evaluation_version": 2
     },
@@ -751,7 +813,8 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.49
+            "1_sessions": 0.49,
+            "5_sessions": 1.47
         },
         "evaluation_version": 2
     },
@@ -763,7 +826,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 1.04
+            "1_sessions": 1.04,
+            "5_sessions": 5.0
         },
         "evaluation_version": 2
     },
@@ -775,7 +839,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 3.75
+            "1_sessions": 3.75,
+            "5_sessions": 1.04
         },
         "evaluation_version": 2
     },
@@ -787,7 +852,8 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 3.12
+            "1_sessions": 3.12,
+            "5_sessions": -0.22
         },
         "evaluation_version": 2
     },
@@ -799,7 +865,8 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.38
+            "1_sessions": -0.38,
+            "5_sessions": -0.38
         },
         "evaluation_version": 2
     },
@@ -811,7 +878,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -3.2
+            "1_sessions": -3.2,
+            "5_sessions": 6.68
         },
         "evaluation_version": 2
     },
@@ -823,7 +891,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 2.21
+            "1_sessions": 2.21,
+            "5_sessions": 4.91
         },
         "evaluation_version": 2
     },
@@ -835,7 +904,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 6.64
+            "1_sessions": 6.64,
+            "5_sessions": 4.41
         },
         "evaluation_version": 2
     },
@@ -847,7 +917,8 @@
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 1.55
+            "1_sessions": 1.55,
+            "5_sessions": 1.77
         },
         "evaluation_version": 2
     },
@@ -859,7 +930,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 1.07
+            "1_sessions": 1.07,
+            "5_sessions": 4.15
         },
         "evaluation_version": 2
     },
@@ -871,7 +943,8 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 2.6
+            "1_sessions": 2.6,
+            "5_sessions": 1.59
         },
         "evaluation_version": 2
     },
@@ -883,7 +956,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 1.86
+            "1_sessions": 1.86,
+            "5_sessions": 4.15
         },
         "evaluation_version": 2
     },
@@ -895,7 +969,8 @@
         "signal": "NEUTRALNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 4.78
+            "1_sessions": 4.78,
+            "5_sessions": 1.64
         },
         "evaluation_version": 2
     },
@@ -907,7 +982,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.74
+            "1_sessions": 0.74,
+            "5_sessions": -1.11
         },
         "evaluation_version": 2
     },
@@ -919,7 +995,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -0.8
+            "1_sessions": -0.8,
+            "5_sessions": 2.96
         },
         "evaluation_version": 2
     },
@@ -931,7 +1008,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.56
+            "1_sessions": 0.56,
+            "5_sessions": 5.39
         },
         "evaluation_version": 2
     },
@@ -943,7 +1021,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.53
+            "1_sessions": 0.53,
+            "5_sessions": 5.26
         },
         "evaluation_version": 2
     },
@@ -955,7 +1034,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 4.18
+            "1_sessions": 4.18,
+            "5_sessions": 6.91
         },
         "evaluation_version": 2
     },
@@ -967,7 +1047,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 3.55
+            "1_sessions": 3.55,
+            "5_sessions": 1.09
         },
         "evaluation_version": 2
     },
@@ -979,7 +1060,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.44
+            "1_sessions": 0.44,
+            "5_sessions": 8.41
         },
         "evaluation_version": 2
     },
@@ -991,7 +1073,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -1.09
+            "1_sessions": -1.09,
+            "5_sessions": 5.23
         },
         "evaluation_version": 2
     },
@@ -1003,7 +1086,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.61
+            "1_sessions": 0.61,
+            "5_sessions": 2.43
         },
         "evaluation_version": 2
     },
@@ -1015,7 +1099,8 @@
         "signal": "POZYTYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.06
+            "1_sessions": 1.06,
+            "5_sessions": 13.92
         },
         "evaluation_version": 2
     },
@@ -1027,7 +1112,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.49
+            "1_sessions": 0.49,
+            "5_sessions": 1.79
         },
         "evaluation_version": 2
     },
@@ -1051,7 +1137,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.55
+            "1_sessions": 0.55,
+            "5_sessions": 0.97
         },
         "evaluation_version": 2
     },
@@ -1063,7 +1150,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -9.89
+            "1_sessions": -9.89,
+            "5_sessions": -8.3
         },
         "evaluation_version": 2
     },
@@ -1075,7 +1163,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.81
+            "1_sessions": 1.81,
+            "5_sessions": 4.35
         },
         "evaluation_version": 2
     },
@@ -1087,7 +1176,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.13
+            "1_sessions": 0.13,
+            "5_sessions": 3.18
         },
         "evaluation_version": 2
     },
@@ -1099,7 +1189,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.98
+            "1_sessions": -0.98,
+            "5_sessions": 1.57
         },
         "evaluation_version": 2
     },
@@ -1111,7 +1202,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.49
+            "1_sessions": -0.49,
+            "5_sessions": 2.33
         },
         "evaluation_version": 2
     },
@@ -1123,7 +1215,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.0
+            "1_sessions": 0.0,
+            "5_sessions": -2.29
         },
         "evaluation_version": 2
     },
@@ -1135,7 +1228,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 5.06
+            "1_sessions": 5.06,
+            "5_sessions": 1.05
         },
         "evaluation_version": 2
     },
@@ -1147,7 +1241,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.19
+            "1_sessions": -0.19,
+            "5_sessions": -0.39
         },
         "evaluation_version": 2
     },
@@ -1159,7 +1254,8 @@
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.38
+            "1_sessions": -0.38,
+            "5_sessions": -2.62
         },
         "evaluation_version": 2
     },
@@ -1171,7 +1267,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 2.66
+            "1_sessions": 2.66,
+            "5_sessions": 0.55
         },
         "evaluation_version": 2
     },
@@ -1183,7 +1280,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 3.66
+            "1_sessions": 3.66,
+            "5_sessions": 1.48
         },
         "evaluation_version": 2
     },
@@ -1195,7 +1293,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 4.2
+            "1_sessions": 4.2,
+            "5_sessions": 1.59
         },
         "evaluation_version": 2
     },
@@ -1207,7 +1306,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 1.05
+            "1_sessions": 1.05,
+            "5_sessions": 1.67
         },
         "evaluation_version": 2
     },
@@ -1219,7 +1319,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.9
+            "1_sessions": 1.9,
+            "5_sessions": 3.73
         },
         "evaluation_version": 2
     },
@@ -1231,7 +1332,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -5.32
+            "1_sessions": -5.32,
+            "5_sessions": -6.38
         },
         "evaluation_version": 2
     },
@@ -1243,7 +1345,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 1.43
+            "1_sessions": 1.43,
+            "5_sessions": 10.22
         },
         "evaluation_version": 2
     },
@@ -1255,7 +1358,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 3.15
+            "1_sessions": 3.15,
+            "5_sessions": 3.51
         },
         "evaluation_version": 2
     },
@@ -1267,7 +1371,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.0
+            "1_sessions": 0.0,
+            "5_sessions": -6.85
         },
         "evaluation_version": 2
     },
@@ -1279,7 +1384,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 3.13
+            "1_sessions": 3.13,
+            "5_sessions": 5.89
         },
         "evaluation_version": 2
     },
@@ -1291,7 +1397,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 1.36
+            "1_sessions": 1.36,
+            "5_sessions": 3.21
         },
         "evaluation_version": 2
     },
@@ -1303,7 +1410,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -0.54
+            "1_sessions": -0.54,
+            "5_sessions": 3.23
         },
         "evaluation_version": 2
     },
@@ -1315,7 +1423,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 3.33
+            "1_sessions": 3.33,
+            "5_sessions": -7.67
         },
         "evaluation_version": 2
     },
@@ -1327,7 +1436,8 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -1.03
+            "1_sessions": -1.03,
+            "5_sessions": 1.32
         },
         "evaluation_version": 2
     },
@@ -1339,7 +1449,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -0.38
+            "1_sessions": -0.38,
+            "5_sessions": 3.02
         },
         "evaluation_version": 2
     },
@@ -1351,7 +1462,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 8.89
+            "1_sessions": 8.89,
+            "5_sessions": 9.98
         },
         "evaluation_version": 2
     },
@@ -1363,7 +1475,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.48
+            "1_sessions": 0.48,
+            "5_sessions": 0.72
         },
         "evaluation_version": 2
     },
@@ -1375,7 +1488,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -3.85
+            "1_sessions": -3.85,
+            "5_sessions": -4.62
         },
         "evaluation_version": 2
     },
@@ -1387,7 +1501,8 @@
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.48
+            "1_sessions": 0.48,
+            "5_sessions": 0.0
         },
         "evaluation_version": 2
     },
@@ -1399,7 +1514,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.0
+            "1_sessions": 0.0,
+            "5_sessions": -0.44
         },
         "evaluation_version": 2
     },
@@ -1411,7 +1527,8 @@
         "signal": "NEUTRALNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -0.11
+            "1_sessions": -0.11,
+            "5_sessions": 0.22
         },
         "evaluation_version": 2
     },
@@ -1423,7 +1540,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 3.87
+            "1_sessions": 3.87,
+            "5_sessions": 3.29
         },
         "evaluation_version": 2
     },
@@ -1435,7 +1553,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 1.17
+            "1_sessions": 1.17,
+            "5_sessions": 1.95
         },
         "evaluation_version": 2
     },
@@ -1447,7 +1566,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.47
+            "1_sessions": -0.47,
+            "5_sessions": -0.47
         },
         "evaluation_version": 2
     },
@@ -1459,7 +1579,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.78
+            "1_sessions": 0.78,
+            "5_sessions": 0.24
         },
         "evaluation_version": 2
     },
@@ -1471,7 +1592,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.44
+            "1_sessions": -0.44,
+            "5_sessions": 20.83
         },
         "evaluation_version": 2
     },
@@ -1483,7 +1605,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -2.01
+            "1_sessions": -2.01,
+            "5_sessions": -1.1
         },
         "evaluation_version": 2
     },
@@ -1495,7 +1618,8 @@
         "signal": "POZYTYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 2.54
+            "1_sessions": 2.54,
+            "5_sessions": 8.89
         },
         "evaluation_version": 2
     },
@@ -1507,7 +1631,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.65
+            "1_sessions": 0.65,
+            "5_sessions": -0.06
         },
         "evaluation_version": 2
     },
@@ -1519,7 +1644,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.0
+            "1_sessions": 0.0,
+            "5_sessions": -1.49
         },
         "evaluation_version": 2
     },
@@ -1531,7 +1657,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -2.48
+            "1_sessions": -2.48,
+            "5_sessions": 1.52
         },
         "evaluation_version": 2
     },
@@ -1543,7 +1670,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 3.02
+            "1_sessions": 3.02,
+            "5_sessions": 5.87
         },
         "evaluation_version": 2
     },
@@ -1555,7 +1683,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 4.7
+            "1_sessions": 4.7,
+            "5_sessions": 5.93
         },
         "evaluation_version": 2
     },
@@ -1567,7 +1696,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": 1.76
+            "1_sessions": 1.76,
+            "5_sessions": 11.89
         },
         "evaluation_version": 2
     },
@@ -1579,7 +1709,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": 0.69
+            "1_sessions": 0.69,
+            "5_sessions": 0.97
         },
         "evaluation_version": 2
     },
@@ -1591,7 +1722,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -1.14
+            "1_sessions": -1.14,
+            "5_sessions": 1.14
         },
         "evaluation_version": 2
     },
@@ -1603,7 +1735,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.28
+            "1_sessions": 0.28,
+            "5_sessions": 0.57
         },
         "evaluation_version": 2
     },
@@ -1615,7 +1748,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.0
+            "1_sessions": 0.0,
+            "5_sessions": -2.22
         },
         "evaluation_version": 2
     },
@@ -1627,7 +1761,8 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": -0.93
+            "1_sessions": -0.93,
+            "5_sessions": -0.74
         },
         "evaluation_version": 2
     },
@@ -1639,7 +1774,8 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "forward_returns": {
-            "1_sessions": -1.27
+            "1_sessions": -1.27,
+            "5_sessions": 4.64
         },
         "evaluation_version": 2
     },
@@ -1651,7 +1787,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 0.19
+            "1_sessions": 0.19,
+            "5_sessions": 0.0
         },
         "evaluation_version": 2
     },
@@ -1663,7 +1800,8 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "forward_returns": {
-            "1_sessions": 30.68
+            "1_sessions": 30.68,
+            "5_sessions": 31.22
         },
         "evaluation_version": 2
     },
@@ -1675,7 +1813,8 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "forward_returns": {
-            "1_sessions": -1.32
+            "1_sessions": -1.32,
+            "5_sessions": 3.97
         },
         "evaluation_version": 2
     },
@@ -6624,7 +6763,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.43
+        },
         "evaluation_version": 2
     },
     {
@@ -6646,7 +6787,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.2
+        },
         "evaluation_version": 2
     },
     {
@@ -6657,7 +6800,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 1,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.27
+        },
         "evaluation_version": 2
     },
     {
@@ -6679,7 +6824,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.7
+        },
         "evaluation_version": 2
     },
     {
@@ -6690,7 +6837,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.0
+        },
         "evaluation_version": 2
     },
     {
@@ -6701,7 +6850,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 2.67
+        },
         "evaluation_version": 2
     },
     {
@@ -6745,7 +6896,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.56
+        },
         "evaluation_version": 2
     },
     {
@@ -6756,7 +6909,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 3.8
+        },
         "evaluation_version": 2
     },
     {
@@ -6778,7 +6933,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 5.89
+        },
         "evaluation_version": 2
     },
     {
@@ -6800,7 +6957,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": -0.56
+        },
         "evaluation_version": 2
     },
     {
@@ -6811,7 +6970,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.49
+        },
         "evaluation_version": 2
     },
     {
@@ -6844,7 +7005,9 @@
         "signal": "POZYTYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 3,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.0
+        },
         "evaluation_version": 2
     },
     {
@@ -6866,7 +7029,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": -0.15
+        },
         "evaluation_version": 2
     },
     {
@@ -6888,7 +7053,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.7
+        },
         "evaluation_version": 2
     },
     {
@@ -6932,7 +7099,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 3.3
+        },
         "evaluation_version": 2
     },
     {
@@ -6943,7 +7112,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 3.91
+        },
         "evaluation_version": 2
     },
     {
@@ -6965,7 +7136,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": -0.36
+        },
         "evaluation_version": 2
     },
     {
@@ -6976,7 +7149,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.65
+        },
         "evaluation_version": 2
     },
     {
@@ -7009,7 +7184,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.67
+        },
         "evaluation_version": 2
     },
     {
@@ -7042,7 +7219,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 12.03
+        },
         "evaluation_version": 2
     },
     {
@@ -7053,7 +7232,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.94
+        },
         "evaluation_version": 2
     },
     {
@@ -7064,7 +7245,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.49
+        },
         "evaluation_version": 2
     },
     {
@@ -7075,7 +7258,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.13
+        },
         "evaluation_version": 2
     },
     {
@@ -7108,7 +7293,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.71
+        },
         "evaluation_version": 2
     },
     {
@@ -7130,7 +7317,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 2.21
+        },
         "evaluation_version": 2
     },
     {
@@ -7152,7 +7341,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.0
+        },
         "evaluation_version": 2
     },
     {
@@ -7163,7 +7354,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 1,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.28
+        },
         "evaluation_version": 2
     },
     {
@@ -7174,7 +7367,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 3.62
+        },
         "evaluation_version": 2
     },
     {
@@ -7185,7 +7380,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.47
+        },
         "evaluation_version": 2
     },
     {
@@ -7196,7 +7393,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 1,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": -2.31
+        },
         "evaluation_version": 2
     },
     {
@@ -7207,7 +7406,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.64
+        },
         "evaluation_version": 2
     },
     {
@@ -7229,7 +7430,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.72
+        },
         "evaluation_version": 2
     },
     {
@@ -7240,7 +7443,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 2.21
+        },
         "evaluation_version": 2
     },
     {
@@ -7273,7 +7478,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.35
+        },
         "evaluation_version": 2
     },
     {
@@ -7284,7 +7491,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.55
+        },
         "evaluation_version": 2
     },
     {
@@ -7295,7 +7504,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 2.31
+        },
         "evaluation_version": 2
     },
     {
@@ -7328,7 +7539,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.18
+        },
         "evaluation_version": 2
     },
     {
@@ -7350,7 +7563,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.52
+        },
         "evaluation_version": 2
     },
     {
@@ -7361,7 +7576,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.99
+        },
         "evaluation_version": 2
     },
     {
@@ -7372,7 +7589,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 7.31
+        },
         "evaluation_version": 2
     },
     {
@@ -7383,7 +7602,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 1,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.33
+        },
         "evaluation_version": 2
     },
     {
@@ -7394,7 +7615,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 3.21
+        },
         "evaluation_version": 2
     },
     {
@@ -7405,7 +7628,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.29
+        },
         "evaluation_version": 2
     },
     {
@@ -7416,7 +7641,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.49
+        },
         "evaluation_version": 2
     },
     {
@@ -7427,7 +7654,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.4
+        },
         "evaluation_version": 2
     },
     {
@@ -7438,7 +7667,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": -0.37
+        },
         "evaluation_version": 2
     },
     {
@@ -7449,7 +7680,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 4.85
+        },
         "evaluation_version": 2
     },
     {
@@ -7460,7 +7693,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.52
+        },
         "evaluation_version": 2
     },
     {
@@ -7471,7 +7706,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 5.54
+        },
         "evaluation_version": 2
     },
     {
@@ -7482,7 +7719,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.34
+        },
         "evaluation_version": 2
     },
     {
@@ -7504,7 +7743,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 6.24
+        },
         "evaluation_version": 2
     },
     {
@@ -7526,7 +7767,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.24
+        },
         "evaluation_version": 2
     },
     {
@@ -7537,7 +7780,9 @@
         "signal": "NEUTRALNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 3,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 10.58
+        },
         "evaluation_version": 2
     },
     {
@@ -7548,7 +7793,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.48
+        },
         "evaluation_version": 2
     },
     {
@@ -7559,7 +7806,9 @@
         "signal": "POZYTYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 2,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.14
+        },
         "evaluation_version": 2
     },
     {
@@ -7570,7 +7819,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": -0.14
+        },
         "evaluation_version": 2
     },
     {
@@ -7603,7 +7854,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 2.78
+        },
         "evaluation_version": 2
     },
     {
@@ -7614,7 +7867,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.0
+        },
         "evaluation_version": 2
     },
     {
@@ -7625,7 +7880,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.05
+        },
         "evaluation_version": 2
     },
     {
@@ -7636,7 +7893,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": -0.5
+        },
         "evaluation_version": 2
     },
     {
@@ -7647,7 +7906,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.4
+        },
         "evaluation_version": 2
     },
     {
@@ -7658,7 +7919,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.0
+        },
         "evaluation_version": 2
     },
     {
@@ -7669,7 +7932,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.96
+        },
         "evaluation_version": 2
     },
     {
@@ -7680,7 +7945,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 2.15
+        },
         "evaluation_version": 2
     },
     {
@@ -7691,7 +7958,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 3.08
+        },
         "evaluation_version": 2
     },
     {
@@ -7702,7 +7971,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.93
+        },
         "evaluation_version": 2
     },
     {
@@ -7713,7 +7984,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.83
+        },
         "evaluation_version": 2
     },
     {
@@ -7757,7 +8030,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 2.77
+        },
         "evaluation_version": 2
     },
     {
@@ -7834,7 +8109,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 2.25
+        },
         "evaluation_version": 2
     },
     {
@@ -7856,7 +8133,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 2.2
+        },
         "evaluation_version": 2
     },
     {
@@ -7867,7 +8146,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.64
+        },
         "evaluation_version": 2
     },
     {
@@ -7878,7 +8159,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 1,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.73
+        },
         "evaluation_version": 2
     },
     {
@@ -7889,7 +8172,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 2.25
+        },
         "evaluation_version": 2
     },
     {
@@ -7900,7 +8185,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.44
+        },
         "evaluation_version": 2
     },
     {
@@ -7922,7 +8209,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.69
+        },
         "evaluation_version": 2
     },
     {
@@ -7933,7 +8222,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.47
+        },
         "evaluation_version": 2
     },
     {
@@ -7966,7 +8257,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 3.05
+        },
         "evaluation_version": 2
     },
     {
@@ -7988,7 +8281,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.71
+        },
         "evaluation_version": 2
     },
     {
@@ -8032,7 +8327,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 4.02
+        },
         "evaluation_version": 2
     },
     {
@@ -8043,7 +8340,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 2.28
+        },
         "evaluation_version": 2
     },
     {
@@ -8054,7 +8353,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.67
+        },
         "evaluation_version": 2
     },
     {
@@ -8065,7 +8366,9 @@
         "signal": "NEGATYWNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 3.1
+        },
         "evaluation_version": 2
     },
     {
@@ -8076,7 +8379,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.0
+        },
         "evaluation_version": 2
     },
     {
@@ -8087,7 +8392,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": -0.83
+        },
         "evaluation_version": 2
     },
     {
@@ -8098,7 +8405,9 @@
         "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 1.13
+        },
         "evaluation_version": 2
     },
     {
@@ -8109,7 +8418,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 4.47
+        },
         "evaluation_version": 2
     },
     {
@@ -8120,7 +8431,9 @@
         "signal": "NEUTRALNY",
         "risk": "UMIARKOWANE",
         "confirmed_days": 0,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.16
+        },
         "evaluation_version": 2
     },
     {
@@ -8131,7 +8444,9 @@
         "signal": "NEGATYWNY",
         "risk": "WYSOKIE",
         "confirmed_days": 3,
-        "forward_returns": {},
+        "forward_returns": {
+            "1_sessions": 0.62
+        },
         "evaluation_version": 2
     },
     {
@@ -8140,6 +8455,1546 @@
         "price": 8.1,
         "score": 5,
         "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "11B.WA",
+        "date": "2026-11-27",
+        "price": 100.7,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ABE.WA",
+        "date": "2026-11-27",
+        "price": 128.0,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "AGO.WA",
+        "date": "2026-11-27",
+        "price": 11.95,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ALR.WA",
+        "date": "2026-11-27",
+        "price": 139.15,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ALE.WA",
+        "date": "2026-11-27",
+        "price": 66.88,
+        "score": 7,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "AMB.WA",
+        "date": "2026-11-27",
+        "price": 17.38,
+        "score": 1,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "AMC.WA",
+        "date": "2026-11-27",
+        "price": 42.95,
+        "score": 1,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "EAT.WA",
+        "date": "2026-11-27",
+        "price": 8.26,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ANR.WA",
+        "date": "2026-11-27",
+        "price": 23.1,
+        "score": 5,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "APT.WA",
+        "date": "2026-11-27",
+        "price": 22.45,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ARH.WA",
+        "date": "2026-11-27",
+        "price": 52.8,
+        "score": 9,
+        "signal": "POZYTYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 3,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ATC.WA",
+        "date": "2026-11-27",
+        "price": 5.06,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ARL.WA",
+        "date": "2026-11-27",
+        "price": 22.85,
+        "score": 6,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ASB.WA",
+        "date": "2026-11-27",
+        "price": 150.1,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ABS.WA",
+        "date": "2026-11-27",
+        "price": 84.2,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ACP.WA",
+        "date": "2026-11-27",
+        "price": 235.4,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ASE.WA",
+        "date": "2026-11-27",
+        "price": 70.5,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "AST.WA",
+        "date": "2026-11-27",
+        "price": 26.75,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "1AT.WA",
+        "date": "2026-11-27",
+        "price": 61.3,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ATR.WA",
+        "date": "2026-11-27",
+        "price": 47.75,
+        "score": 1,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "APR.WA",
+        "date": "2026-11-27",
+        "price": 27.45,
+        "score": 1,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "BFT.WA",
+        "date": "2026-11-27",
+        "price": 6645.0,
+        "score": 7,
+        "signal": "POZYTYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 3,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "BCX.WA",
+        "date": "2026-11-27",
+        "price": 66.0,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "BIO.WA",
+        "date": "2026-11-27",
+        "price": 3.43,
+        "score": 5,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "BLO.WA",
+        "date": "2026-11-27",
+        "price": 20.0,
+        "score": 1,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "BNP.WA",
+        "date": "2026-11-27",
+        "price": 173.2,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "LWB.WA",
+        "date": "2026-11-27",
+        "price": 25.8,
+        "score": 6,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "BRS.WA",
+        "date": "2026-11-27",
+        "price": 4.81,
+        "score": 7,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 1,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "BOS.WA",
+        "date": "2026-11-27",
+        "price": 10.36,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "BDX.WA",
+        "date": "2026-11-27",
+        "price": 769.8,
+        "score": 7,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "BMC.WA",
+        "date": "2026-11-27",
+        "price": 7.3,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "CTX.WA",
+        "date": "2026-11-27",
+        "price": 44.1,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "CDR.WA",
+        "date": "2026-11-27",
+        "price": 276.6,
+        "score": 6,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "CIG.WA",
+        "date": "2026-11-27",
+        "price": 2.46,
+        "score": 8,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "CLN.WA",
+        "date": "2026-11-27",
+        "price": 15.5,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "COG.WA",
+        "date": "2026-11-27",
+        "price": 4.19,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "CMP.WA",
+        "date": "2026-11-27",
+        "price": 97.3,
+        "score": 1,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "CRJ.WA",
+        "date": "2026-11-27",
+        "price": 352.0,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "CRI.WA",
+        "date": "2026-11-27",
+        "price": 686.0,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "CRQ.WA",
+        "date": "2026-11-27",
+        "price": 165.8,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "CBF.WA",
+        "date": "2026-11-27",
+        "price": 214.4,
+        "score": 8,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 1,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "CPS.WA",
+        "date": "2026-11-27",
+        "price": 13.27,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "DAD.WA",
+        "date": "2026-11-27",
+        "price": 75.5,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "DAT.WA",
+        "date": "2026-11-27",
+        "price": 89.3,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "DCR.WA",
+        "date": "2026-11-27",
+        "price": 65.8,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "DVL.WA",
+        "date": "2026-11-27",
+        "price": 8.49,
+        "score": 7,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "DIA.WA",
+        "date": "2026-11-27",
+        "price": 145.4,
+        "score": 1,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "DIG.WA",
+        "date": "2026-11-27",
+        "price": 287.2,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "DNP.WA",
+        "date": "2026-11-27",
+        "price": 37.35,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "DOM.WA",
+        "date": "2026-11-27",
+        "price": 243.0,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ECH.WA",
+        "date": "2026-11-27",
+        "price": 5.54,
+        "score": 9,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 1,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ELT.WA",
+        "date": "2026-11-27",
+        "price": 57.3,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ENA.WA",
+        "date": "2026-11-27",
+        "price": 20.74,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ENT.WA",
+        "date": "2026-11-27",
+        "price": 48.7,
+        "score": 7,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 1,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "EBP.WA",
+        "date": "2026-11-27",
+        "price": 758.4,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "EUR.WA",
+        "date": "2026-11-27",
+        "price": 4.82,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "FRO.WA",
+        "date": "2026-11-27",
+        "price": 28.1,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "FTE.WA",
+        "date": "2026-11-27",
+        "price": 11.5,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "GPW.WA",
+        "date": "2026-11-27",
+        "price": 99.85,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "GRX.WA",
+        "date": "2026-11-27",
+        "price": 2.25,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ATT.WA",
+        "date": "2026-11-27",
+        "price": 14.44,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "GPP.WA",
+        "date": "2026-11-27",
+        "price": 52.3,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "BHW.WA",
+        "date": "2026-11-27",
+        "price": 124.2,
+        "score": 6,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "HUG.WA",
+        "date": "2026-11-27",
+        "price": 25.2,
+        "score": 7,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "IMC.WA",
+        "date": "2026-11-27",
+        "price": 19.4,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ING.WA",
+        "date": "2026-11-27",
+        "price": 453.8,
+        "score": 1,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "CAR.WA",
+        "date": "2026-11-27",
+        "price": 1036.0,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "JSW.WA",
+        "date": "2026-11-27",
+        "price": 26.67,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "KTY.WA",
+        "date": "2026-11-27",
+        "price": 1283.0,
+        "score": 6,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "KGH.WA",
+        "date": "2026-11-27",
+        "price": 252.6,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "KGN.WA",
+        "date": "2026-11-27",
+        "price": 92.2,
+        "score": 6,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "KRU.WA",
+        "date": "2026-11-27",
+        "price": 321.1,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "LPP.WA",
+        "date": "2026-11-27",
+        "price": 28140.0,
+        "score": 7,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "LBW.WA",
+        "date": "2026-11-27",
+        "price": 9.53,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "MBK.WA",
+        "date": "2026-11-27",
+        "price": 1616.0,
+        "score": 5,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "MCI.WA",
+        "date": "2026-11-27",
+        "price": 26.8,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "MDG.WA",
+        "date": "2026-11-27",
+        "price": 20.55,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ICE.WA",
+        "date": "2026-11-27",
+        "price": 46.9,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "MNC.WA",
+        "date": "2026-11-27",
+        "price": 40.0,
+        "score": 6,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "MRC.WA",
+        "date": "2026-11-27",
+        "price": 58.8,
+        "score": 6,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "MIL.WA",
+        "date": "2026-11-27",
+        "price": 22.24,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "MRB.WA",
+        "date": "2026-11-27",
+        "price": 12.25,
+        "score": 5,
+        "signal": "NEUTRALNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "MLG.WA",
+        "date": "2026-11-27",
+        "price": 96.6,
+        "score": 5,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "MBR.WA",
+        "date": "2026-11-27",
+        "price": 422.0,
+        "score": 5,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "MDV.WA",
+        "date": "2026-11-27",
+        "price": 133.7,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 3,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "MSZ.WA",
+        "date": "2026-11-27",
+        "price": 6.27,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "MUR.WA",
+        "date": "2026-11-27",
+        "price": 36.5,
+        "score": 9,
+        "signal": "POZYTYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 3,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "NEU.WA",
+        "date": "2026-11-27",
+        "price": 729.0,
+        "score": 9,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 1,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "NWG.WA",
+        "date": "2026-11-27",
+        "price": 80.7,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "GNS.WA",
+        "date": "2026-11-27",
+        "price": 14.4,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "OND.WA",
+        "date": "2026-11-27",
+        "price": 8.12,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "OPN.WA",
+        "date": "2026-11-27",
+        "price": 103.4,
+        "score": 7,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "OPL.WA",
+        "date": "2026-11-27",
+        "price": 16.88,
+        "score": 7,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "PCR.WA",
+        "date": "2026-11-27",
+        "price": 59.7,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "PEO.WA",
+        "date": "2026-11-27",
+        "price": 249.7,
+        "score": 1,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "PEP.WA",
+        "date": "2026-11-27",
+        "price": 51.7,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "PCO.WA",
+        "date": "2026-11-27",
+        "price": 50.6,
+        "score": 5,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "PGE.WA",
+        "date": "2026-11-27",
+        "price": 15.68,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "PKN.WA",
+        "date": "2026-11-27",
+        "price": 123.32,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "PKO.WA",
+        "date": "2026-11-27",
+        "price": 111.2,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "PLW.WA",
+        "date": "2026-11-27",
+        "price": 243.0,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "PXM.WA",
+        "date": "2026-11-27",
+        "price": 6.53,
+        "score": 1,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "PZU.WA",
+        "date": "2026-11-27",
+        "price": 69.08,
+        "score": 1,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "QRS.WA",
+        "date": "2026-11-27",
+        "price": 12.3,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "RBW.WA",
+        "date": "2026-11-27",
+        "price": 114.9,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "REX.WA",
+        "date": "2026-11-27",
+        "price": 10.2,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ROB.WA",
+        "date": "2026-11-27",
+        "price": 28.75,
+        "score": 5,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "RVU.WA",
+        "date": "2026-11-27",
+        "price": 16.7,
+        "score": 1,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "SNK.WA",
+        "date": "2026-11-27",
+        "price": 19.2,
+        "score": 6,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "SCW.WA",
+        "date": "2026-11-27",
+        "price": 277.0,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "SCP.WA",
+        "date": "2026-11-27",
+        "price": 138.2,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "SEL.WA",
+        "date": "2026-11-27",
+        "price": 54.6,
+        "score": 3,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "SLV.WA",
+        "date": "2026-11-27",
+        "price": 18.3,
+        "score": 7,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "SKA.WA",
+        "date": "2026-11-27",
+        "price": 83.8,
+        "score": 5,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "SVE.WA",
+        "date": "2026-11-27",
+        "price": 2.48,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "STX.WA",
+        "date": "2026-11-27",
+        "price": 2.08,
+        "score": 6,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "STP.WA",
+        "date": "2026-11-27",
+        "price": 227.0,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "SGN.WA",
+        "date": "2026-11-27",
+        "price": 91.7,
+        "score": 5,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "S2B.WA",
+        "date": "2026-11-27",
+        "price": 52.78,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "SNT.WA",
+        "date": "2026-11-27",
+        "price": 313.8,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "TAR.WA",
+        "date": "2026-11-27",
+        "price": 106.0,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "TPE.WA",
+        "date": "2026-11-27",
+        "price": 9.01,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "TXT.WA",
+        "date": "2026-11-27",
+        "price": 43.86,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "TOR.WA",
+        "date": "2026-11-27",
+        "price": 53.9,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "TOA.WA",
+        "date": "2026-11-27",
+        "price": 13.72,
+        "score": 7,
+        "signal": "POZYTYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 3,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "TEN.WA",
+        "date": "2026-11-27",
+        "price": 84.95,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "UNI.WA",
+        "date": "2026-11-27",
+        "price": 13.2,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "UNT.WA",
+        "date": "2026-11-27",
+        "price": 147.4,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "VRC.WA",
+        "date": "2026-11-27",
+        "price": 133.4,
+        "score": 8,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "VGO.WA",
+        "date": "2026-11-27",
+        "price": 518.0,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "VOT.WA",
+        "date": "2026-11-27",
+        "price": 38.1,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "VOX.WA",
+        "date": "2026-11-27",
+        "price": 146.6,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "VRG.WA",
+        "date": "2026-11-27",
+        "price": 5.32,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "WWL.WA",
+        "date": "2026-11-27",
+        "price": 708.0,
+        "score": 5,
+        "signal": "NEUTRALNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "WLT.WA",
+        "date": "2026-11-27",
+        "price": 4.18,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "WPL.WA",
+        "date": "2026-11-27",
+        "price": 53.5,
+        "score": 2,
+        "signal": "NEGATYWNY",
+        "risk": "UMIARKOWANE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "XTB.WA",
+        "date": "2026-11-27",
+        "price": 115.0,
+        "score": 0,
+        "signal": "NEGATYWNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ZAB.WA",
+        "date": "2026-11-27",
+        "price": 31.8,
+        "score": 7,
+        "signal": "NEUTRALNY",
+        "risk": "PODWYZSZONE",
+        "confirmed_days": 0,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ZEP.WA",
+        "date": "2026-11-27",
+        "price": 24.25,
+        "score": 4,
+        "signal": "NEUTRALNY",
+        "risk": "WYSOKIE",
+        "confirmed_days": 3,
+        "forward_returns": {},
+        "evaluation_version": 2
+    },
+    {
+        "ticker": "ZRE.WA",
+        "date": "2026-11-27",
+        "price": 7.86,
+        "score": 3,
+        "signal": "NEGATYWNY",
         "risk": "PODWYZSZONE",
         "confirmed_days": 0,
         "forward_returns": {},
