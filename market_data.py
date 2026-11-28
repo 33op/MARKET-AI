@@ -1,542 +1,429 @@
-
+import json
+import os
 import math
+from collections import defaultdict
+
 import yfinance as yf
 import pandas as pd
 
 
-MAX_DATA_AGE_DAYS = 7
-MIN_SESSIONS = 60
+VERSION = "14.0"
+EVALUATION_VERSION = 3
+
+DATA_DIR = "data"
+DATA_FILE = os.path.join(DATA_DIR, "performance.json")
+
+HORIZONS = [1, 5, 10]
+SIGNALS = ["POZYTYWNY", "NEUTRALNY", "NEGATYWNY"]
+HISTORY_PERIOD = "2y"
+
+# Po sygnale wygenerowanym po zamknięciu sesji wejście jest liczone
+# od otwarcia następnej sesji, a nie od zamknięcia dnia sygnału.
+MAX_PRICE_DIFFERENCE_PCT = 1.0
+
+# Kolejne identyczne sygnały tej samej spółki w krótkim odstępie
+# traktujemy jako jeden epizod, aby ograniczyć nakładanie obserwacji.
+EPISODE_GAP_CALENDAR_DAYS = 5
 
 
-def reject_data(ticker, reason):
-    print(f"ODRZUCONO {ticker}: {reason}")
-    return None
-
-
-def safe_float(value):
+def valid_number(value):
     try:
-        result = float(value)
-
-        if math.isfinite(result):
-            return result
-
+        number = float(value)
+        return math.isfinite(number)
     except (TypeError, ValueError):
-        pass
-
-    return None
+        return False
 
 
-def analyze_market(ticker):
-    print("\n" + "=" * 45)
-    print(f"ANALIZA: {ticker}")
-    print("=" * 45)
+def load_history():
+    os.makedirs(DATA_DIR, exist_ok=True)
+
+    if not os.path.exists(DATA_FILE):
+        return []
 
     try:
-        # 1. POBIERANIE DANYCH
+        with open(DATA_FILE, "r", encoding="utf-8") as file:
+            history = json.load(file)
 
-        stock = yf.Ticker(ticker)
+        if not isinstance(history, list):
+            print("Historia ma nieprawidlowy format.")
+            return []
 
-        data = stock.history(
-            period="1y",
-            interval="1d",
-            auto_adjust=True
+        return history
+
+    except (json.JSONDecodeError, OSError):
+        print("Nie mozna odczytac historii analiz.")
+        return []
+
+
+def save_history(history):
+    os.makedirs(DATA_DIR, exist_ok=True)
+    temporary_file = DATA_FILE + ".tmp"
+
+    with open(temporary_file, "w", encoding="utf-8") as file:
+        json.dump(
+            history,
+            file,
+            ensure_ascii=False,
+            indent=4,
+            allow_nan=False
         )
 
-        if data.empty:
-            return reject_data(ticker, "Brak danych z Yahoo Finance.")
+    os.replace(temporary_file, DATA_FILE)
 
-        if "Close" not in data.columns:
-            return reject_data(ticker, "Brak kolumny Close.")
 
-        # 2. CZYSZCZENIE DANYCH
+def add_snapshots(history, results):
+    existing = {
+        (item.get("ticker"), item.get("date"))
+        for item in history
+        if isinstance(item, dict)
+    }
 
-        data = data.copy()
-        data = data.sort_index()
-        data = data[~data.index.duplicated(keep="last")]
+    added = 0
 
-        data["Close"] = pd.to_numeric(
-            data["Close"],
-            errors="coerce"
-        )
+    for result in results:
+        if not isinstance(result, dict):
+            continue
 
-        data = data.dropna(subset=["Close"])
+        ticker = result.get("ticker")
+        date = result.get("date")
+        price = result.get("price")
 
-        data = data[
-            data["Close"].map(
-                lambda value: (
-                    math.isfinite(float(value))
-                    and float(value) > 0
-                )
-            )
-        ]
+        if not ticker or not date or not valid_number(price):
+            continue
 
-        if "Volume" not in data.columns:
-            data["Volume"] = 0
+        price = float(price)
+        if price <= 0:
+            continue
 
-        data["Volume"] = pd.to_numeric(
-            data["Volume"],
-            errors="coerce"
-        )
+        try:
+            normalized_date = str(pd.Timestamp(date).date())
+        except (TypeError, ValueError):
+            continue
 
-        if data["Volume"].dropna().lt(0).any():
-            return reject_data(ticker, "Ujemny wolumen.")
+        key = (str(ticker), normalized_date)
+        if key in existing:
+            continue
 
-        data["Volume"] = data["Volume"].fillna(0)
-
-        if not data["Volume"].map(
-            lambda value: math.isfinite(float(value))
-        ).all():
-            return reject_data(ticker, "Nieprawidlowy wolumen.")
-
-        if len(data) < MIN_SESSIONS:
-            return reject_data(
-                ticker,
-                f"Za malo poprawnych sesji: {len(data)}."
-            )
-
-        # 3. KONTROLA AKTUALNOSCI
-
-        latest = data.iloc[-1]
-
-        latest_date = pd.Timestamp(latest.name).date()
-        today = pd.Timestamp.now(tz="UTC").date()
-
-        age_days = (today - latest_date).days
-
-        if age_days < 0:
-            return reject_data(
-                ticker,
-                "Data notowan znajduje sie w przyszlosci."
-            )
-
-        if age_days > MAX_DATA_AGE_DAYS:
-            return reject_data(
-                ticker,
-                f"Nieaktualne notowania: {age_days} dni."
-            )
-
-        close = data["Close"]
-        volume = data["Volume"]
-
-        # 4. SMA
-
-        data["SMA20"] = close.rolling(20).mean()
-        data["SMA50"] = close.rolling(50).mean()
-
-        # 5. RSI
-
-        delta = close.diff()
-
-        gain = delta.clip(lower=0)
-        loss = -delta.clip(upper=0)
-
-        avg_gain = gain.ewm(
-            alpha=1 / 14,
-            min_periods=14,
-            adjust=False
-        ).mean()
-
-        avg_loss = loss.ewm(
-            alpha=1 / 14,
-            min_periods=14,
-            adjust=False
-        ).mean()
-
-        rs = avg_gain / avg_loss.replace(0, float("nan"))
-
-        data["RSI"] = 100 - (100 / (1 + rs))
-
-        data.loc[
-            (avg_loss == 0) & (avg_gain > 0),
-            "RSI"
-        ] = 100
-
-        data.loc[
-            (avg_loss == 0) & (avg_gain == 0),
-            "RSI"
-        ] = 50
-
-        # 6. MACD
-
-        ema12 = close.ewm(
-            span=12,
-            adjust=False
-        ).mean()
-
-        ema26 = close.ewm(
-            span=26,
-            adjust=False
-        ).mean()
-
-        data["MACD"] = ema12 - ema26
-
-        data["SIGNAL"] = data["MACD"].ewm(
-            span=9,
-            adjust=False
-        ).mean()
-
-        # 7. WOLUMEN
-
-        data["AVG_VOLUME"] = (
-            volume.shift(1).rolling(20).mean()
-        )
-
-        # 8. OSTATNIA SESJA
-
-        latest = data.iloc[-1]
-        previous = data.iloc[-2]
-
-        price = safe_float(latest["Close"])
-        previous_price = safe_float(previous["Close"])
-
-        if price is None or previous_price is None:
-            return reject_data(ticker, "Nieprawidlowa cena.")
-
-        if previous_price <= 0:
-            return reject_data(ticker, "Nieprawidlowa cena poprzedniej sesji.")
-
-        sma20 = safe_float(latest["SMA20"])
-        sma50 = safe_float(latest["SMA50"])
-        rsi = safe_float(latest["RSI"])
-        macd = safe_float(latest["MACD"])
-        macd_signal = safe_float(latest["SIGNAL"])
-
-        required_values = [
-            sma20,
-            sma50,
-            rsi,
-            macd,
-            macd_signal
-        ]
-
-        if any(value is None for value in required_values):
-            return reject_data(
-                ticker,
-                "Nie mozna obliczyc wszystkich wskaznikow."
-            )
-
-        if not 0 <= rsi <= 100:
-            return reject_data(ticker, "Nieprawidlowa wartosc RSI.")
-
-        change = (price / previous_price - 1) * 100
-
-        # 9. MOMENTUM
-
-        price_5d = safe_float(close.iloc[-6])
-        price_20d = safe_float(close.iloc[-21])
-
-        if not price_5d or not price_20d:
-            return reject_data(ticker, "Brak danych momentum.")
-
-        momentum_5d = (price / price_5d - 1) * 100
-        momentum_20d = (price / price_20d - 1) * 100
-
-        # 10. ZMIENNOSC
-
-        daily_returns = close.pct_change()
-
-        volatility = safe_float(
-            daily_returns.tail(20).std()
-            * math.sqrt(252)
-            * 100
-        )
-
-        if volatility is None:
-            return reject_data(ticker, "Nieprawidlowa zmiennosc.")
-
-        # 11. WOLUMEN
-
-        avg_volume = safe_float(latest["AVG_VOLUME"])
-        current_volume = safe_float(latest["Volume"])
-
-        volume_ratio = None
-
-        if (
-            avg_volume is not None
-            and avg_volume > 0
-            and current_volume is not None
-        ):
-            volume_ratio = current_volume / avg_volume
-
-            if not math.isfinite(volume_ratio):
-                volume_ratio = None
-
-        # 12. TREND
-
-        if price > sma20 > sma50:
-            trend = "WZROSTOWY"
-
-        elif price < sma20 < sma50:
-            trend = "SPADKOWY"
-
-        else:
-            trend = "BOCZNY"
-
-        # 13. POTWIERDZENIE
-
-        confirmation = (
-            (data["Close"] > data["SMA20"])
-            & (data["SMA20"] > data["SMA50"])
-            & (data["MACD"] > data["SIGNAL"])
-        )
-
-        confirmed_days = int(
-            confirmation.tail(3).sum()
-        )
-
-        # 14. OCENA BAZOWA
-
-        raw_score = 0
-
-        strengths = []
-
-        if price > sma20:
-            raw_score += 1
-            strengths.append("Cena powyzej SMA20")
-
-        if sma20 > sma50:
-            raw_score += 1
-            strengths.append("SMA20 powyzej SMA50")
-
-        if data["SMA20"].iloc[-1] > data["SMA20"].iloc[-6]:
-            raw_score += 1
-            strengths.append("Rosnaca SMA20")
-
-        if macd > macd_signal:
-            raw_score += 2
-            strengths.append("MACD powyzej linii sygnalowej")
-
-        if 50 <= rsi <= 65:
-            raw_score += 2
-            strengths.append("RSI w korzystnym przedziale")
-
-        elif 40 <= rsi < 50 or 65 < rsi <= 70:
-            raw_score += 1
-
-        if momentum_5d > 0:
-            raw_score += 1
-            strengths.append("Dodatnie momentum 5 dni")
-
-        if momentum_20d > 0:
-            raw_score += 1
-            strengths.append("Dodatnie momentum 20 dni")
-
-        if (
-            volume_ratio is not None
-            and volume_ratio >= 1.2
-            and change > 0
-        ):
-            raw_score += 1
-            strengths.append("Wzrost przy podwyzszonym wolumenie")
-
-        # 15. KARY ZA PODWYZSZONE RYZYKO
-
-        penalties = []
-        risk_factors = []
-
-        penalty = 0
-
-        if rsi > 80:
-            penalty += 2
-            penalties.append("Silne wykupienie RSI: -2")
-            risk_factors.append("RSI powyzej 80")
-
-        elif rsi > 70:
-            penalty += 1
-            penalties.append("Wykupienie RSI: -1")
-            risk_factors.append("RSI powyzej 70")
-
-        if change >= 10:
-            penalty += 2
-            penalties.append("Ekstremalny wzrost dzienny: -2")
-            risk_factors.append("Ekstremalny wzrost dzienny")
-
-        elif change >= 5:
-            penalty += 1
-            penalties.append("Mocny wzrost dzienny: -1")
-            risk_factors.append("Mocny wzrost dzienny")
-
-        if (
-            volume_ratio is not None
-            and volume_ratio >= 4
-        ):
-            penalty += 1
-            penalties.append("Ekstremalny wolumen: -1")
-            risk_factors.append("Wolumen ponad 4x sredniej")
-
-        if volatility >= 60:
-            penalty += 2
-            penalties.append("Bardzo wysoka zmiennosc: -2")
-            risk_factors.append("Zmiennosc powyzej 60%")
-
-        elif volatility >= 40:
-            penalty += 1
-            penalties.append("Wysoka zmiennosc: -1")
-            risk_factors.append("Zmiennosc powyzej 40%")
-
-        score = max(0, min(10, raw_score - penalty))
-
-        # 16. SYGNAL
-
-        if score >= 7 and confirmed_days >= 2:
-            signal = "POZYTYWNY"
-
-        elif score >= 4:
+        signal = result.get("signal", "NEUTRALNY")
+        if signal not in SIGNALS:
             signal = "NEUTRALNY"
 
-        else:
-            signal = "NEGATYWNY"
+        score = result.get("score", 0)
+        if not valid_number(score):
+            score = 0
 
-        # 17. RYZYKO
+        confirmed_days = result.get("confirmed_days", 0)
+        if not valid_number(confirmed_days):
+            confirmed_days = 0
 
-        if (
-            volatility >= 60
-            or change <= -5
-            or rsi < 25
-            or rsi > 85
-            or (
-                volume_ratio is not None
-                and volume_ratio >= 4
-                and abs(change) >= 5
-            )
-        ):
-            risk = "WYSOKIE"
-
-        elif (
-            volatility >= 40
-            or change <= -3
-            or change >= 5
-            or rsi < 30
-            or rsi > 75
-            or (
-                volume_ratio is not None
-                and volume_ratio >= 3
-            )
-        ):
-            risk = "PODWYZSZONE"
-
-        else:
-            risk = "UMIARKOWANE"
-
-        # 18. OSTRZEZENIA
-
-        warnings = []
-
-        if change <= -4:
-            warnings.append("MOCNY SPADEK DZIENNY")
-
-        if change >= 5:
-            warnings.append("MOCNY WZROST DZIENNY")
-
-        if rsi < 30:
-            warnings.append("RSI: OBSZAR WYPRZEDANIA")
-
-        if rsi > 70:
-            warnings.append("RSI: OBSZAR WYKUPIENIA")
-
-        if volatility >= 60:
-            warnings.append("BARDZO WYSOKA ZMIENNOSC")
-
-        elif volatility >= 40:
-            warnings.append("PODWYZSZONA ZMIENNOSC")
-
-        if volume_ratio is not None and volume_ratio >= 1.5:
-            warnings.append("WYSOKI WOLUMEN")
-
-        if confirmed_days < 2:
-            warnings.append("SYGNAL NIE MA POTWIERDZENIA")
-
-        if penalties:
-            warnings.append("ZASTOSOWANO KARY PUNKTOWE")
-
-        # 19. RAPORT
-
-        print("Status danych: POPRAWNE")
-        print(f"Data notowan: {latest_date}")
-        print(f"Wiek danych: {age_days} dni")
-        print(f"Liczba sesji: {len(data)}")
-
-        print(f"\nCena: {price:.2f} PLN")
-        print(f"Zmiana dzienna: {change:+.2f}%")
-        print(f"SMA20: {sma20:.2f}")
-        print(f"SMA50: {sma50:.2f}")
-        print(f"RSI: {rsi:.2f}")
-        print(f"MACD: {macd:.4f}")
-        print(f"MACD Signal: {macd_signal:.4f}")
-
-        if volume_ratio is not None:
-            print(f"Wolumen: {volume_ratio:.2f}x sredniej")
-        else:
-            print("Wolumen: brak danych")
-
-        print(f"Momentum 5 dni: {momentum_5d:+.2f}%")
-        print(f"Momentum 20 dni: {momentum_20d:+.2f}%")
-        print(f"Zmiennosc roczna: {volatility:.2f}%")
-        print(f"Potwierdzenie: {confirmed_days}/3 sesji")
-
-        print(f"\nTrend: {trend}")
-        print(f"Ocena: {signal}")
-        print(f"Wynik bazowy: {raw_score}/10")
-        print(f"Kary: -{penalty}")
-        print(f"Wynik koncowy: {score}/10")
-        print(f"Ryzyko: {risk}")
-
-        if strengths:
-            print("\nMOCNE STRONY:")
-            for item in strengths:
-                print(f"- {item}")
-
-        if penalties:
-            print("\nKARY PUNKTOWE:")
-            for item in penalties:
-                print(f"- {item}")
-
-        if risk_factors:
-            print("\nCZYNNIKI RYZYKA:")
-            for item in risk_factors:
-                print(f"- {item}")
-
-        if warnings:
-            print("\nOSTRZEZENIA:")
-            for warning in warnings:
-                print(f"- {warning}")
-        else:
-            print("\nBrak ostrzezen.")
-
-        # 20. WYNIK DLA POZOSTALYCH MODULOW
-
-        return {
-            "ticker": ticker,
-            "date": str(latest_date),
-            "price": round(price, 2),
-            "change": round(change, 2),
-            "daily_change": round(change, 2),
-            "rsi": round(rsi, 2),
-            "trend": trend,
+        history.append({
+            "ticker": str(ticker),
+            "date": normalized_date,
+            "price": price,
+            "score": float(score),
             "signal": signal,
-            "score": score,
-            "raw_score": raw_score,
-            "score_penalty": penalty,
-            "risk": risk,
-            "macd": round(macd, 4),
-            "volume_ratio": (
-                round(volume_ratio, 2)
-                if volume_ratio is not None else None
-            ),
-            "volatility": round(volatility, 2),
-            "confirmed_days": confirmed_days,
-            "confirmation_days": confirmed_days,
-            "momentum_5d": round(momentum_5d, 2),
-            "momentum_20d": round(momentum_20d, 2),
-            "data_status": "OK",
-            "data_age_days": age_days,
-            "sessions_count": len(data),
-            "strengths": strengths,
-            "risk_factors": risk_factors,
-            "warnings": warnings,
-            "penalties": penalties
-        }
+            "risk": str(result.get("risk", "NIEZNANE")),
+            "confirmed_days": int(confirmed_days),
+            "forward_returns": {},
+            "evaluation_version": EVALUATION_VERSION
+        })
+
+        existing.add(key)
+        added += 1
+
+    print(f"\nZapisano nowych analiz: {added}")
+    return history
+
+
+def prepare_market_data(ticker):
+    data = yf.Ticker(ticker).history(
+        period=HISTORY_PERIOD,
+        interval="1d",
+        auto_adjust=True
+    )
+
+    if data.empty or not {"Open", "Close"}.issubset(data.columns):
+        return None
+
+    data = data.copy().sort_index()
+    data = data[~data.index.duplicated(keep="last")]
+
+    if data.index.tz is not None:
+        data.index = data.index.tz_localize(None)
+
+    for column in ("Open", "Close"):
+        data[column] = pd.to_numeric(data[column], errors="coerce")
+
+    data = data.dropna(subset=["Open", "Close"])
+    data = data[
+        (data["Open"] > 0)
+        & (data["Close"] > 0)
+        & data["Open"].map(lambda value: math.isfinite(float(value)))
+        & data["Close"].map(lambda value: math.isfinite(float(value)))
+    ]
+
+    if data.empty:
+        return None
+
+    data["SessionDate"] = [timestamp.date() for timestamp in data.index]
+    return data
+
+
+def evaluate_ticker_records(ticker, records):
+    print(f"\nUZUPELNIANIE HISTORII: {ticker}")
+
+    try:
+        data = prepare_market_data(ticker)
+
+        if data is None:
+            print(f"Brak poprawnych danych OHLC: {ticker}")
+            return
+
+        dates = list(data["SessionDate"])
+        closes = list(data["Close"])
+        opens = list(data["Open"])
+        position_by_date = {session_date: index for index, session_date in enumerate(dates)}
+
+        for item in records:
+            try:
+                snapshot_date = pd.Timestamp(item["date"]).date()
+                if snapshot_date not in position_by_date:
+                    print(f"{ticker}: brak sesji dla {snapshot_date}")
+                    continue
+
+                stored_price = float(item["price"])
+                if not valid_number(stored_price) or stored_price <= 0:
+                    continue
+
+                snapshot_position = position_by_date[snapshot_date]
+                actual_close = float(closes[snapshot_position])
+
+                difference = abs(actual_close / stored_price - 1) * 100
+                if difference > MAX_PRICE_DIFFERENCE_PCT:
+                    print(
+                        f"{ticker}: OSTRZEZENIE - cena zapisana rozni sie "
+                        f"od Yahoo o {difference:.2f}%"
+                    )
+                    continue
+
+                # Pierwsza możliwa sesja transakcyjna po sygnale.
+                entry_position = snapshot_position + 1
+                if entry_position >= len(data):
+                    continue
+
+                entry_price = float(opens[entry_position])
+                if not valid_number(entry_price) or entry_price <= 0:
+                    continue
+
+                for horizon in HORIZONS:
+                    key = f"{horizon}_sessions"
+                    if key in item["forward_returns"]:
+                        continue
+
+                    exit_position = entry_position + horizon - 1
+                    if exit_position >= len(data):
+                        continue
+
+                    exit_price = float(closes[exit_position])
+                    if not valid_number(exit_price) or exit_price <= 0:
+                        continue
+
+                    change = (exit_price / entry_price - 1) * 100
+                    if not math.isfinite(change):
+                        continue
+
+                    item["forward_returns"][key] = round(change, 2)
+                    item.setdefault("evaluation_details", {})[key] = {
+                        "entry_date": str(dates[entry_position]),
+                        "entry_price": round(entry_price, 6),
+                        "exit_date": str(dates[exit_position]),
+                        "exit_price": round(exit_price, 6),
+                        "method": "NEXT_SESSION_OPEN_TO_HORIZON_CLOSE"
+                    }
+
+                    print(
+                        f"{ticker}: {horizon} sesji "
+                        f"({dates[entry_position]} -> {dates[exit_position]}) "
+                        f"= {change:+.2f}%"
+                    )
+
+            except (ValueError, TypeError, KeyError, IndexError) as error:
+                print(f"Blad pojedynczego wpisu {ticker}: {error}")
 
     except Exception as error:
-        print(f"BLAD ANALIZY {ticker}: {error}")
-        return None
+        print(f"Blad historii {ticker}: {error}")
+
+
+def evaluate_history(history):
+    grouped = defaultdict(list)
+
+    for item in history:
+        if not isinstance(item, dict):
+            continue
+
+        if not all(key in item for key in ("ticker", "date", "price")):
+            continue
+
+        if not valid_number(item.get("price")) or float(item["price"]) <= 0:
+            continue
+
+        if not isinstance(item.get("forward_returns"), dict):
+            item["forward_returns"] = {}
+
+        # Zmiana wersji metody unieważnia wyłącznie stare wyliczenia.
+        # Zachowujemy same snapshoty: datę, cenę i sygnał.
+        if item.get("evaluation_version", 0) != EVALUATION_VERSION:
+            item["forward_returns"] = {}
+            item.pop("evaluation_details", None)
+            item["evaluation_version"] = EVALUATION_VERSION
+
+        if len(item["forward_returns"]) < len(HORIZONS):
+            grouped[str(item["ticker"])].append(item)
+
+    for ticker, records in grouped.items():
+        evaluate_ticker_records(ticker, records)
+
+    return history
+
+
+def select_independent_episodes(records):
+    """
+    Zwraca pierwszy snapshot z każdego krótkiego epizodu tego samego
+    sygnału dla tej samej spółki. Kolejny epizod zaczyna się, gdy:
+    - zmieni się sygnał, albo
+    - przerwa między snapshotami przekroczy ustalony limit dni.
+    """
+    by_ticker = defaultdict(list)
+
+    for item in records:
+        if not isinstance(item, dict):
+            continue
+        if item.get("signal") not in SIGNALS:
+            continue
+        if not isinstance(item.get("forward_returns"), dict):
+            continue
+        by_ticker[str(item.get("ticker", ""))].append(item)
+
+    selected = []
+
+    for ticker_records in by_ticker.values():
+        ticker_records.sort(key=lambda item: str(item.get("date", "")))
+        previous_signal = None
+        previous_date = None
+
+        for item in ticker_records:
+            try:
+                current_date = pd.Timestamp(item["date"]).date()
+            except (KeyError, TypeError, ValueError):
+                continue
+
+            current_signal = item.get("signal")
+            is_new_episode = (
+                previous_date is None
+                or current_signal != previous_signal
+                or (current_date - previous_date).days > EPISODE_GAP_CALENDAR_DAYS
+            )
+
+            if is_new_episode:
+                selected.append(item)
+
+            previous_signal = current_signal
+            previous_date = current_date
+
+    return selected
+
+
+def get_statistics(history):
+    statistics = {}
+    independent_records = select_independent_episodes(history)
+
+    for signal in SIGNALS:
+        statistics[signal] = {}
+
+        for horizon in HORIZONS:
+            key = f"{horizon}_sessions"
+            values = []
+
+            for item in independent_records:
+                if item.get("signal") != signal:
+                    continue
+
+                value = item.get("forward_returns", {}).get(key)
+                if valid_number(value):
+                    values.append(float(value))
+
+            if not values:
+                statistics[signal][key] = {
+                    "count": 0,
+                    "average": None,
+                    "median": None,
+                    "positive": None,
+                    "negative": None
+                }
+                continue
+
+            statistics[signal][key] = {
+                "count": len(values),
+                "average": round(sum(values) / len(values), 2),
+                "median": round(float(pd.Series(values).median()), 2),
+                "positive": round(
+                    sum(value > 0 for value in values) / len(values) * 100,
+                    1
+                ),
+                "negative": round(
+                    sum(value < 0 for value in values) / len(values) * 100,
+                    1
+                )
+            }
+
+    return statistics
+
+
+def print_statistics(statistics):
+    print("\n" + "=" * 70)
+    print(f"MARKET AI {VERSION} - SKUTECZNOSC SYGNALOW")
+    print("=" * 70)
+    print("Metoda: nastepna sesja OPEN -> CLOSE po zadanym horyzoncie.")
+    print("Statystyki ograniczaja powtarzajace sie snapshoty w jednym epizodzie.")
+
+    for signal, horizons in statistics.items():
+        print(f"\nSYGNAL: {signal}")
+
+        for horizon, values in horizons.items():
+            if values["count"] == 0:
+                print(f"{horizon}: za malo danych")
+                continue
+
+            print(
+                f"{horizon}: "
+                f"srednia: {values['average']:+.2f}% | "
+                f"mediana: {values['median']:+.2f}% | "
+                f"dodatnie: {values['positive']}% | "
+                f"ujemne: {values['negative']}% | "
+                f"niezalezne epizody: {values['count']}"
+            )
+
+    print("\n" + "=" * 70)
+    print("UWAGA:")
+    print("Wyniki historyczne nie gwarantuja przyszlych rezultatow.")
+    print(
+        "Ograniczenie epizodow zmniejsza nakladanie obserwacji, "
+        "ale nie zapewnia pelnej niezaleznosci statystycznej."
+    )
+    print(
+        "Wynik od nastepnego OPEN do przyszlego CLOSE nie uwzglednia "
+        "prowizji, poslizgu ani ograniczen plynnosci."
+    )
+    print("=" * 70)
+
+
+def update_performance(results):
+    history = load_history()
+    history = add_snapshots(history, results)
+    history = evaluate_history(history)
+    save_history(history)
+
+    statistics = get_statistics(history)
+    print_statistics(statistics)
+
+    return statistics
