@@ -25,7 +25,7 @@ from portfolio import (
 # ============================================================
 
 PROJECT_NAME = "MARKET AI"
-VERSION = "16.4"
+VERSION = "16.6"
 
 VIRTUAL_CAPITAL = 20000.00
 RESERVE_AMOUNT = 2000.00
@@ -83,10 +83,19 @@ def format_performance(statistics):
 
     lines = []
 
+    if not isinstance(statistics, dict):
+        return "Nieprawidłowy format danych historycznych."
+
     for signal, horizons in statistics.items():
-        lines.append(f"**{signal.upper()}**")
+        if not isinstance(horizons, dict):
+            continue
+
+        lines.append(f"**{str(signal).upper()}**")
 
         for horizon, values in horizons.items():
+            if not isinstance(values, dict):
+                continue
+
             count = values.get("count", 0)
 
             if count == 0:
@@ -272,11 +281,15 @@ def get_candidates(results):
         confirmation = safe_float(
             result.get("confirmation_days")
         )
+        price = safe_float(result.get("price"))
+        ticker = str(result.get("ticker", "")).strip()
 
         if (
-            signal == "POZYTYWNY"
+            ticker
+            and price > 0
             and score >= 7
             and confirmation >= 2
+            and signal == "POZYTYWNY"
         ):
             candidates.append(result)
 
@@ -768,6 +781,12 @@ def send_discord_report(
         rejection_reasons
     )
 
+    backtest_title = "BACKTEST PORTFELOWY"
+    if backtest_report:
+        first_line = backtest_report.splitlines()[0].strip()
+        if first_line.startswith("**") and first_line.endswith("**"):
+            backtest_title = first_line.strip("*")
+
     fields = [
         {
             "name": "TOP 10 RYNKU",
@@ -830,7 +849,7 @@ def send_discord_report(
             "inline": False
         },
         {
-            "name": "BACKTEST PORTFELOWY v16.3",
+            "name": backtest_title[:256],
             "value": (
                 backtest_report[:1024]
                 if backtest_report
@@ -839,6 +858,39 @@ def send_discord_report(
             "inline": False
         }
     ]
+
+    # Discord ogranicza pojedynczy embed do 6000 znaków łącznie.
+    # Zostawiamy niewielki zapas na tytuł, opis i stopkę.
+    total_budget = 5600
+    fixed_text = (
+        len(f"{PROJECT_NAME} v{VERSION} | RAPORT")
+        + len(f"Data analizy: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\\n")
+        + len(f"Przeanalizowane instrumenty: {len(results)}")
+        + 100
+    )
+    remaining_budget = max(500, total_budget - fixed_text)
+    safe_fields = []
+
+    for field in fields[:25]:
+        name = str(field.get("name", "Raport"))[:256]
+        value = str(field.get("value", "Brak danych."))[:1024]
+        allowance = remaining_budget - len(name)
+        if allowance <= 0:
+            break
+
+        if len(value) > allowance:
+            value = value[:max(0, allowance - 18)] + "\\n… [ucięto]"
+        if not value:
+            value = "Brak danych."
+
+        safe_fields.append({
+            "name": name,
+            "value": value,
+            "inline": bool(field.get("inline", False))
+        })
+        remaining_budget -= len(name) + len(value)
+
+    fields = safe_fields
 
     payload = {
         "username": "MARKET AI",
@@ -869,7 +921,11 @@ def send_discord_report(
     try:
         request = urllib.request.Request(
             DISCORD_WEBHOOK,
-            data=json.dumps(payload).encode("utf-8"),
+            data=json.dumps(
+                payload,
+                ensure_ascii=False,
+                allow_nan=False
+            ).encode("utf-8"),
             headers={
                 "Content-Type": "application/json",
                 "User-Agent": f"MARKET-AI/{VERSION}"
@@ -914,10 +970,32 @@ def send_discord_report(
 # ============================================================
 
 def start():
+    if not isinstance(INSTRUMENTS, (list, tuple)) or not INSTRUMENTS:
+        print("BŁĄD: INSTRUMENTS jest puste lub ma nieprawidłowy format.")
+        return
+
+    instruments = list(dict.fromkeys(
+        str(ticker).strip()
+        for ticker in INSTRUMENTS
+        if ticker and str(ticker).strip()
+    ))
+
+    if not instruments:
+        print("BŁĄD: brak poprawnych symboli instrumentów.")
+        return
+
+    if VIRTUAL_CAPITAL <= 0 or RESERVE_AMOUNT < 0:
+        print("BŁĄD: nieprawidłowa konfiguracja kapitału.")
+        return
+
+    if RESERVE_AMOUNT >= VIRTUAL_CAPITAL:
+        print("BŁĄD: rezerwa musi być mniejsza od kapitału.")
+        return
+
     print("=" * 65)
     print(f"{PROJECT_NAME} v{VERSION}")
     print(f"Data analizy: {datetime.now()}")
-    print(f"Liczba instrumentów: {len(INSTRUMENTS)}")
+    print(f"Liczba instrumentów: {len(instruments)}")
     print("=" * 65)
 
     results = []
@@ -926,7 +1004,7 @@ def start():
     print("\nROZPOCZYNAM ANALIZĘ RYNKU")
 
     for index, ticker in enumerate(
-        INSTRUMENTS,
+        instruments,
         start=1
     ):
         print(
@@ -937,9 +1015,9 @@ def start():
         try:
             result = analyze_market(ticker)
 
-            if not result:
+            if not isinstance(result, dict) or not result:
                 failed.append(ticker)
-                print("Brak poprawnego wyniku.")
+                print("Brak poprawnego wyniku lub nieprawidłowy format.")
                 continue
 
             result["ticker"] = ticker
@@ -972,7 +1050,7 @@ def start():
 
     print(
         f"Poprawnie przeanalizowane: "
-        f"{len(results)}/{len(INSTRUMENTS)}"
+        f"{len(results)}/{len(instruments)}"
     )
 
     print(
@@ -1168,7 +1246,7 @@ def start():
 
     try:
         backtest_results = run_backtest(
-            INSTRUMENTS
+            instruments
         )
 
         backtest_report = format_backtest_results(
